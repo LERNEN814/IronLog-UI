@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,6 +21,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -82,66 +86,23 @@ fun SettingsScreen(
     ) {
         Text(text = stringResource(R.string.settings_title), style = MaterialTheme.typography.titleLarge)
 
-        Text(text = stringResource(R.string.settings_unit), style = MaterialTheme.typography.bodyMedium)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FilterChip(
-                selected = settings.weightUnit == WeightUnit.KG,
-                onClick = { onWeightUnitSelected(WeightUnit.KG) },
-                label = { Text(stringResource(R.string.unit_kg)) },
-            )
-            FilterChip(
-                selected = settings.weightUnit == WeightUnit.LB,
-                onClick = { onWeightUnitSelected(WeightUnit.LB) },
-                label = { Text(stringResource(R.string.unit_lb)) },
-            )
+        SettingsSection(title = stringResource(R.string.settings_unit)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(selected = settings.weightUnit == WeightUnit.KG, onClick = { onWeightUnitSelected(WeightUnit.KG) }, label = { Text(stringResource(R.string.unit_kg)) })
+                FilterChip(selected = settings.weightUnit == WeightUnit.LB, onClick = { onWeightUnitSelected(WeightUnit.LB) }, label = { Text(stringResource(R.string.unit_lb)) })
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(selected = settings.distanceUnit == DistanceUnit.KM, onClick = { onDistanceUnitSelected(DistanceUnit.KM) }, label = { Text(stringResource(R.string.settings_km)) })
+                FilterChip(selected = settings.distanceUnit == DistanceUnit.MI, onClick = { onDistanceUnitSelected(DistanceUnit.MI) }, label = { Text(stringResource(R.string.settings_mi)) })
+            }
         }
 
-        Text(text = stringResource(R.string.settings_distance_unit), style = MaterialTheme.typography.bodyMedium)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FilterChip(
-                selected = settings.distanceUnit == DistanceUnit.KM,
-                onClick = { onDistanceUnitSelected(DistanceUnit.KM) },
-                label = { Text(stringResource(R.string.settings_km)) },
-            )
-            FilterChip(
-                selected = settings.distanceUnit == DistanceUnit.MI,
-                onClick = { onDistanceUnitSelected(DistanceUnit.MI) },
-                label = { Text(stringResource(R.string.settings_mi)) },
-            )
+        SettingsSection(title = stringResource(R.string.settings_timer_help)) {
+            OutlinedTextField(value = restText, onValueChange = { value -> restText = value; value.toIntOrNull()?.let(onDefaultRestSecondsChanged) }, modifier = Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.settings_default_rest)) }, singleLine = true)
+            OutlinedTextField(value = presetsText, onValueChange = { value -> presetsText = value; onRestPresetsChanged(value) }, modifier = Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.settings_rest_presets)) }, singleLine = true)
+            SwitchRow(label = stringResource(R.string.settings_keep_screen_on), checked = settings.keepScreenOnDuringWorkout, onCheckedChange = onKeepScreenOnChanged)
+            SwitchRow(label = stringResource(R.string.settings_show_rir), checked = settings.showRirField, onCheckedChange = onShowRirFieldChanged)
         }
-
-        OutlinedTextField(
-            value = restText,
-            onValueChange = { value ->
-                restText = value
-                value.toIntOrNull()?.let(onDefaultRestSecondsChanged)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.settings_default_rest)) },
-            singleLine = true,
-        )
-
-        OutlinedTextField(
-            value = presetsText,
-            onValueChange = { value ->
-                presetsText = value
-                onRestPresetsChanged(value)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.settings_rest_presets)) },
-            singleLine = true,
-        )
-
-        SwitchRow(
-            label = stringResource(R.string.settings_keep_screen_on),
-            checked = settings.keepScreenOnDuringWorkout,
-            onCheckedChange = onKeepScreenOnChanged,
-        )
-        SwitchRow(
-            label = stringResource(R.string.settings_show_rir),
-            checked = settings.showRirField,
-            onCheckedChange = onShowRirFieldChanged,
-        )
 
         Text(text = stringResource(R.string.settings_theme), style = MaterialTheme.typography.bodyMedium)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -180,6 +141,19 @@ fun SettingsScreen(
                     }
                 },
             )
+        }
+    }
+}
+
+@Composable
+private fun SettingsSection(title: String, content: @Composable () -> Unit) {
+    Card(shape = RoundedCornerShape(Dimens.CardCorner)) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
+            verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
+        ) {
+            Text(title, style = MaterialTheme.typography.titleMedium)
+            content()
         }
     }
 }
