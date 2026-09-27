@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -431,7 +433,7 @@ fun SessionScreen(
 
 @Composable
 private fun ExerciseRail(entries: List<EntryUiState>, modifier: Modifier = Modifier) {
-    val railState = androidx.compose.foundation.rememberScrollState()
+    val railState = rememberScrollState()
     Column(
         modifier = modifier.width(72.dp).verticalScroll(railState),
         verticalArrangement = Arrangement.spacedBy(10.dp),
