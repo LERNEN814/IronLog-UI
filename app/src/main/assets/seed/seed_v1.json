@@ -1,0 +1,868 @@
+{
+  "version": 1,
+  "muscles": [
+    { "id": "chest", "display_name_en": "Chest", "display_name_zh": "胸", "body_region": 0, "recovery_half_life_hours": 48, "sort_order": 0 },
+    { "id": "upper_back", "display_name_en": "Upper Back", "display_name_zh": "上背", "body_region": 1, "recovery_half_life_hours": 48, "sort_order": 1 },
+    { "id": "lats", "display_name_en": "Lats", "display_name_zh": "背阔肌", "body_region": 1, "recovery_half_life_hours": 48, "sort_order": 2 },
+    { "id": "lower_back", "display_name_en": "Lower Back", "display_name_zh": "下背", "body_region": 1, "recovery_half_life_hours": 48, "sort_order": 3 },
+    { "id": "front_delts", "display_name_en": "Front Delts", "display_name_zh": "三角肌前束", "body_region": 2, "recovery_half_life_hours": 36, "sort_order": 4 },
+    { "id": "side_delts", "display_name_en": "Side Delts", "display_name_zh": "三角肌中束", "body_region": 2, "recovery_half_life_hours": 36, "sort_order": 5 },
+    { "id": "rear_delts", "display_name_en": "Rear Delts", "display_name_zh": "三角肌后束", "body_region": 2, "recovery_half_life_hours": 36, "sort_order": 6 },
+    { "id": "biceps", "display_name_en": "Biceps", "display_name_zh": "肱二头肌", "body_region": 3, "recovery_half_life_hours": 30, "sort_order": 7 },
+    { "id": "triceps", "display_name_en": "Triceps", "display_name_zh": "肱三头肌", "body_region": 3, "recovery_half_life_hours": 30, "sort_order": 8 },
+    { "id": "forearms", "display_name_en": "Forearms", "display_name_zh": "前臂", "body_region": 3, "recovery_half_life_hours": 24, "sort_order": 9 },
+    { "id": "quads", "display_name_en": "Quads", "display_name_zh": "股四头肌", "body_region": 4, "recovery_half_life_hours": 54, "sort_order": 10 },
+    { "id": "hamstrings", "display_name_en": "Hamstrings", "display_name_zh": "腘绳肌", "body_region": 4, "recovery_half_life_hours": 54, "sort_order": 11 },
+    { "id": "glutes", "display_name_en": "Glutes", "display_name_zh": "臀部", "body_region": 4, "recovery_half_life_hours": 54, "sort_order": 12 },
+    { "id": "calves", "display_name_en": "Calves", "display_name_zh": "小腿", "body_region": 4, "recovery_half_life_hours": 24, "sort_order": 13 },
+    { "id": "abs", "display_name_en": "Abs", "display_name_zh": "腹肌", "body_region": 5, "recovery_half_life_hours": 30, "sort_order": 14 },
+    { "id": "cardio", "display_name_en": "Cardio", "display_name_zh": "有氧", "body_region": 6, "recovery_half_life_hours": 12, "sort_order": 15 }
+  ],
+  "exercises": [
+    {
+      "id": "barbell_bench_press",
+      "name_zh": "杠铃卧推",
+      "name_en": "Barbell Bench Press",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "incline_barbell_bench_press",
+      "name_zh": "上斜杠铃卧推",
+      "name_en": "Incline Barbell Bench Press",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "dumbbell_bench_press",
+      "name_zh": "哑铃卧推",
+      "name_en": "Dumbbell Bench Press",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "incline_dumbbell_press",
+      "name_zh": "上斜哑铃卧推",
+      "name_en": "Incline Dumbbell Press",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "dumbbell_fly",
+      "name_zh": "哑铃飞鸟",
+      "name_en": "Dumbbell Fly",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "cable_crossover",
+      "name_zh": "绳索夹胸",
+      "name_en": "Cable Crossover",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "cable_fly",
+      "name_zh": "绳索飞鸟",
+      "name_en": "Cable Fly",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "machine_chest_press",
+      "name_zh": "器械推胸",
+      "name_en": "Machine Chest Press",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "push_up",
+      "name_zh": "俯卧撑",
+      "name_en": "Push-Up",
+      "kind": 2,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 },
+        { "muscle_id": "abs", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "chest_dip",
+      "name_zh": "双杠臂屈伸",
+      "name_en": "Chest Dip",
+      "kind": 2,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "chest",
+      "muscles": [
+        { "muscle_id": "chest", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "conventional_deadlift",
+      "name_zh": "传统硬拉",
+      "name_en": "Conventional Deadlift",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "lower_back",
+      "muscles": [
+        { "muscle_id": "lower_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 },
+        { "muscle_id": "hamstrings", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 1, "weight": 0.5 },
+        { "muscle_id": "quads", "role": 1, "weight": 0.5 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "barbell_row",
+      "name_zh": "杠铃划船",
+      "name_en": "Barbell Row",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "upper_back",
+      "muscles": [
+        { "muscle_id": "upper_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "biceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "rear_delts", "role": 1, "weight": 0.5 },
+        { "muscle_id": "lower_back", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "pendlay_row",
+      "name_zh": "潘德勒划船",
+      "name_en": "Pendlay Row",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "upper_back",
+      "muscles": [
+        { "muscle_id": "upper_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "biceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "rear_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "t_bar_row",
+      "name_zh": "T杠划船",
+      "name_en": "T-Bar Row",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "upper_back",
+      "muscles": [
+        { "muscle_id": "upper_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "biceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "rear_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "dumbbell_row",
+      "name_zh": "哑铃单臂划船",
+      "name_en": "One-Arm Dumbbell Row",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "lats",
+      "muscles": [
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "biceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "rear_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "pull_up",
+      "name_zh": "引体向上",
+      "name_en": "Pull-Up",
+      "kind": 2,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "lats",
+      "muscles": [
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "biceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "chin_up",
+      "name_zh": "反手引体向上",
+      "name_en": "Chin-Up",
+      "kind": 2,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "lats",
+      "muscles": [
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "biceps", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "lat_pulldown",
+      "name_zh": "高位下拉",
+      "name_en": "Lat Pulldown",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "lats",
+      "muscles": [
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "biceps", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "seated_cable_row",
+      "name_zh": "坐姿绳索划船",
+      "name_en": "Seated Cable Row",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "upper_back",
+      "muscles": [
+        { "muscle_id": "upper_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "biceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "rear_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "straight_arm_pulldown",
+      "name_zh": "直臂下压",
+      "name_en": "Straight-Arm Pulldown",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "lats",
+      "muscles": [
+        { "muscle_id": "lats", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "barbell_shrug",
+      "name_zh": "杠铃耸肩",
+      "name_en": "Barbell Shrug",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "upper_back",
+      "muscles": [
+        { "muscle_id": "upper_back", "role": 0, "weight": 1.0 },
+        { "muscle_id": "rear_delts", "role": 1, "weight": 0.5 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "overhead_press",
+      "name_zh": "站姿杠铃推举",
+      "name_en": "Overhead Press",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "front_delts",
+      "muscles": [
+        { "muscle_id": "front_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "side_delts", "role": 1, "weight": 0.5 },
+        { "muscle_id": "abs", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "dumbbell_shoulder_press",
+      "name_zh": "哑铃肩推",
+      "name_en": "Dumbbell Shoulder Press",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "front_delts",
+      "muscles": [
+        { "muscle_id": "front_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "side_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "machine_shoulder_press",
+      "name_zh": "器械肩推",
+      "name_en": "Machine Shoulder Press",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "front_delts",
+      "muscles": [
+        { "muscle_id": "front_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 },
+        { "muscle_id": "side_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "arnold_press",
+      "name_zh": "阿诺德推举",
+      "name_en": "Arnold Press",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "front_delts",
+      "muscles": [
+        { "muscle_id": "front_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "side_delts", "role": 1, "weight": 0.5 },
+        { "muscle_id": "triceps", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "lateral_raise",
+      "name_zh": "哑铃侧平举",
+      "name_en": "Dumbbell Lateral Raise",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "side_delts",
+      "muscles": [
+        { "muscle_id": "side_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "cable_lateral_raise",
+      "name_zh": "绳索侧平举",
+      "name_en": "Cable Lateral Raise",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "side_delts",
+      "muscles": [
+        { "muscle_id": "side_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "rear_delt_fly",
+      "name_zh": "俯身反向飞鸟",
+      "name_en": "Rear Delt Fly",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "rear_delts",
+      "muscles": [
+        { "muscle_id": "rear_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "reverse_pec_deck",
+      "name_zh": "反向蝴蝶机",
+      "name_en": "Reverse Pec Deck",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "rear_delts",
+      "muscles": [
+        { "muscle_id": "rear_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "face_pull",
+      "name_zh": "面拉",
+      "name_en": "Face Pull",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "rear_delts",
+      "muscles": [
+        { "muscle_id": "rear_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "upright_row",
+      "name_zh": "直立划船",
+      "name_en": "Upright Row",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "side_delts",
+      "muscles": [
+        { "muscle_id": "side_delts", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 1, "weight": 0.5 },
+        { "muscle_id": "biceps", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "barbell_curl",
+      "name_zh": "杠铃弯举",
+      "name_en": "Barbell Curl",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "biceps",
+      "muscles": [
+        { "muscle_id": "biceps", "role": 0, "weight": 1.0 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "dumbbell_curl",
+      "name_zh": "哑铃弯举",
+      "name_en": "Dumbbell Curl",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "biceps",
+      "muscles": [
+        { "muscle_id": "biceps", "role": 0, "weight": 1.0 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "hammer_curl",
+      "name_zh": "锤式弯举",
+      "name_en": "Hammer Curl",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "biceps",
+      "muscles": [
+        { "muscle_id": "biceps", "role": 0, "weight": 1.0 },
+        { "muscle_id": "forearms", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "concentration_curl",
+      "name_zh": "集中弯举",
+      "name_en": "Concentration Curl",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "biceps",
+      "muscles": [
+        { "muscle_id": "biceps", "role": 0, "weight": 1.0 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "preacher_curl",
+      "name_zh": "牧师凳弯举",
+      "name_en": "Preacher Curl",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "biceps",
+      "muscles": [
+        { "muscle_id": "biceps", "role": 0, "weight": 1.0 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "cable_curl",
+      "name_zh": "绳索弯举",
+      "name_en": "Cable Curl",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "biceps",
+      "muscles": [
+        { "muscle_id": "biceps", "role": 0, "weight": 1.0 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "triceps_pushdown",
+      "name_zh": "绳索下压",
+      "name_en": "Triceps Pushdown",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "triceps",
+      "muscles": [
+        { "muscle_id": "triceps", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "overhead_triceps_extension",
+      "name_zh": "过顶臂屈伸",
+      "name_en": "Overhead Triceps Extension",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "triceps",
+      "muscles": [
+        { "muscle_id": "triceps", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "skull_crusher",
+      "name_zh": "仰卧臂屈伸",
+      "name_en": "Skull Crusher",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "triceps",
+      "muscles": [
+        { "muscle_id": "triceps", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "close_grip_bench_press",
+      "name_zh": "窄距卧推",
+      "name_en": "Close-Grip Bench Press",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "triceps",
+      "muscles": [
+        { "muscle_id": "triceps", "role": 0, "weight": 1.0 },
+        { "muscle_id": "chest", "role": 1, "weight": 0.5 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "back_squat",
+      "name_zh": "杠铃深蹲",
+      "name_en": "Barbell Back Squat",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "quads",
+      "muscles": [
+        { "muscle_id": "quads", "role": 0, "weight": 1.0 },
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 },
+        { "muscle_id": "hamstrings", "role": 1, "weight": 0.5 },
+        { "muscle_id": "lower_back", "role": 1, "weight": 0.5 },
+        { "muscle_id": "abs", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "front_squat",
+      "name_zh": "前蹲",
+      "name_en": "Front Squat",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "quads",
+      "muscles": [
+        { "muscle_id": "quads", "role": 0, "weight": 1.0 },
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 },
+        { "muscle_id": "abs", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "goblet_squat",
+      "name_zh": "高脚杯深蹲",
+      "name_en": "Goblet Squat",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "quads",
+      "muscles": [
+        { "muscle_id": "quads", "role": 0, "weight": 1.0 },
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "leg_press",
+      "name_zh": "腿举",
+      "name_en": "Leg Press",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "quads",
+      "muscles": [
+        { "muscle_id": "quads", "role": 0, "weight": 1.0 },
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 },
+        { "muscle_id": "hamstrings", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "romanian_deadlift",
+      "name_zh": "罗马尼亚硬拉",
+      "name_en": "Romanian Deadlift",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "hamstrings",
+      "muscles": [
+        { "muscle_id": "hamstrings", "role": 0, "weight": 1.0 },
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 },
+        { "muscle_id": "lower_back", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "leg_curl",
+      "name_zh": "俯卧腿弯举",
+      "name_en": "Lying Leg Curl",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "hamstrings",
+      "muscles": [
+        { "muscle_id": "hamstrings", "role": 0, "weight": 1.0 },
+        { "muscle_id": "calves", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "leg_extension",
+      "name_zh": "坐姿腿屈伸",
+      "name_en": "Leg Extension",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "quads",
+      "muscles": [
+        { "muscle_id": "quads", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "bulgarian_split_squat",
+      "name_zh": "保加利亚分腿蹲",
+      "name_en": "Bulgarian Split Squat",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "quads",
+      "muscles": [
+        { "muscle_id": "quads", "role": 0, "weight": 1.0 },
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 },
+        { "muscle_id": "hamstrings", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "walking_lunge",
+      "name_zh": "行走箭步蹲",
+      "name_en": "Walking Lunge",
+      "kind": 0,
+      "equipment": "dumbbell",
+      "primary_muscle_id": "quads",
+      "muscles": [
+        { "muscle_id": "quads", "role": 0, "weight": 1.0 },
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 },
+        { "muscle_id": "hamstrings", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "hip_thrust",
+      "name_zh": "臀推",
+      "name_en": "Hip Thrust",
+      "kind": 0,
+      "equipment": "barbell",
+      "primary_muscle_id": "glutes",
+      "muscles": [
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 },
+        { "muscle_id": "hamstrings", "role": 1, "weight": 0.5 },
+        { "muscle_id": "quads", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "hip_abduction",
+      "name_zh": "髋外展",
+      "name_en": "Hip Abduction",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "glutes",
+      "muscles": [
+        { "muscle_id": "glutes", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "standing_calf_raise",
+      "name_zh": "站姿提踵",
+      "name_en": "Standing Calf Raise",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "calves",
+      "muscles": [
+        { "muscle_id": "calves", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "seated_calf_raise",
+      "name_zh": "坐姿提踵",
+      "name_en": "Seated Calf Raise",
+      "kind": 0,
+      "equipment": "machine",
+      "primary_muscle_id": "calves",
+      "muscles": [
+        { "muscle_id": "calves", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "plank",
+      "name_zh": "平板支撑",
+      "name_en": "Plank",
+      "kind": 3,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "abs",
+      "muscles": [
+        { "muscle_id": "abs", "role": 0, "weight": 1.0 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "side_plank",
+      "name_zh": "侧平板支撑",
+      "name_en": "Side Plank",
+      "kind": 3,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "abs",
+      "muscles": [
+        { "muscle_id": "abs", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "crunch",
+      "name_zh": "卷腹",
+      "name_en": "Crunch",
+      "kind": 2,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "abs",
+      "muscles": [
+        { "muscle_id": "abs", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "hanging_leg_raise",
+      "name_zh": "悬垂举腿",
+      "name_en": "Hanging Leg Raise",
+      "kind": 2,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "abs",
+      "muscles": [
+        { "muscle_id": "abs", "role": 0, "weight": 1.0 },
+        { "muscle_id": "forearms", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "cable_crunch",
+      "name_zh": "绳索卷腹",
+      "name_en": "Cable Crunch",
+      "kind": 0,
+      "equipment": "cable",
+      "primary_muscle_id": "abs",
+      "muscles": [
+        { "muscle_id": "abs", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "ab_wheel_rollout",
+      "name_zh": "健腹轮",
+      "name_en": "Ab Wheel Rollout",
+      "kind": 2,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "abs",
+      "muscles": [
+        { "muscle_id": "abs", "role": 0, "weight": 1.0 },
+        { "muscle_id": "lats", "role": 1, "weight": 0.5 },
+        { "muscle_id": "front_delts", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "russian_twist",
+      "name_zh": "俄罗斯转体",
+      "name_en": "Russian Twist",
+      "kind": 2,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "abs",
+      "muscles": [
+        { "muscle_id": "abs", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "dead_bug",
+      "name_zh": "死虫式",
+      "name_en": "Dead Bug",
+      "kind": 3,
+      "equipment": "bodyweight",
+      "primary_muscle_id": "abs",
+      "muscles": [
+        { "muscle_id": "abs", "role": 0, "weight": 1.0 }
+      ]
+    },
+    {
+      "id": "treadmill_run",
+      "name_zh": "跑步机跑步",
+      "name_en": "Treadmill Run",
+      "kind": 1,
+      "equipment": "treadmill",
+      "primary_muscle_id": "cardio",
+      "muscles": [
+        { "muscle_id": "cardio", "role": 0, "weight": 1.0 },
+        { "muscle_id": "quads", "role": 1, "weight": 0.5 },
+        { "muscle_id": "hamstrings", "role": 1, "weight": 0.5 },
+        { "muscle_id": "calves", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "stair_climber",
+      "name_zh": "爬楼机",
+      "name_en": "Stair Climber",
+      "kind": 1,
+      "equipment": "stair_climber",
+      "primary_muscle_id": "cardio",
+      "muscles": [
+        { "muscle_id": "cardio", "role": 0, "weight": 1.0 },
+        { "muscle_id": "quads", "role": 1, "weight": 0.5 },
+        { "muscle_id": "glutes", "role": 1, "weight": 0.5 },
+        { "muscle_id": "calves", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "rowing_machine",
+      "name_zh": "划船机",
+      "name_en": "Rowing Machine",
+      "kind": 1,
+      "equipment": "rower",
+      "primary_muscle_id": "cardio",
+      "muscles": [
+        { "muscle_id": "cardio", "role": 0, "weight": 1.0 },
+        { "muscle_id": "upper_back", "role": 1, "weight": 0.5 },
+        { "muscle_id": "lats", "role": 1, "weight": 0.5 },
+        { "muscle_id": "quads", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "stationary_bike",
+      "name_zh": "动感单车",
+      "name_en": "Stationary Bike",
+      "kind": 1,
+      "equipment": "bike",
+      "primary_muscle_id": "cardio",
+      "muscles": [
+        { "muscle_id": "cardio", "role": 0, "weight": 1.0 },
+        { "muscle_id": "quads", "role": 1, "weight": 0.5 },
+        { "muscle_id": "calves", "role": 1, "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "elliptical_trainer",
+      "name_zh": "椭圆机",
+      "name_en": "Elliptical Trainer",
+      "kind": 1,
+      "equipment": "elliptical",
+      "primary_muscle_id": "cardio",
+      "muscles": [
+        { "muscle_id": "cardio", "role": 0, "weight": 1.0 },
+        { "muscle_id": "quads", "role": 1, "weight": 0.5 },
+        { "muscle_id": "glutes", "role": 1, "weight": 0.5 }
+      ]
+    }
+  ]
+}

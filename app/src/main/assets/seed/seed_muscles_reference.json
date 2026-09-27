@@ -1,0 +1,132 @@
+{
+  "muscles": [
+    {
+      "id": "chest",
+      "display_name_en": "Chest",
+      "display_name_zh": "胸",
+      "body_region": 0,
+      "recovery_half_life_hours": 48,
+      "sort_order": 0
+    },
+    {
+      "id": "upper_back",
+      "display_name_en": "Upper Back",
+      "display_name_zh": "上背",
+      "body_region": 1,
+      "recovery_half_life_hours": 48,
+      "sort_order": 1
+    },
+    {
+      "id": "lats",
+      "display_name_en": "Lats",
+      "display_name_zh": "背阔肌",
+      "body_region": 1,
+      "recovery_half_life_hours": 48,
+      "sort_order": 2
+    },
+    {
+      "id": "lower_back",
+      "display_name_en": "Lower Back",
+      "display_name_zh": "下背",
+      "body_region": 1,
+      "recovery_half_life_hours": 48,
+      "sort_order": 3
+    },
+    {
+      "id": "front_delts",
+      "display_name_en": "Front Delts",
+      "display_name_zh": "三角肌前束",
+      "body_region": 2,
+      "recovery_half_life_hours": 36,
+      "sort_order": 4
+    },
+    {
+      "id": "side_delts",
+      "display_name_en": "Side Delts",
+      "display_name_zh": "三角肌中束",
+      "body_region": 2,
+      "recovery_half_life_hours": 36,
+      "sort_order": 5
+    },
+    {
+      "id": "rear_delts",
+      "display_name_en": "Rear Delts",
+      "display_name_zh": "三角肌后束",
+      "body_region": 2,
+      "recovery_half_life_hours": 36,
+      "sort_order": 6
+    },
+    {
+      "id": "biceps",
+      "display_name_en": "Biceps",
+      "display_name_zh": "肱二头肌",
+      "body_region": 3,
+      "recovery_half_life_hours": 30,
+      "sort_order": 7
+    },
+    {
+      "id": "triceps",
+      "display_name_en": "Triceps",
+      "display_name_zh": "肱三头肌",
+      "body_region": 3,
+      "recovery_half_life_hours": 30,
+      "sort_order": 8
+    },
+    {
+      "id": "forearms",
+      "display_name_en": "Forearms",
+      "display_name_zh": "前臂",
+      "body_region": 3,
+      "recovery_half_life_hours": 24,
+      "sort_order": 9
+    },
+    {
+      "id": "quads",
+      "display_name_en": "Quads",
+      "display_name_zh": "股四头肌",
+      "body_region": 4,
+      "recovery_half_life_hours": 54,
+      "sort_order": 10
+    },
+    {
+      "id": "hamstrings",
+      "display_name_en": "Hamstrings",
+      "display_name_zh": "腘绳肌",
+      "body_region": 4,
+      "recovery_half_life_hours": 54,
+      "sort_order": 11
+    },
+    {
+      "id": "glutes",
+      "display_name_en": "Glutes",
+      "display_name_zh": "臀部",
+      "body_region": 4,
+      "recovery_half_life_hours": 54,
+      "sort_order": 12
+    },
+    {
+      "id": "calves",
+      "display_name_en": "Calves",
+      "display_name_zh": "小腿",
+      "body_region": 4,
+      "recovery_half_life_hours": 24,
+      "sort_order": 13
+    },
+    {
+      "id": "abs",
+      "display_name_en": "Abs",
+      "display_name_zh": "腹肌",
+      "body_region": 5,
+      "recovery_half_life_hours": 30,
+      "sort_order": 14
+    },
+    {
+      "id": "cardio",
+      "display_name_en": "Cardio",
+      "display_name_zh": "有氧",
+      "body_region": 6,
+      "recovery_half_life_hours": 12,
+      "sort_order": 15
+    }
+  ]
+}
