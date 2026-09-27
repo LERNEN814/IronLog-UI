@@ -93,6 +93,7 @@ data class SessionUiState(
     val restPresets: List<Int> = listOf(30, 90, 120, 150),
     val defaultRestSeconds: Int = 120,
     val exactAlarmPrompted: Boolean = false,
+    val selectedEntryId: String? = null,
 )
 
 sealed interface SessionEvent {
@@ -278,9 +279,18 @@ class SessionViewModel @Inject constructor(
             workoutRepository.updateSet(completed)
             onSetCompleted(setId)
             loadSession()
+            advanceIfEntryComplete(entryRow.entry.entry.id)
             if (findRow(setId)?.row?.isPr == true) {
                 _events.send(SessionEvent.NewPersonalRecord(setId))
             }
+        }
+    }
+
+    private fun advanceIfEntryComplete(entryId: String) {
+        val entries = _uiState.value.entries
+        val index = entries.indexOfFirst { it.entry.id == entryId }
+        if (index >= 0 && index < entries.lastIndex) {
+            _uiState.update { it.copy(selectedEntryId = entries[index + 1].entry.id) }
         }
     }
 

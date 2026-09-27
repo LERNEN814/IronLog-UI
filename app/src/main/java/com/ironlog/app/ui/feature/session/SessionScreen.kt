@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -311,6 +312,11 @@ fun SessionScreen(
     onRestSkip: () -> Unit,
     onInexactClick: () -> Unit,
 ) {
+    val listState = rememberLazyListState()
+    val selectedIndex = state.entries.indexOfFirst { it.entry.id == state.selectedEntryId }
+    LaunchedEffect(selectedIndex) {
+        if (selectedIndex >= 0) listState.animateScrollToItem(selectedIndex)
+    }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
@@ -398,6 +404,7 @@ fun SessionScreen(
                 )
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
+                    state = listState,
                     contentPadding = PaddingValues(Dimens.ScreenPadding),
                     verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
                 ) {
