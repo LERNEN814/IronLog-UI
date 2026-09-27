@@ -431,8 +431,9 @@ fun SessionScreen(
 
 @Composable
 private fun ExerciseRail(entries: List<EntryUiState>, modifier: Modifier = Modifier) {
+    val railState = androidx.compose.foundation.rememberScrollState()
     Column(
-        modifier = modifier.width(72.dp),
+        modifier = modifier.width(72.dp).verticalScroll(railState),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
