@@ -58,3 +58,11 @@ Phase 1 / UI Foundation：设计系统、页面地图和训练页原型准备。
 - 历史页增加“日历 / 统计”分段切换，统计先提供训练次数、正式组数和训练分钟数。
 - 采用 Material 3 SegmentedButton 与统一紫色主题，保留已有日历和历史详情入口。
 - 统计数据直接由已有历史会话汇总，暂不引入新的数据库结构。
+
+## 2026-09-27：Gradle 修复审查
+
+- 读取 `GRADLE_FIX_REPORT.md`，确认回环问题已在外部环境中恢复，且报告声称编译、280 个单元测试和 debug APK 均成功。
+- 审查并保留必要修复：Material Icons Extended 依赖、ExercisePickerScreen 语法/import 修复、HistoryScreen 统计布局修复、Windows 空格路径下 Robolectric 缓存重定向。
+- 修复了报告中多余的 `ExercisePickerScreen` 闭合括号，避免引入新的语法问题。
+- 将 `app/build` 生成目录加入忽略规则；后续不将编译中间产物作为源码提交。
+- 创建回退点 `backup-20260927-gradle-fixed`。

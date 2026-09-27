@@ -267,11 +267,15 @@
     <string name="heatmap_stimulus">7 日刺激：%1$d</string>
     <string name="history_detail_title">训练详情</string>
     <string name="history_empty">还没有训练记录</string>
+    <string name="history_minutes">分钟</string>
+    <string name="history_stats">统计</string>
+    <string name="history_stats_title">训练概览</string>
     <string name="home_continue_workout">继续训练 %1$s</string>
     <string name="home_heatmap_title">7 日疲劳</string>
     <string name="home_no_sessions">还没有训练记录，开始第一次训练吧</string>
     <string name="home_recent_title">最近训练</string>
     <string name="home_start_workout">开始训练</string>
+    <string name="home_training_types">力量训练 · 有氧训练 · 休息</string>
     <string name="home_week_sessions">训练次数</string>
     <string name="home_week_sets">正式组</string>
     <string name="home_week_title">本周</string>
@@ -357,6 +361,7 @@
     <string name="m3c_tooltip_pane_description">Tooltip</string>
     <string name="m3c_wide_navigation_rail_close_rail">"Close rail"</string>
     <string name="m3c_wide_navigation_rail_pane_title">"Navigation rail"</string>
+    <string name="nav_exercises">动作</string>
     <string name="nav_history">历史</string>
     <string name="nav_home">主页</string>
     <string name="nav_settings">设置</string>

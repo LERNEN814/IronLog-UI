@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.ironlog.app-mergeDebugResources-41:/values-am/values-am.xml",
+            "outputFile": "com.ironlog.app-mergeDebugResources-42:/values-am/values-am.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Wang Nathan\\.gradle\\caches\\9.8.0\\transforms\\8557f672344346f2fa49e53d57156e06\\transformed\\core-1.19.1\\res\\values-am\\values-am.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,148,248,345,444,540,642,742",
-                        "endColumns": "92,99,96,98,95,101,99,100",
-                        "endOffsets": "143,243,340,439,535,637,737,838"
-                    },
-                    "to": {
-                        "startLines": "4,5,6,7,8,9,10,93",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "301,394,494,591,690,786,888,9066",
-                        "endColumns": "92,99,96,98,95,101,99,100",
-                        "endOffsets": "389,489,586,685,781,883,983,9162"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Wang Nathan\\.gradle\\caches\\9.8.0\\transforms\\aa9b2a0c12be6fe5ba5904d16dac68ec\\transformed\\material3\\res\\values-am\\values-am.xml",
+                    "source": "C:\\Users\\Wang Nathan\\.gradle\\caches\\9.8.0\\transforms\\d2716cf448a1ce1fbb00945f5e4770b0\\transformed\\material3\\res\\values-am\\values-am.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,24 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Wang Nathan\\.gradle\\caches\\9.8.0\\transforms\\458ca4f6dc89a25e722761057d181889\\transformed\\foundation\\res\\values-am\\values-am.xml",
-                    "from": {
-                        "startLines": "2,3,4",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,156,243",
-                        "endColumns": "100,86,85",
-                        "endOffsets": "151,238,324"
-                    },
-                    "to": {
-                        "startLines": "2,97,98",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "107,9432,9519",
-                        "endColumns": "100,86,85",
-                        "endOffsets": "203,9514,9600"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Wang Nathan\\.gradle\\caches\\9.8.0\\transforms\\786c1610354f78c878ef6229bb783fe1\\transformed\\ui\\res\\values-am\\values-am.xml",
+                    "source": "C:\\Users\\Wang Nathan\\.gradle\\caches\\9.8.0\\transforms\\3dbcf864318cf3a1e44d3d927a7bf12d\\transformed\\ui\\res\\values-am\\values-am.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -69,6 +35,40 @@
                         "startOffsets": "208,988,1071,1148,1240,1336,1418,1496,8376,8458,8536,8614,8695,8765,8848,8921,8994,9167,9247,9312",
                         "endColumns": "92,82,76,91,95,81,77,82,81,77,77,80,69,82,72,72,71,79,64,119",
                         "endOffsets": "296,1066,1143,1235,1331,1413,1491,1574,8453,8531,8609,8690,8760,8843,8916,8989,9061,9242,9307,9427"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Wang Nathan\\.gradle\\caches\\9.8.0\\transforms\\56ed93874f34ad1ce87b560752ea11b4\\transformed\\core-1.19.1\\res\\values-am\\values-am.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,148,248,345,444,540,642,742",
+                        "endColumns": "92,99,96,98,95,101,99,100",
+                        "endOffsets": "143,243,340,439,535,637,737,838"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,9,10,93",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "301,394,494,591,690,786,888,9066",
+                        "endColumns": "92,99,96,98,95,101,99,100",
+                        "endOffsets": "389,489,586,685,781,883,983,9162"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Wang Nathan\\.gradle\\caches\\9.8.0\\transforms\\5398ecd985862637adaeea134b26dddc\\transformed\\foundation\\res\\values-am\\values-am.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,156,243",
+                        "endColumns": "100,86,85",
+                        "endOffsets": "151,238,324"
+                    },
+                    "to": {
+                        "startLines": "2,97,98",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "107,9432,9519",
+                        "endColumns": "100,86,85",
+                        "endOffsets": "203,9514,9600"
                     }
                 }
             ]

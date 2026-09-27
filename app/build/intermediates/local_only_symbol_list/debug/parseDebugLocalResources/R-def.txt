@@ -73,11 +73,15 @@ string heatmap_legend_very_high
 string heatmap_stimulus
 string history_detail_title
 string history_empty
+string history_minutes
+string history_stats
+string history_stats_title
 string home_continue_workout
 string home_heatmap_title
 string home_no_sessions
 string home_recent_title
 string home_start_workout
+string home_training_types
 string home_week_sessions
 string home_week_sets
 string home_week_title
@@ -91,6 +95,7 @@ string kind_strength
 string kind_timed
 string list_separator
 string list_view
+string nav_exercises
 string nav_history
 string nav_home
 string nav_settings

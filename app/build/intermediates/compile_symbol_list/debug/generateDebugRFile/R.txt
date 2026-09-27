@@ -71,11 +71,15 @@ int string heatmap_legend_very_high 0x0
 int string heatmap_stimulus 0x0
 int string history_detail_title 0x0
 int string history_empty 0x0
+int string history_minutes 0x0
+int string history_stats 0x0
+int string history_stats_title 0x0
 int string home_continue_workout 0x0
 int string home_heatmap_title 0x0
 int string home_no_sessions 0x0
 int string home_recent_title 0x0
 int string home_start_workout 0x0
+int string home_training_types 0x0
 int string home_week_sessions 0x0
 int string home_week_sets 0x0
 int string home_week_title 0x0
@@ -89,6 +93,7 @@ int string kind_strength 0x0
 int string kind_timed 0x0
 int string list_separator 0x0
 int string list_view 0x0
+int string nav_exercises 0x0
 int string nav_history 0x0
 int string nav_home 0x0
 int string nav_settings 0x0
