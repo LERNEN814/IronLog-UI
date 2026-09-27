@@ -156,6 +156,9 @@
     <string name="calendar_today">今天</string>
     <string name="calendar_view">日历</string>
     <string name="list_view">列表</string>
+    <string name="history_stats">统计</string>
+    <string name="history_stats_title">训练概览</string>
+    <string name="history_minutes">分钟</string>
     <string name="calendar_no_sessions">当天没有训练</string>
     <string name="calendar_previous_month">上个月</string>
     <string name="calendar_next_month">下个月</string>

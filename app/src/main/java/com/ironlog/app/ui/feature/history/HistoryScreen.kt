@@ -9,6 +9,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Insights
+import androidx.compose.material3.Icon
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -20,6 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -54,27 +66,81 @@ fun HistoryScreen(
     state: HistoryUiState,
     onSessionClicked: (String) -> Unit,
 ) {
-    if (state.sessions.isEmpty()) {
-        Box(
-            modifier = Modifier.fillMaxSize().padding(Dimens.ScreenPadding),
-            contentAlignment = Alignment.Center,
+    var selectedTab by remember { mutableStateOf(0) }
+    Column(modifier = Modifier.fillMaxSize()) {
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
         ) {
-            Text(
-                text = stringResource(R.string.history_empty),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            SegmentedButton(
+                selected = selectedTab == 0,
+                onClick = { selectedTab = 0 },
+                shape = SegmentedButtonDefaults.itemShape(index = 0, count = 2),
+                icon = { Icon(Icons.Filled.CalendarMonth, contentDescription = null) },
+                label = { Text(stringResource(R.string.calendar_view)) },
+            )
+            SegmentedButton(
+                selected = selectedTab == 1,
+                onClick = { selectedTab = 1 },
+                shape = SegmentedButtonDefaults.itemShape(index = 1, count = 2),
+                icon = { Icon(Icons.Filled.Insights, contentDescription = null) },
+                label = { Text(stringResource(R.string.history_stats)) },
             )
         }
-    } else {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(Dimens.ScreenPadding),
-            verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
-        ) {
-            items(state.sessions, key = { it.session.id }) { header ->
-                SessionCard(header = header, onClick = { onSessionClicked(header.session.id) })
+        if (selectedTab == 1) {
+            HistoryStats(state.sessions)
+        } else if (state.sessions.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(Dimens.ScreenPadding),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = stringResource(R.string.history_empty),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(Dimens.ScreenPadding),
+                verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
+            ) {
+                items(state.sessions, key = { it.session.id }) { header ->
+                    SessionCard(header = header, onClick = { onSessionClicked(header.session.id) })
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun HistoryStats(sessions: List<SessionHeader>) {
+    val totalSets = sessions.sumOf { it.summary.workSetCount }
+    val totalMinutes = sessions.sumOf { it.summary.durationS } / 60
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
+        verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
+    ) {
+        Text(stringResource(R.string.history_stats_title), style = MaterialTheme.typography.titleLarge)
+        Row(horizontalArrangement = Arrangement.spacedBy(Dimens.CardSpacing)) {
+            StatTile(value = sessions.size.toString(), label = stringResource(R.string.home_week_sessions))
+            StatTile(value = totalSets.toString(), label = stringResource(R.string.home_week_sets))
+            StatTile(value = totalMinutes.toString(), label = stringResource(R.string.history_minutes))
+        }
+    }
+}
+
+@Composable
+private fun StatTile(value: String, label: String) {
+    Column(
+        modifier = Modifier
+            .weight(1f)
+            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(Dimens.CardCorner))
+            .padding(vertical = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(value, style = MaterialTheme.typography.headlineSmall)
+        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
