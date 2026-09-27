@@ -50,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -194,11 +195,7 @@ private fun ExerciseRow(
                     .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(
-                    imageVector = Icons.Filled.FitnessCenter,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                )
+                ExerciseThumbnail(exercise.id)
             }
             Spacer(Modifier.width(12.dp))
             Column(
@@ -223,6 +220,24 @@ private fun ExerciseRow(
                 if (primaryMuscleName != null) Tag(text = primaryMuscleName)
             }
         }
+    }
+}
+
+@Composable
+private fun ExerciseThumbnail(exerciseId: String) {
+    val context = LocalContext.current
+    val assetExists = remember(exerciseId) {
+        runCatching { context.assets.open(ExerciseMedia.thumbnailAsset(exerciseId)).close(); true }
+            .getOrDefault(false)
+    }
+    if (assetExists) {
+        Icon(Icons.Filled.FitnessCenter, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+    } else {
+        Text(
+            text = exerciseId.take(2).uppercase(),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary,
+        )
     }
 }
 
