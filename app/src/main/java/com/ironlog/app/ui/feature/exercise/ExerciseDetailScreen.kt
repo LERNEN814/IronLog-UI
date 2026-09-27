@@ -32,6 +32,7 @@ import com.ironlog.app.R
 fun ExerciseDetailScreen(
     exerciseName: String,
     equipment: String,
+    primaryMuscle: String = "",
     onAddToWorkout: () -> Unit,
     onBack: () -> Unit,
 ) {
@@ -66,7 +67,7 @@ fun ExerciseDetailScreen(
             Text(stringResource(R.string.exercise_instruction_placeholder), color = MaterialTheme.colorScheme.onSurfaceVariant)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(stringResource(R.string.exercise_detail_primary_muscle), style = MaterialTheme.typography.labelLarge)
-                Text(stringResource(R.string.exercise_detail_muscle_pending), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(primaryMuscle.ifBlank { stringResource(R.string.exercise_detail_muscle_pending) }, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Button(
                 onClick = onAddToWorkout,

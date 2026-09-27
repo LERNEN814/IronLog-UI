@@ -103,6 +103,7 @@ fun IronLogNavHost(
                 ExerciseDetailScreen(
                     exerciseName = entry.arguments?.getString("exerciseId").orEmpty(),
                     equipment = "",
+                    primaryMuscle = "",
                     onAddToWorkout = {
                         navController.previousBackStackEntry?.savedStateHandle
                             ?.set(SELECTED_EXERCISE_ID, entry.arguments?.getString("exerciseId"))
