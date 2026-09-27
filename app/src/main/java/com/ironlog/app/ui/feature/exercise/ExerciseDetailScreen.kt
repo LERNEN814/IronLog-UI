@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -54,7 +56,8 @@ fun ExerciseDetailScreen(
                 Text(stringResource(R.string.exercise_demo_placeholder), color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Text(stringResource(R.string.field_equipment), style = MaterialTheme.typography.titleMedium)
-            Text(equipment, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(equipment.ifBlank { stringResource(R.string.exercise_equipment_pending) }, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.height(4.dp))
             Text(stringResource(R.string.exercise_instruction_title), style = MaterialTheme.typography.titleMedium)
             Text(stringResource(R.string.exercise_instruction_placeholder), color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
