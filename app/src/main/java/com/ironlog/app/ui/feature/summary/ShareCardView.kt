@@ -54,10 +54,15 @@ class ShareCardView(context: Context) : View(context) {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawColor(Color.WHITE)
+        canvas.drawColor(Color.parseColor("#FBF8FF"))
         val card = data ?: return
 
         var y = 110f
+        titlePaint.color = Color.parseColor("#24104F")
+        labelPaint.color = Color.parseColor("#514A58")
+        valuePaint.color = Color.parseColor("#1C1A20")
+        dividerPaint.color = Color.parseColor("#E9E1F2")
+        prPaint.color = Color.parseColor("#7652D8")
         canvas.drawText(card.appName, MARGIN, y, titlePaint)
         y += 60f
         canvas.drawText(card.date, MARGIN, y, labelPaint)
