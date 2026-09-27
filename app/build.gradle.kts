@@ -38,8 +38,19 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
         unitTests.all {
-            // Robolectric breaks on user-home paths containing spaces (Windows); keep its cache in-repo.
-            it.systemProperty("maven.repo.local", rootProject.file(".robolectric-m2").absolutePath)
+            // Robolectric's native runtime (used for SDK 35+ tests) locates the
+            // android-all jar via a URL-encoded path and breaks when the path
+            // contains spaces (Windows). Point its Maven cache at a space-free
+            // directory whenever the repo path itself contains a space.
+            val inRepoCache = rootProject.file(".robolectric-m2")
+            val cacheDir = if (System.getProperty("os.name").startsWith("Windows") &&
+                inRepoCache.absolutePath.contains(' ')
+            ) {
+                java.io.File(System.getenv("PUBLIC") ?: "C:\\Users\\Public", "robolectric-m2")
+            } else {
+                inRepoCache
+            }
+            it.systemProperty("maven.repo.local", cacheDir.absolutePath)
         }
     }
     sourceSets {
@@ -70,6 +81,7 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
     debugImplementation(libs.compose.ui.tooling)
 
     implementation(libs.hilt.android)

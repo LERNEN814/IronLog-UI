@@ -12,3 +12,6 @@ build/
 *.keystore
 *.jks
 build-verify.log
+
+/app/build/
+/app/build

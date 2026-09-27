@@ -2,6 +2,7 @@
 
 package com.ironlog.app.ui.feature.history
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -123,18 +124,17 @@ private fun HistoryStats(sessions: List<SessionHeader>) {
     ) {
         Text(stringResource(R.string.history_stats_title), style = MaterialTheme.typography.titleLarge)
         Row(horizontalArrangement = Arrangement.spacedBy(Dimens.CardSpacing)) {
-            StatTile(value = sessions.size.toString(), label = stringResource(R.string.home_week_sessions))
-            StatTile(value = totalSets.toString(), label = stringResource(R.string.home_week_sets))
-            StatTile(value = totalMinutes.toString(), label = stringResource(R.string.history_minutes))
+            StatTile(modifier = Modifier.weight(1f), value = sessions.size.toString(), label = stringResource(R.string.home_week_sessions))
+            StatTile(modifier = Modifier.weight(1f), value = totalSets.toString(), label = stringResource(R.string.home_week_sets))
+            StatTile(modifier = Modifier.weight(1f), value = totalMinutes.toString(), label = stringResource(R.string.history_minutes))
         }
     }
 }
 
 @Composable
-private fun StatTile(value: String, label: String) {
+private fun StatTile(modifier: Modifier = Modifier, value: String, label: String) {
     Column(
-        modifier = Modifier
-            .weight(1f)
+        modifier = modifier
             .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(Dimens.CardCorner))
             .padding(vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
