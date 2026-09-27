@@ -30,6 +30,7 @@ import com.ironlog.app.R
 fun ExerciseDetailScreen(
     exerciseName: String,
     equipment: String,
+    onAddToWorkout: () -> Unit,
     onBack: () -> Unit,
 ) {
     Scaffold(
@@ -63,7 +64,7 @@ fun ExerciseDetailScreen(
             Text(stringResource(R.string.exercise_instruction_placeholder), color = MaterialTheme.colorScheme.onSurfaceVariant)
             FilterChip(
                 selected = false,
-                onClick = {},
+                onClick = onAddToWorkout,
                 label = { Text(stringResource(R.string.exercise_add_to_workout)) },
             )
         }
