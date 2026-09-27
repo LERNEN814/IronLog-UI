@@ -104,7 +104,7 @@ fun HomeScreen(
                     }
                     Text(text = label, style = MaterialTheme.typography.titleMedium)
                     Text(
-                        text = "力量训练 · 有氧训练 · 休息",
+                        text = stringResource(R.string.home_training_types),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
                     )
