@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -376,26 +378,68 @@ fun SessionScreen(
                 )
             }
         } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(padding),
-                contentPadding = PaddingValues(Dimens.ScreenPadding),
-                verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
-            ) {
-                items(state.entries, key = { it.entry.id }) { entry ->
-                    EntryCard(
-                        entry = entry,
-                        showRirField = state.showRirField,
-                        shakeSetId = shakeSetId,
-                        onAddSet = { onAddSet(entry.entry.id) },
-                        onDeleteEntry = { onDeleteEntry(entry.entry.id) },
-                        onMoveUp = { onMoveEntry(entry.entry.id, -1) },
-                        onMoveDown = { onMoveEntry(entry.entry.id, 1) },
-                        onFieldClicked = onFieldClicked,
-                        onSetChecked = onSetChecked,
-                        onSetTypeChanged = onSetTypeChanged,
-                        onDeleteSet = onDeleteSet,
-                    )
+            Row(modifier = Modifier.fillMaxSize().padding(padding)) {
+                ExerciseRail(
+                    entries = state.entries,
+                    modifier = Modifier.padding(start = 8.dp, top = 12.dp, bottom = 12.dp),
+                )
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(Dimens.ScreenPadding),
+                    verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
+                ) {
+                    items(state.entries, key = { it.entry.id }) { entry ->
+                        EntryCard(
+                            entry = entry,
+                            showRirField = state.showRirField,
+                            shakeSetId = shakeSetId,
+                            onAddSet = { onAddSet(entry.entry.id) },
+                            onDeleteEntry = { onDeleteEntry(entry.entry.id) },
+                            onMoveUp = { onMoveEntry(entry.entry.id, -1) },
+                            onMoveDown = { onMoveEntry(entry.entry.id, 1) },
+                            onFieldClicked = onFieldClicked,
+                            onSetChecked = onSetChecked,
+                            onSetTypeChanged = onSetTypeChanged,
+                            onDeleteSet = onDeleteSet,
+                        )
+                    }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExerciseRail(entries: List<EntryUiState>, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.width(72.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        entries.forEachIndexed { index, entry ->
+            val completed = entry.sets.isNotEmpty() && entry.sets.all { it.set.isCompleted }
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(
+                        if (completed) MaterialTheme.colorScheme.primaryContainer
+                        else MaterialTheme.colorScheme.surfaceVariant,
+                        RoundedCornerShape(16.dp),
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.FitnessCenter,
+                    contentDescription = entry.exercise?.nameZh ?: entry.entry.exerciseId,
+                    tint = if (completed) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    text = "${index + 1}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.align(Alignment.BottomEnd).padding(4.dp),
+                )
             }
         }
     }
