@@ -205,9 +205,9 @@ private fun ExerciseRow(
             Spacer(Modifier.width(12.dp))
             Column(
                 modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = exercise.nameZh, style = MaterialTheme.typography.bodyLarge)
                 Spacer(Modifier.width(8.dp))
                 Text(
@@ -220,10 +220,11 @@ private fun ExerciseRow(
                 if (isRecent) {
                     Tag(text = stringResource(R.string.exercise_recent))
                 }
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Tag(text = exercise.equipment)
-                if (primaryMuscleName != null) Tag(text = primaryMuscleName)
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Tag(text = exercise.equipment)
+                    if (primaryMuscleName != null) Tag(text = primaryMuscleName)
+                }
             }
         }
     }
