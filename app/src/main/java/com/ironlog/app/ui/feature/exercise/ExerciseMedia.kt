@@ -7,4 +7,6 @@ object ExerciseMedia {
     fun demoAsset(exerciseId: String): String = "exercises/$exerciseId/demo.webp"
 
     fun licenseAsset(exerciseId: String): String = "exercises/$exerciseId/license.txt"
+
+    fun instructionAsset(exerciseId: String): String = "exercises/$exerciseId/instructions.json"
 }

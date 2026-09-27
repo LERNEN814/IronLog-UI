@@ -15,6 +15,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ironlog.app.ui.feature.calendar.CalendarTabRoute
 import com.ironlog.app.ui.feature.exercise.ExerciseHistoryScreenRoute
+import com.ironlog.app.ui.feature.exercise.ExerciseDetailScreen
 import com.ironlog.app.ui.feature.exercise.ExercisePickerScreenRoute
 import com.ironlog.app.ui.feature.history.SessionDetailScreenRoute
 import com.ironlog.app.ui.feature.home.HomeScreenRoute
@@ -94,6 +95,13 @@ fun IronLogNavHost(
             composable<ExerciseHistoryRoute> { entry ->
                 ExerciseHistoryScreenRoute(
                     exerciseId = entry.arguments?.getString("exerciseId").orEmpty(),
+                    onBack = { navController.popBackStack() },
+                )
+            }
+            composable<ExerciseDetailRoute> { entry ->
+                ExerciseDetailScreen(
+                    exerciseName = entry.arguments?.getString("exerciseId").orEmpty(),
+                    equipment = "",
                     onBack = { navController.popBackStack() },
                 )
             }
