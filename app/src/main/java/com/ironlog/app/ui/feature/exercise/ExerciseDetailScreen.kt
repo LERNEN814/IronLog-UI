@@ -33,6 +33,7 @@ fun ExerciseDetailScreen(
     exerciseName: String,
     equipment: String,
     primaryMuscle: String = "",
+    secondaryMuscles: List<String> = emptyList(),
     onAddToWorkout: () -> Unit,
     onBack: () -> Unit,
 ) {
@@ -68,6 +69,10 @@ fun ExerciseDetailScreen(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(stringResource(R.string.exercise_detail_primary_muscle), style = MaterialTheme.typography.labelLarge)
                 Text(primaryMuscle.ifBlank { stringResource(R.string.exercise_detail_muscle_pending) }, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            if (secondaryMuscles.isNotEmpty()) {
+                Text(stringResource(R.string.exercise_detail_secondary_muscle), style = MaterialTheme.typography.labelLarge)
+                Text(secondaryMuscles.joinToString("、"), color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Button(
                 onClick = onAddToWorkout,

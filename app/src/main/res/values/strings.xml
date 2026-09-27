@@ -52,6 +52,7 @@
     <string name="exercise_add_to_workout">加入训练</string>
     <string name="exercise_detail_primary_muscle">主要肌群</string>
     <string name="exercise_detail_muscle_pending">根据动作库资料显示</string>
+    <string name="exercise_detail_secondary_muscle">协同肌群</string>
     <string name="region_all">全部</string>
     <string name="region_chest">胸</string>
     <string name="region_back">背</string>
