@@ -49,6 +49,7 @@
     <string name="exercise_instruction_placeholder">保持动作稳定，控制节奏，并在安全范围内完成训练。</string>
     <string name="exercise_details">详情</string>
     <string name="exercise_equipment_pending">根据动作库资料显示</string>
+    <string name="exercise_add_to_workout">加入训练</string>
     <string name="region_all">全部</string>
     <string name="region_chest">胸</string>
     <string name="region_back">背</string>

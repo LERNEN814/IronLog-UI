@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -60,6 +61,11 @@ fun ExerciseDetailScreen(
             Spacer(Modifier.height(4.dp))
             Text(stringResource(R.string.exercise_instruction_title), style = MaterialTheme.typography.titleMedium)
             Text(stringResource(R.string.exercise_instruction_placeholder), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            FilterChip(
+                selected = false,
+                onClick = {},
+                label = { Text(stringResource(R.string.exercise_add_to_workout)) },
+            )
         }
     }
 }
