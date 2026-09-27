@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -92,14 +93,22 @@ fun HomeScreen(
         item {
             Button(
                 onClick = onPrimaryAction,
-                modifier = Modifier.fillMaxWidth().height(64.dp),
+                modifier = Modifier.fillMaxWidth().height(72.dp),
+                shape = MaterialTheme.shapes.large,
             ) {
-                val label = if (state.primaryAction == HomePrimaryAction.RESUME) {
-                    stringResource(R.string.home_continue_workout, DurationText.mmss(state.elapsedSeconds))
-                } else {
-                    stringResource(R.string.home_start_workout)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    val label = if (state.primaryAction == HomePrimaryAction.RESUME) {
+                        stringResource(R.string.home_continue_workout, DurationText.mmss(state.elapsedSeconds))
+                    } else {
+                        stringResource(R.string.home_start_workout)
+                    }
+                    Text(text = label, style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = "力量训练 · 有氧训练 · 休息",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
+                    )
                 }
-                Text(text = label, style = MaterialTheme.typography.titleMedium)
             }
         }
         item { WeekStatsCard(state.weekStats) }
