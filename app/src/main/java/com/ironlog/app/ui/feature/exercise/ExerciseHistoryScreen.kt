@@ -80,6 +80,11 @@ fun ExerciseHistoryScreen(state: ExerciseHistoryUiState, onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
         ) {
             Text(text = state.exerciseName, style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = stringResource(R.string.exercise_history_subtitle),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             if (state.trend.isEmpty()) {
                 Text(
                     text = stringResource(R.string.exercise_history_empty),

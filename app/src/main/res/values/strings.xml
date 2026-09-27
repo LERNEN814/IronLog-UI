@@ -189,6 +189,7 @@
     <string name="share_chooser_title">分享训练</string>
 
     <string name="exercise_history_title">动作历史</string>
+    <string name="exercise_history_subtitle">估算 1RM 与训练容量趋势</string>
     <string name="exercise_history_empty">还没有这个动作的训练记录</string>
     <string name="exercise_history_volume">容量</string>
     <string name="exercise_history_pr">PR</string>
