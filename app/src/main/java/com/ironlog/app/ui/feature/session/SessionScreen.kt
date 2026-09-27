@@ -35,6 +35,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -315,10 +316,14 @@ fun SessionScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = DurationText.mmss(state.elapsedSeconds),
-                        style = MaterialTheme.typography.titleLarge,
-                    )
+                    Column {
+                        Text(stringResource(R.string.session_active_title), style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            text = DurationText.mmss(state.elapsedSeconds),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -329,6 +334,7 @@ fun SessionScreen(
                     }
                 },
                 actions = {
+                    Icon(Icons.Filled.Timer, contentDescription = stringResource(R.string.session_elapsed_label), tint = MaterialTheme.colorScheme.primary)
                     TextButton(onClick = onUnitToggle) {
                         Text(
                             text = stringResource(

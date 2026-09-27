@@ -66,6 +66,8 @@
     <string name="kind_timed">计时</string>
 
     <string name="session_empty">点击下方“添加动作”开始记录</string>
+    <string name="session_active_title">训练进行中</string>
+    <string name="session_elapsed_label">训练用时</string>
     <string name="session_add_exercise">添加动作</string>
     <string name="session_finish">结束训练</string>
     <string name="session_add_set">添加一组</string>
