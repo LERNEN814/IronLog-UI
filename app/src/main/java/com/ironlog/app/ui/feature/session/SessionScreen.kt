@@ -441,6 +441,7 @@ private fun ExerciseRail(entries: List<EntryUiState>, modifier: Modifier = Modif
             Box(
                 modifier = Modifier
                     .size(56.dp)
+                    .clickable { }
                     .background(
                         if (completed) MaterialTheme.colorScheme.primaryContainer
                         else MaterialTheme.colorScheme.surfaceVariant,
