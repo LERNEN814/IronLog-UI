@@ -107,7 +107,6 @@ fun ExercisePickerScreen(
     onCreateClicked: () -> Unit,
     onBack: () -> Unit,
     onExerciseDetail: (String) -> Unit = {},
-    onExerciseDetail: (String) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -441,6 +440,7 @@ private fun ExercisePickerScreenPreview() {
             onExerciseClicked = {},
             onCreateClicked = {},
             onBack = {},
+            onExerciseDetail = {},
         )
     }
 }
