@@ -402,6 +402,11 @@ fun SessionScreen(
             Row(modifier = Modifier.fillMaxSize().padding(padding)) {
                 ExerciseRail(
                     entries = state.entries,
+                    selectedEntryId = state.selectedEntryId,
+                    onEntrySelected = { entryId ->
+                        val index = state.entries.indexOfFirst { it.entry.id == entryId }
+                        if (index >= 0) listState.animateScrollToItem(index)
+                    },
                     modifier = Modifier.padding(start = 8.dp, top = 12.dp, bottom = 12.dp),
                 )
                 LazyColumn(
@@ -432,7 +437,7 @@ fun SessionScreen(
 }
 
 @Composable
-private fun ExerciseRail(entries: List<EntryUiState>, modifier: Modifier = Modifier) {
+private fun ExerciseRail(entries: List<EntryUiState>, selectedEntryId: String?, onEntrySelected: (String) -> Unit, modifier: Modifier = Modifier) {
     val railState = rememberScrollState()
     Column(
         modifier = modifier.width(72.dp).verticalScroll(railState),
@@ -444,9 +449,10 @@ private fun ExerciseRail(entries: List<EntryUiState>, modifier: Modifier = Modif
             Box(
                 modifier = Modifier
                     .size(56.dp)
-                    .clickable { }
+                    .clickable { onEntrySelected(entry.entry.id) }
                     .background(
-                        if (completed) MaterialTheme.colorScheme.primaryContainer
+                        if (entry.entry.id == selectedEntryId) MaterialTheme.colorScheme.primary
+                        else if (completed) MaterialTheme.colorScheme.primaryContainer
                         else MaterialTheme.colorScheme.surfaceVariant,
                         RoundedCornerShape(16.dp),
                     ),
@@ -455,7 +461,8 @@ private fun ExerciseRail(entries: List<EntryUiState>, modifier: Modifier = Modif
                 Icon(
                     imageVector = Icons.Filled.FitnessCenter,
                     contentDescription = entry.exercise?.nameZh ?: entry.entry.exerciseId,
-                    tint = if (completed) MaterialTheme.colorScheme.primary
+                    tint = if (entry.entry.id == selectedEntryId) MaterialTheme.colorScheme.onPrimary
+                    else if (completed) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
