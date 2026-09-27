@@ -362,6 +362,12 @@ fun SessionScreen(
                         .padding(Dimens.ScreenPadding),
                     horizontalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
                 ) {
+                    Text(
+                        text = stringResource(R.string.session_progress, state.entries.count { entry -> entry.sets.any { it.set.isCompleted } }, state.entries.size),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = Dimens.ScreenPadding),
+                    )
                     OutlinedButton(onClick = onAddExercise, modifier = Modifier.weight(1f)) {
                         Text(stringResource(R.string.session_add_exercise))
                     }
