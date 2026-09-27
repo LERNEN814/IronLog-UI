@@ -19,6 +19,20 @@
 
 优先顺序：自制动作演示 > 明确允许再分发的开放许可证资源 > 仅用于开发测试的远程引用。正式发布前必须完成许可证复核。
 
+## 当前来源清单
+
+当前仓库没有引入任何外部动作图片、动图、视频或远程媒体 URL。动作媒体目录尚未添加，因此目前 UI 显示的是占位图标，不存在需要复核的外来媒体版权来源。
+
+已使用的图标来源：
+
+- AndroidX Compose Material Icons Core / Extended
+- 依赖坐标：`androidx.compose.material:material-icons-core`、`androidx.compose.material:material-icons-extended`
+- 版本由 Compose BOM `2026.09.00` 管理
+- 许可证：Apache License 2.0
+- 官方项目：https://developer.android.com/develop/ui/compose/graphics/images/material
+
+未来候选动作媒体来源只会在完成许可证核对后加入。目前没有从候选来源下载或复制动作媒体文件。
+
 ## UI 图标
 
 系统和动作语义图标优先使用 Material Icons Extended；品牌图形和动作媒体单独管理。避免为常见操作引入重复图标库，以控制 APK 体积和视觉一致性。
