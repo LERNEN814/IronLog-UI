@@ -91,6 +91,12 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
     ) {
         item {
+            Text(
+                text = stringResource(R.string.home_greeting),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+        }
+        item {
             Button(
                 onClick = onPrimaryAction,
                 modifier = Modifier.fillMaxWidth().height(72.dp),
