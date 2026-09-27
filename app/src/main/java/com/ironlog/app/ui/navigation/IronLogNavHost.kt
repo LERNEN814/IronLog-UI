@@ -77,6 +77,7 @@ fun IronLogNavHost(
                             ?.set(SELECTED_EXERCISE_ID, exerciseId)
                         navController.popBackStack()
                     },
+                    onExerciseDetail = { exerciseId -> navController.navigate(ExerciseDetailRoute(exerciseId)) },
                     onBack = { navController.popBackStack() },
                 )
             }

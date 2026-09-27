@@ -65,6 +65,7 @@ import com.ironlog.app.ui.theme.IronLogTheme
 @Composable
 fun ExercisePickerScreenRoute(
     onExerciseSelected: (String) -> Unit,
+    onExerciseDetail: (String) -> Unit = {},
     onBack: () -> Unit,
     viewModel: ExercisePickerViewModel = hiltViewModel(),
 ) {
@@ -85,6 +86,7 @@ fun ExercisePickerScreenRoute(
         onExerciseClicked = viewModel::onExerciseClicked,
         onCreateClicked = viewModel::onShowCreateForm,
         onBack = onBack,
+        onExerciseDetail = onExerciseDetail,
     )
 
     if (state.formVisible) {
@@ -104,6 +106,8 @@ fun ExercisePickerScreen(
     onExerciseClicked: (String) -> Unit,
     onCreateClicked: () -> Unit,
     onBack: () -> Unit,
+    onExerciseDetail: (String) -> Unit = {},
+    onExerciseDetail: (String) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -170,6 +174,7 @@ fun ExercisePickerScreen(
                         },
                         isRecent = state.lastUsed.containsKey(exercise.id),
                         onClick = { onExerciseClicked(exercise.id) },
+                        onDetail = { onExerciseDetail(exercise.id) },
                     )
                 }
             }
@@ -183,6 +188,7 @@ private fun ExerciseRow(
     primaryMuscleName: String?,
     isRecent: Boolean,
     onClick: () -> Unit,
+    onDetail: () -> Unit = {},
 ) {
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Row(
@@ -211,6 +217,7 @@ private fun ExerciseRow(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Spacer(Modifier.weight(1f))
+                TextButton(onClick = onDetail) { Text(stringResource(R.string.exercise_details)) }
                 if (isRecent) {
                     Tag(text = stringResource(R.string.exercise_recent))
                 }

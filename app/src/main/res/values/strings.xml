@@ -47,6 +47,7 @@
     <string name="exercise_demo_placeholder">动作演示资源待接入</string>
     <string name="exercise_instruction_title">动作要领</string>
     <string name="exercise_instruction_placeholder">保持动作稳定，控制节奏，并在安全范围内完成训练。</string>
+    <string name="exercise_details">详情</string>
     <string name="region_all">全部</string>
     <string name="region_chest">胸</string>
     <string name="region_back">背</string>
