@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -63,6 +64,10 @@ fun ExerciseDetailScreen(
             Spacer(Modifier.height(4.dp))
             Text(stringResource(R.string.exercise_instruction_title), style = MaterialTheme.typography.titleMedium)
             Text(stringResource(R.string.exercise_instruction_placeholder), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(stringResource(R.string.exercise_detail_primary_muscle), style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(R.string.exercise_detail_muscle_pending), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
             Button(
                 onClick = onAddToWorkout,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
