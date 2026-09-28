@@ -2,6 +2,48 @@
 
 ## 当前结论
 
+### 2026-09-27 复现更新
+
+本报告在前一次“已恢复”的修复报告之后再次验证。当前阻塞已重新出现，且可稳定复现：在本项目目录执行 Gradle wrapper 时，仍停在 Gradle 启动阶段，尚未进入项目配置、依赖解析或 Kotlin 编译。
+
+复现环境：
+
+- 工作区：`C:\Users\Wang Nathan\Documents\ChatGPT\IronLog`
+- PowerShell
+- `JAVA_HOME=C:\Program Files\Microsoft\jdk-17.0.20.101-hotspot`
+- Gradle Wrapper 9.8.0
+
+复现命令：
+
+```powershell
+$env:JAVA_HOME='C:\Program Files\Microsoft\jdk-17.0.20.101-hotspot'
+.\gradlew.bat --console=plain --no-daemon :app:compileDebugKotlin
+```
+
+实际结果：
+
+```text
+FAILURE: Build failed with an exception.
+java.io.IOException: Unable to establish loopback connection
+Caused by: java.net.SocketException: Invalid argument: connect
+```
+
+本次还尝试了以下变体，结果相同：
+
+```text
+--stacktrace
+--max-workers=1
+--offline
+-Dorg.gradle.daemon=false
+-Dorg.gradle.parallel=false
+-Djava.net.preferIPv4Stack=true
+GRADLE_USER_HOME=C:\gradle-home
+```
+
+切换到独立 `GRADLE_USER_HOME=C:\gradle-home` 后，wrapper 可以下载并解压 Gradle 9.8.0，但 daemon 随后仍在 loopback 初始化处失败。因此问题不太可能只是项目 `.gradle` 缓存或用户目录空格导致。
+
+这次没有运行 `assembleDebug`、`testDebugUnitTest` 或 `assembleRelease`，因为它们都会在同一个 daemon 初始化点失败。
+
 项目源码尚未进入 Kotlin/Compose 编译阶段。Gradle 在启动构建 daemon 或 single-use daemon 时，初始化本地通信通道失败，因此无法取得真正的编译结果。
 
 核心错误：
@@ -114,6 +156,15 @@ Gradle 即使使用 `--no-daemon` 也会创建 single-use daemon，因为当前�
 - Compose 编译
 
 ## 建议排查顺序
+
+### 给第三方修复人员的优先检查项
+
+1. 使用同一 JDK 17 直接运行一个最小 `Pipe.open()` 和 `ServerSocket` 回环测试，并记录是否失败。Gradle 堆栈显示失败点是 `sun.nio.ch.PipeImpl$Initializer$LoopbackConnector`，不是普通项目任务。
+2. 检查 Windows 网络栈、WFP/防火墙、杀毒软件、VPN/代理和企业安全策略是否阻止 Java 进程的本地回环/Unix domain socket 通信。
+3. 检查系统临时目录、用户目录、Gradle daemon 目录权限和路径重定向；但独立 `C:\gradle-home` 已复现失败，不能只按缓存损坏处理。
+4. 对比另一个 JDK 17 发行版或同版本 Java 的 `java.nio` 行为，确认不是当前 Microsoft OpenJDK 安装或 Windows 补丁环境问题。
+5. 检查是否存在残留 Gradle/Java 进程、daemon registry 锁或安全软件注入；保留失败时的完整 `--stacktrace --info` 日志。
+6. 修复后必须在本项目目录实际执行恢复标准中的三个任务，不能只验证 `gradle --version` 或 `help`。
 
 ### A. 检查 Java 回环能力
 
@@ -252,3 +303,9 @@ source scripts/env.sh
 - 测试数量和失败数量
 - APK 路径和文件大小
 - 是否仍有 loopback、daemon 或权限警告
+
+## 与历史修复报告的关系
+
+`GRADLE_FIX_REPORT.md` 记录了 2026-09-27 早些时候一次成功构建（Kotlin 编译、280 个测试和 Debug APK 均成功）。本报告不是对该记录的否定，而是记录后续在同一工作区再次出现的可复现阻塞。两份报告说明该问题具有环境/时段不稳定性：曾经成功，之后再次在相同 Java NIO loopback 初始化点失败。
+
+本次没有修改 Gradle wrapper、AGP、Kotlin 版本或根构建配置，也没有把 loopback 错误误判为当前源码的编译错误。

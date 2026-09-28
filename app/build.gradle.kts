@@ -1,3 +1,5 @@
+import java.io.File
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -46,7 +48,7 @@ android {
             val cacheDir = if (System.getProperty("os.name").startsWith("Windows") &&
                 inRepoCache.absolutePath.contains(' ')
             ) {
-                java.io.File(System.getenv("PUBLIC") ?: "C:\\Users\\Public", "robolectric-m2")
+                File(System.getenv("PUBLIC") ?: "C:\\Users\\Public", "robolectric-m2")
             } else {
                 inRepoCache
             }

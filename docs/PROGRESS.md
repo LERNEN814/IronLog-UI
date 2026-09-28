@@ -51,6 +51,18 @@
 
 **M6**：未开始。任务卡见 `docs/tasks/M6.md`。**不要提前开始下一个里程碑。**
 
+### 工程连续推进记录（UI 收尾）
+- 动作详情已接入 `ExerciseRepository`：导航传入动作 ID 后，ViewModel 查询真实动作、器械和肌群映射；媒体和动作说明仍保留为待接入占位。
+- 当前距离外部数据导入：仍需完成可核验资源清单复核后才下载，代码侧接口已具备承载位置。
+- 当前距离 APK 测试：需先完成 Phase 1 本地数据闭环（体重、导入导出/备份、详情和总结验收）并执行一次允许的 Gradle 构建；预计剩余约 8–12%（不含用户真机反馈）。
+- M6 体重记录已完成首版闭环：Repository、按日期覆盖、单位显示、历史删除和设置入口已实现。
+- Gradle 复核：根因是 Windows `TEMP` 使用 8.3 短路径，JDK Unix-domain socket 在该路径上连接失败。已通过用户级 `JAVA_TOOL_OPTIONS=-Djdk.net.unixdomain.tmpdir=C:\\temp` 修复，并将用户级 `JAVA_HOME` 指向有效 JDK 17；Gradle 9.8 daemon 通信恢复。
+- M6 数据安全基础已完成：备份 JSON 模型、SAF 导入导出 Repository、schema 校验、事务替换和 Android 自动备份 XML 已加入；UI 文件选择与二次确认待接线。
+- M6 数据安全 UI 已接线：设置页支持 SAF 导出、导入、覆盖确认和结果反馈；导入增加重复 ID、引用关系、状态和日期/体重校验。
+- 备份事务实现已收紧为 Room `withTransaction`，避免导入过程中出现部分写入。
+- 外部对话已在当前工作区留下新的 Debug APK（`app/build/outputs/apk/debug/app-debug.apk`，约 20.8 MB）及构建生成物；审查确认源码级 Gradle 改动仅为 `app/build.gradle.kts` 的 `java.io.File` 显式导入，逻辑不变。当前集中执行仍再次在 daemon loopback 处失败，不能把已有 APK 视为本轮完整验证。
+- 增加体重 ViewModel 同日覆盖测试；已修正测试期望与 `FixedClock` 的 Asia/Shanghai 时区一致。`compileDebugKotlin`、`testDebugUnitTest`（281/281）和 `assembleDebug` 均通过。
+
 ---
 
 ## 阻塞项（尝试 3 次仍失败的）
@@ -152,6 +164,24 @@
 ---
 
 ## 环境备注（不要修改，仅供排查）
+
+### 2026-09-27 集中验证结果
+
+- IDE 重启后 `JAVA_TOOL_OPTIONS=-Djdk.net.unixdomain.tmpdir=C:\temp` 生效，Gradle loopback 阻塞已解决。
+- `:app:compileDebugKotlin`：成功。
+- `:app:testDebugUnitTest --rerun-tasks`：281 tests，0 failures，0 errors。
+- `:app:assembleDebug`：成功。
+- `:app:assembleRelease`：成功，产物为未签名 APK。
+- `:app:lintDebug`：成功。
+- 仅有既有 Compose API 弃用和 Gradle 10 兼容性提示；Release native strip 对两个库回退为保留未剥离形式，不影响打包成功。
+
+### M6 / Phase 1 收尾（2026-09-28）
+
+- M6 数据安全、体重、设置和工程收尾已完成，详见 `docs/handoff/M6.md`。
+- 内置动作种子已从 67 条补齐到 101 条，ID 唯一且每条包含肌群映射。
+- Debug APK 已完成用户真机功能验收；Release 构建成功但当前为未签名 APK，未进行真机安装。
+- Phase 1 功能完成度标记为 **100%（功能基线）**。UI 视觉重构、外部动作媒体和精细人体图属于后续独立 UI/资源工作流，不作为本功能基线的未完成项。
+- `scripts/verify.sh --quick` 当前唯一失败原因是 `scripts/protected.lock.json` 与历史已提交的 `gradle/libs.versions.toml`、`app/build.gradle.kts` 哈希不一致；本次未修改或刷新受保护锁文件。Gradle 编译、281 项测试、lint、Debug/Release 打包均独立通过。
 
 - 本机 `JAVA_HOME` 默认值无效，必须先 `source scripts/env.sh`（指向 `C:\Program Files\Microsoft\jdk-17.0.20.101-hotspot`）。
 - Robolectric 需要 `-Dmaven.repo.local=<repo>/.robolectric-m2`（用户名含空格），已在 `app/build.gradle.kts` 配好。
