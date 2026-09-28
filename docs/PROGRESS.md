@@ -182,6 +182,7 @@
 - Debug APK 已完成用户真机功能验收；Release 构建成功但当前为未签名 APK，未进行真机安装。
 - Phase 1 功能完成度标记为 **100%（功能基线）**。UI 视觉重构、外部动作媒体和精细人体图属于后续独立 UI/资源工作流，不作为本功能基线的未完成项。
 - `scripts/verify.sh --quick` 当前唯一失败原因是 `scripts/protected.lock.json` 与历史已提交的 `gradle/libs.versions.toml`、`app/build.gradle.kts` 哈希不一致；本次未修改或刷新受保护锁文件。Gradle 编译、281 项测试、lint、Debug/Release 打包均独立通过。
+- 完整 `scripts/verify.sh` 在本机 WSL Bash 复核时还受到执行环境差异影响：该 shell 使用 `/mnt/c` 路径下的另一套 SDK，缺少 Build Tools 36.0.0；Windows PowerShell 直接执行的等价 Gradle 任务已成功。该脚本结果不能代表 Windows 工程构建结果。
 
 - 本机 `JAVA_HOME` 默认值无效，必须先 `source scripts/env.sh`（指向 `C:\Program Files\Microsoft\jdk-17.0.20.101-hotspot`）。
 - Robolectric 需要 `-Dmaven.repo.local=<repo>/.robolectric-m2`（用户名含空格），已在 `app/build.gradle.kts` 配好。
