@@ -10,6 +10,7 @@ import com.ironlog.app.data.db.entity.MuscleGroupEntity
 import com.ironlog.app.data.db.entity.SessionExerciseEntity
 import com.ironlog.app.data.db.entity.WorkoutSessionEntity
 import com.ironlog.app.data.db.entity.WorkoutSetEntity
+import com.ironlog.app.data.seed.SeedImporter
 import com.ironlog.app.domain.backup.*
 import com.ironlog.app.core.time.Clock
 import androidx.room.withTransaction
@@ -22,6 +23,7 @@ class BackupRepository @Inject constructor(
     private val database: IronLogDatabase,
     private val resolver: ContentResolver,
     private val clock: Clock,
+    private val seedImporter: SeedImporter,
 ) {
     private val json = Json { ignoreUnknownKeys = false; prettyPrint = true }
 
@@ -51,6 +53,7 @@ class BackupRepository @Inject constructor(
                 database.workoutDao().insertSets(file.sets.map { it.toEntity() })
                 file.bodyWeights.forEach { database.bodyWeightDao().upsert(it.toEntity()) }
             }
+            seedImporter.importFromAssets()
         }
     }
 

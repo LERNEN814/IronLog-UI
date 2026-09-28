@@ -5,7 +5,7 @@
 
 ---
 
-## 当前里程碑：**M6**（M5 已审计有条件通过；M2–M5 真机验收待用户填写）
+## 当前里程碑：**M6**（Phase 1 功能基线已完成，待审计）
 
 | 任务 | 状态 | 提交 | 备注 |
 |------|------|------|------|
@@ -49,19 +49,26 @@
 | M5 交接报告 | [x] | ddf3779 | docs/handoff/M5.md（4 项真机自测留空待用户填写） |
 | M5 审计 | [x] | m5-audited | 有条件通过（D9 PR 基线 / D10 不加存储权限），见 docs/audit/M5.md |
 
-**M6**：未开始。任务卡见 `docs/tasks/M6.md`。**不要提前开始下一个里程碑。**
+| M6-T6.1 导出 / 导入 | [x] | `backup-20260928-phase1-final` | SAF JSON 备份、schema/引用校验、事务导入和导入前确认 |
+| M6-T6.2 自动备份 | [x] | bacd259 | Android 11/12+ 备份规则与 Manifest 配置 |
+| M6-T6.3 体重打卡 | [x] | `backup-20260928-phase1-final` | 同日覆盖、单位显示、历史删除、最近记录折线 |
+| M6-T6.4 设置完善与帮助 | [x] | bacd259 | 单位、主题、计时帮助、关于和备份入口 |
+| M6-T6.5 收尾与质量 | [x] | `backup-20260928-phase1-final` | 101 条种子动作、281 项测试、lint、Debug/Release 打包 |
+| M6 交接报告 | [x] | `backup-20260928-phase1-final` | docs/handoff/M6.md |
+
+**M6 已完成。** Phase 1 功能基线自评为 **100%**；按里程碑规则停止，等待审计。UI 视觉重构、外部动作媒体和 Phase 2/3 不属于本里程碑。
 
 ### 工程连续推进记录（UI 收尾）
 - 动作详情已接入 `ExerciseRepository`：导航传入动作 ID 后，ViewModel 查询真实动作、器械和肌群映射；媒体和动作说明仍保留为待接入占位。
-- 当前距离外部数据导入：仍需完成可核验资源清单复核后才下载，代码侧接口已具备承载位置。
-- 当前距离 APK 测试：需先完成 Phase 1 本地数据闭环（体重、导入导出/备份、详情和总结验收）并执行一次允许的 Gradle 构建；预计剩余约 8–12%（不含用户真机反馈）。
-- M6 体重记录已完成首版闭环：Repository、按日期覆盖、单位显示、历史删除和设置入口已实现。
+- 外部数据导入未纳入 Phase 1 功能基线；候选来源与许可证清单保留在 `docs/EXERCISE_MEDIA_CANDIDATES.md` 和 `docs/EXERCISE_MEDIA_SOURCES.md`，待 UI/资源专门工作流复核。
+- APK 测试已完成：Debug APK 已由用户真机验证核心功能；Release 构建成功但未签名，未执行安装测试。
+- M6 体重记录已完成闭环：Repository、按日期覆盖、单位显示、历史删除、最近记录折线和设置入口已实现。
 - Gradle 复核：根因是 Windows `TEMP` 使用 8.3 短路径，JDK Unix-domain socket 在该路径上连接失败。已通过用户级 `JAVA_TOOL_OPTIONS=-Djdk.net.unixdomain.tmpdir=C:\\temp` 修复，并将用户级 `JAVA_HOME` 指向有效 JDK 17；Gradle 9.8 daemon 通信恢复。
-- M6 数据安全基础已完成：备份 JSON 模型、SAF 导入导出 Repository、schema 校验、事务替换和 Android 自动备份 XML 已加入；UI 文件选择与二次确认待接线。
+- M6 数据安全基础已完成：备份 JSON 模型、SAF 导入导出 Repository、schema 校验、事务替换、导入后缺失种子恢复和 Android 自动备份 XML 已加入。
 - M6 数据安全 UI 已接线：设置页支持 SAF 导出、导入、覆盖确认和结果反馈；导入增加重复 ID、引用关系、状态和日期/体重校验。
 - 备份事务实现已收紧为 Room `withTransaction`，避免导入过程中出现部分写入。
-- 外部对话已在当前工作区留下新的 Debug APK（`app/build/outputs/apk/debug/app-debug.apk`，约 20.8 MB）及构建生成物；审查确认源码级 Gradle 改动仅为 `app/build.gradle.kts` 的 `java.io.File` 显式导入，逻辑不变。当前集中执行仍再次在 daemon loopback 处失败，不能把已有 APK 视为本轮完整验证。
-- 增加体重 ViewModel 同日覆盖测试；已修正测试期望与 `FixedClock` 的 Asia/Shanghai 时区一致。`compileDebugKotlin`、`testDebugUnitTest`（281/281）和 `assembleDebug` 均通过。
+- 外部对话留下的 Gradle 修复已复核：源码级改动仅为 `app/build.gradle.kts` 的 `java.io.File` 显式导入，逻辑不变；已通过 IDE 重启后的有效 JDK 17 环境验证。
+- 增加体重 ViewModel 同日覆盖测试，并补齐趋势绘制；已修正测试期望与 `FixedClock` 的 Asia/Shanghai 时区一致。`compileDebugKotlin`、`testDebugUnitTest`（281/281）、`lintDebug`、`assembleDebug` 和 `assembleRelease` 均通过。
 
 ---
 
@@ -181,8 +188,8 @@
 - 内置动作种子已从 67 条补齐到 101 条，ID 唯一且每条包含肌群映射。
 - Debug APK 已完成用户真机功能验收；Release 构建成功但当前为未签名 APK，未进行真机安装。
 - Phase 1 功能完成度标记为 **100%（功能基线）**。UI 视觉重构、外部动作媒体和精细人体图属于后续独立 UI/资源工作流，不作为本功能基线的未完成项。
-- `scripts/verify.sh --quick` 当前唯一失败原因是 `scripts/protected.lock.json` 与历史已提交的 `gradle/libs.versions.toml`、`app/build.gradle.kts` 哈希不一致；本次未修改或刷新受保护锁文件。Gradle 编译、281 项测试、lint、Debug/Release 打包均独立通过。
-- 完整 `scripts/verify.sh` 在本机 WSL Bash 复核时还受到执行环境差异影响：该 shell 使用 `/mnt/c` 路径下的另一套 SDK，缺少 Build Tools 36.0.0；Windows PowerShell 直接执行的等价 Gradle 任务已成功。该脚本结果不能代表 Windows 工程构建结果。
+- `scripts/verify.sh --quick` 与完整门禁的静态阶段均报告 2 项受保护文件哈希不匹配：`gradle/libs.versions.toml`、`app/build.gradle.kts`。本次未修改或刷新 `scripts/protected.lock.json`；需审计确认锁文件基线后再处理。
+- 完整 `scripts/verify.sh` 的 Gradle 阶段在 Windows Git Bash 下成功：Debug 打包、281 项测试（0 失败、0 跳过）和 lint 通过；脚本总体因上述静态阶段失败而返回非零。另行执行的 `assembleRelease` 也成功。
 
 - 本机 `JAVA_HOME` 默认值无效，必须先 `source scripts/env.sh`（指向 `C:\Program Files\Microsoft\jdk-17.0.20.101-hotspot`）。
 - Robolectric 需要 `-Dmaven.repo.local=<repo>/.robolectric-m2`（用户名含空格），已在 `app/build.gradle.kts` 配好。
