@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.ironlog.app.ui.feature.summary
 
 import androidx.compose.foundation.background
@@ -13,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -68,16 +71,16 @@ fun SessionSummaryScreen(onBack: () -> Unit) {
 @Composable
 private fun SummaryMetricRow() {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        SummaryMetric(stringResource(R.string.summary_duration), "56:42")
-        SummaryMetric(stringResource(R.string.summary_exercises), "5")
-        SummaryMetric(stringResource(R.string.summary_work_sets), "18")
+        SummaryMetric(Modifier.weight(1f), stringResource(R.string.summary_duration), "56:42")
+        SummaryMetric(Modifier.weight(1f), stringResource(R.string.summary_exercises), "5")
+        SummaryMetric(Modifier.weight(1f), stringResource(R.string.summary_work_sets), "18")
     }
 }
 
 @Composable
-private fun SummaryMetric(label: String, value: String) {
+private fun SummaryMetric(modifier: Modifier, label: String, value: String) {
     Column(
-        modifier = Modifier.weight(1f).background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp)).padding(12.dp),
+        modifier = modifier.background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp)).padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(value, style = MaterialTheme.typography.titleLarge)

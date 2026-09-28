@@ -32,4 +32,14 @@ abstract class IronLogDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
     abstract fun workoutDao(): WorkoutDao
     abstract fun bodyWeightDao(): BodyWeightDao
+
+    fun clearUserDataBlocking() {
+        openHelper.writableDatabase.execSQL("DELETE FROM workout_set")
+        openHelper.writableDatabase.execSQL("DELETE FROM session_exercise")
+        openHelper.writableDatabase.execSQL("DELETE FROM workout_session")
+        openHelper.writableDatabase.execSQL("DELETE FROM body_weight")
+        openHelper.writableDatabase.execSQL("DELETE FROM exercise_muscle")
+        openHelper.writableDatabase.execSQL("DELETE FROM exercise")
+        openHelper.writableDatabase.execSQL("DELETE FROM muscle_group")
+    }
 }

@@ -17,4 +17,13 @@ interface BodyWeightDao {
 
     @Query("SELECT * FROM body_weight ORDER BY local_date DESC LIMIT :limit")
     suspend fun getRecent(limit: Int): List<BodyWeightEntity>
+
+    @Query("SELECT * FROM body_weight ORDER BY local_date ASC")
+    suspend fun getAll(): List<BodyWeightEntity>
+
+    @Query("DELETE FROM body_weight WHERE id = :id")
+    suspend fun delete(id: String)
+
+    @Query("DELETE FROM body_weight")
+    suspend fun deleteAll()
 }

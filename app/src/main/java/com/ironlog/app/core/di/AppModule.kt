@@ -1,6 +1,7 @@
 package com.ironlog.app.core.di
 
 import android.content.Context
+import android.content.ContentResolver
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
@@ -12,10 +13,12 @@ import com.ironlog.app.core.time.ElapsedClock
 import com.ironlog.app.core.time.SystemClock
 import com.ironlog.app.core.time.SystemElapsedClock
 import com.ironlog.app.data.repository.ExerciseRepositoryImpl
+import com.ironlog.app.data.repository.BodyWeightRepositoryImpl
 import com.ironlog.app.data.repository.FatigueRepositoryImpl
 import com.ironlog.app.data.repository.WorkoutRepositoryImpl
 import com.ironlog.app.data.settings.SettingsDataStore
 import com.ironlog.app.domain.exercise.ExerciseRepository
+import com.ironlog.app.domain.bodyweight.BodyWeightRepository
 import com.ironlog.app.domain.fatigue.FatigueRepository
 import com.ironlog.app.domain.settings.SettingsRepository
 import com.ironlog.app.domain.workout.WorkoutRepository
@@ -43,6 +46,10 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindExerciseRepository(impl: ExerciseRepositoryImpl): ExerciseRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindBodyWeightRepository(impl: BodyWeightRepositoryImpl): BodyWeightRepository
 
     @Binds
     @Singleton
@@ -79,5 +86,9 @@ abstract class AppModule {
         @Singleton
         fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
             PreferenceDataStoreFactory.create { context.preferencesDataStoreFile("settings") }
+
+        @Provides
+        @Singleton
+        fun provideContentResolver(@ApplicationContext context: Context): ContentResolver = context.contentResolver
     }
 }

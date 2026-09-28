@@ -2,6 +2,7 @@
 
 package com.ironlog.app.ui.feature.settings
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +35,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ironlog.app.R
@@ -46,7 +50,7 @@ import com.ironlog.app.ui.theme.ThemeMode
 import com.ironlog.app.ui.theme.toThemeMode
 
 @Composable
-fun SettingsScreenRoute(viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsScreenRoute(viewModel: SettingsViewModel = hiltViewModel(), backupViewModel: BackupViewModel = hiltViewModel(), onOpenBodyWeight: () -> Unit = {}) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     SettingsScreen(
@@ -58,6 +62,12 @@ fun SettingsScreenRoute(viewModel: SettingsViewModel = hiltViewModel()) {
         onKeepScreenOnChanged = viewModel::onKeepScreenOnChanged,
         onShowRirFieldChanged = viewModel::onShowRirFieldChanged,
         onThemeModeChanged = viewModel::onThemeModeChanged,
+        onOpenBodyWeight = onOpenBodyWeight,
+        backupState = backupViewModel.state.collectAsStateWithLifecycle().value,
+        onExport = backupViewModel::export,
+        onImport = backupViewModel::requestImport,
+        onConfirmImport = backupViewModel::confirmImport,
+        onDismissImport = backupViewModel::dismissImport,
     )
 }
 
@@ -72,6 +82,12 @@ fun SettingsScreen(
     onKeepScreenOnChanged: (Boolean) -> Unit,
     onShowRirFieldChanged: (Boolean) -> Unit,
     onThemeModeChanged: (ThemeMode) -> Unit,
+    onOpenBodyWeight: () -> Unit = {},
+    backupState: BackupUiState = BackupUiState(),
+    onExport: (Uri) -> Unit = {},
+    onImport: (Uri) -> Unit = {},
+    onConfirmImport: () -> Unit = {},
+    onDismissImport: () -> Unit = {},
 ) {
     val settings = state.settings
     var restText by remember(state.loading) { mutableStateOf(settings.defaultRestSeconds.toString()) }
@@ -85,6 +101,8 @@ fun SettingsScreen(
         verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
     ) {
         Text(text = stringResource(R.string.settings_title), style = MaterialTheme.typography.titleLarge)
+        TextButton(onClick = onOpenBodyWeight) { Text(stringResource(R.string.body_weight_title)) }
+        BackupSection(backupState, onExport, onImport, onConfirmImport, onDismissImport)
 
         SettingsSection(title = stringResource(R.string.settings_unit)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -142,6 +160,34 @@ fun SettingsScreen(
                 },
             )
         }
+    }
+}
+
+@Composable
+private fun BackupSection(
+    state: BackupUiState,
+    onExport: (Uri) -> Unit,
+    onImport: (Uri) -> Unit,
+    onConfirmImport: () -> Unit,
+    onDismissImport: () -> Unit,
+) {
+    val exportLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { it?.let(onExport) }
+    val importLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { it?.let(onImport) }
+    SettingsSection(title = stringResource(R.string.settings_backup_title)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = { exportLauncher.launch("IronLog_backup.json") }, enabled = !state.busy) { Text(stringResource(R.string.settings_backup_export)) }
+            Button(onClick = { importLauncher.launch(arrayOf("application/json")) }, enabled = !state.busy) { Text(stringResource(R.string.settings_backup_import)) }
+        }
+        state.message?.let { Text(it, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+    }
+    state.importPending?.let {
+        AlertDialog(
+            onDismissRequest = onDismissImport,
+            title = { Text(stringResource(R.string.settings_backup_confirm_title)) },
+            text = { Text(stringResource(R.string.settings_backup_confirm_message)) },
+            confirmButton = { TextButton(onClick = onConfirmImport) { Text(stringResource(R.string.action_confirm)) } },
+            dismissButton = { TextButton(onClick = onDismissImport) { Text(stringResource(R.string.action_cancel)) } },
+        )
     }
 }
 

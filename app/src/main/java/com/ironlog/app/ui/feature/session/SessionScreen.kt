@@ -65,6 +65,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -95,6 +96,7 @@ import com.ironlog.app.domain.model.WorkoutSet
 import com.ironlog.app.domain.summary.DurationText
 import com.ironlog.app.ui.theme.Dimens
 import com.ironlog.app.ui.theme.IronLogTheme
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
 @Composable
@@ -315,6 +317,7 @@ fun SessionScreen(
     onInexactClick: () -> Unit,
 ) {
     val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     val selectedIndex = state.entries.indexOfFirst { it.entry.id == state.selectedEntryId }
     LaunchedEffect(selectedIndex) {
         if (selectedIndex >= 0) listState.animateScrollToItem(selectedIndex)
@@ -405,7 +408,9 @@ fun SessionScreen(
                     selectedEntryId = state.selectedEntryId,
                     onEntrySelected = { entryId ->
                         val index = state.entries.indexOfFirst { it.entry.id == entryId }
-                        if (index >= 0) listState.animateScrollToItem(index)
+                        if (index >= 0) {
+                            coroutineScope.launch { listState.animateScrollToItem(index) }
+                        }
                     },
                     modifier = Modifier.padding(start = 8.dp, top = 12.dp, bottom = 12.dp),
                 )

@@ -23,4 +23,7 @@ interface MuscleGroupDao {
 
     @Query("SELECT * FROM muscle_group ORDER BY sort_order")
     fun observeAll(): Flow<List<MuscleGroupEntity>>
+
+    @Query("DELETE FROM muscle_group")
+    suspend fun deleteAll()
 }

@@ -37,8 +37,8 @@
     <string name="session_not_rated">未评分</string>
 
     <string name="action_back">返回</string>
-    <string name="action_save">保存</string>
     <string name="action_cancel">取消</string>
+    <string name="action_save">保存</string>
 
     <string name="exercise_picker_title">选择动作</string>
     <string name="exercise_new">新建</string>
@@ -53,6 +53,15 @@
     <string name="exercise_detail_primary_muscle">主要肌群</string>
     <string name="exercise_detail_muscle_pending">根据动作库资料显示</string>
     <string name="exercise_detail_secondary_muscle">协同肌群</string>
+    <string name="exercise_detail_loading">加载动作</string>
+    <string name="body_weight_title">体重记录</string>
+    <string name="body_weight_today">今天：%1$s</string>
+    <string name="body_weight_input">体重</string>
+    <string name="settings_backup_title">数据备份</string>
+    <string name="settings_backup_export">导出数据</string>
+    <string name="settings_backup_import">导入数据</string>
+    <string name="settings_backup_confirm_title">覆盖本地数据？</string>
+    <string name="settings_backup_confirm_message">导入会覆盖当前训练、动作和体重记录，此操作无法撤销。</string>
     <string name="region_all">全部</string>
     <string name="region_chest">胸</string>
     <string name="region_back">背</string>

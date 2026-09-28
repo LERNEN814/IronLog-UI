@@ -15,7 +15,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ironlog.app.ui.feature.calendar.CalendarTabRoute
 import com.ironlog.app.ui.feature.exercise.ExerciseHistoryScreenRoute
-import com.ironlog.app.ui.feature.exercise.ExerciseDetailScreen
+import com.ironlog.app.ui.feature.exercise.ExerciseDetailScreenRoute
+import com.ironlog.app.ui.feature.exercise.ExerciseDetailViewModel
+import com.ironlog.app.ui.feature.bodyweight.BodyWeightScreenRoute
 import com.ironlog.app.ui.feature.exercise.ExercisePickerScreenRoute
 import com.ironlog.app.ui.feature.history.SessionDetailScreenRoute
 import com.ironlog.app.ui.feature.home.HomeScreenRoute
@@ -100,10 +102,10 @@ fun IronLogNavHost(
                 )
             }
             composable<ExerciseDetailRoute> { entry ->
-                ExerciseDetailScreen(
-                    exerciseName = entry.arguments?.getString("exerciseId").orEmpty(),
-                    equipment = "",
-                    primaryMuscle = "",
+                val viewModel: ExerciseDetailViewModel = hiltViewModel()
+                ExerciseDetailScreenRoute(
+                    exerciseId = entry.arguments?.getString("exerciseId").orEmpty(),
+                    viewModel = viewModel,
                     onAddToWorkout = {
                         navController.previousBackStackEntry?.savedStateHandle
                             ?.set(SELECTED_EXERCISE_ID, entry.arguments?.getString("exerciseId"))
@@ -113,8 +115,9 @@ fun IronLogNavHost(
                 )
             }
             composable<SettingsRoute> {
-                SettingsScreenRoute()
+                SettingsScreenRoute(onOpenBodyWeight = { navController.navigate(BodyWeightRoute) })
             }
+            composable<BodyWeightRoute> { BodyWeightScreenRoute(onBack = { navController.popBackStack() }) }
             composable<SessionRoute> { entry ->
                 val viewModel: SessionViewModel = hiltViewModel()
                 val selectedExerciseId by entry.savedStateHandle

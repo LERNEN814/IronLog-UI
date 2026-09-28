@@ -14,8 +14,29 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class WorkoutDao {
 
+    @Query("SELECT * FROM workout_session ORDER BY id")
+    abstract suspend fun getAllSessions(): List<WorkoutSessionEntity>
+
+    @Query("SELECT * FROM session_exercise ORDER BY id")
+    abstract suspend fun getAllSessionExercises(): List<SessionExerciseEntity>
+
+    @Query("SELECT * FROM workout_set ORDER BY id")
+    abstract suspend fun getAllSets(): List<WorkoutSetEntity>
+
+    @Query("DELETE FROM workout_set")
+    abstract suspend fun deleteAllSets()
+
+    @Query("DELETE FROM session_exercise")
+    abstract suspend fun deleteAllSessionExercises()
+
+    @Query("DELETE FROM workout_session")
+    abstract suspend fun deleteAllSessions()
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insertSession(session: WorkoutSessionEntity)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract suspend fun insertSessions(sessions: List<WorkoutSessionEntity>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insertSessionExercise(entry: SessionExerciseEntity)

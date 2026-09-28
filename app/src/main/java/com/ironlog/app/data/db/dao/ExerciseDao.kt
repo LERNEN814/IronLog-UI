@@ -41,6 +41,18 @@ abstract class ExerciseDao {
     @Query("SELECT * FROM exercise WHERE is_archived = 0 ORDER BY is_custom DESC, name_zh")
     abstract fun observeAll(): Flow<List<ExerciseEntity>>
 
+    @Query("SELECT * FROM exercise ORDER BY id")
+    abstract suspend fun getAll(): List<ExerciseEntity>
+
+    @Query("SELECT * FROM exercise_muscle ORDER BY exercise_id, muscle_id")
+    abstract suspend fun getAllMuscles(): List<ExerciseMuscleEntity>
+
+    @Query("DELETE FROM exercise_muscle")
+    abstract suspend fun deleteAllMuscles()
+
+    @Query("DELETE FROM exercise")
+    abstract suspend fun deleteAll()
+
     /** @param bodyRegion muscle_group.body_region, or null for no region filtering */
     @Query(
         "SELECT e.* FROM exercise e " +

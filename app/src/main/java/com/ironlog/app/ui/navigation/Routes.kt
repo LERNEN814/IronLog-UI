@@ -13,6 +13,9 @@ data object HistoryRoute
 data object SettingsRoute
 
 @Serializable
+data object BodyWeightRoute
+
+@Serializable
 data object ExercisePickerRoute
 
 @Serializable

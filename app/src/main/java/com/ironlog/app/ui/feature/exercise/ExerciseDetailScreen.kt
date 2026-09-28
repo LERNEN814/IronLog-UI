@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.ironlog.app.ui.feature.exercise
 
 import androidx.compose.foundation.background
@@ -18,14 +20,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ironlog.app.R
 
 @Composable
@@ -82,4 +87,24 @@ fun ExerciseDetailScreen(
             }
         }
     }
+}
+
+@Composable
+fun ExerciseDetailScreenRoute(
+    exerciseId: String,
+    viewModel: ExerciseDetailViewModel,
+    onAddToWorkout: () -> Unit,
+    onBack: () -> Unit,
+) {
+    LaunchedEffect(exerciseId) { viewModel.load(exerciseId) }
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val exercise = state.exercise
+    ExerciseDetailScreen(
+        exerciseName = exercise?.nameZh ?: stringResource(R.string.exercise_detail_loading),
+        equipment = exercise?.equipment.orEmpty(),
+        primaryMuscle = state.muscles.firstOrNull()?.displayNameZh.orEmpty(),
+        secondaryMuscles = state.muscles.drop(1).map { it.displayNameZh },
+        onAddToWorkout = onAddToWorkout,
+        onBack = onBack,
+    )
 }
