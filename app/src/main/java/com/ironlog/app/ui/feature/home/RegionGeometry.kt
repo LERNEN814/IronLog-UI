@@ -4,6 +4,7 @@ import android.graphics.RectF
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.PathParser
+import androidx.compose.ui.graphics.asAndroidPath
 
 data class RegionShape(
     val muscleId: String,
@@ -34,8 +35,15 @@ internal object PathGeometry {
     }
 
     fun contains(path: Path, point: Offset): Boolean {
-        val b = path.getBounds()
-        return point.x >= b.left && point.x <= b.right && point.y >= b.top && point.y <= b.bottom
+        val bounds = path.getBounds()
+        if (!bounds.contains(point)) return false
+        val region = android.graphics.Region()
+        val clip = android.graphics.Region(
+            bounds.left.toInt(), bounds.top.toInt(),
+            kotlin.math.ceil(bounds.right).toInt(), kotlin.math.ceil(bounds.bottom).toInt(),
+        )
+        region.setPath(path.asAndroidPath(), clip)
+        return region.contains(point.x.toInt(), point.y.toInt())
     }
 
     fun hitTest(region: PathRegion, point: Offset, width: Float, height: Float): Boolean =

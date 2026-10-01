@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ironlog.app.R
@@ -28,7 +30,14 @@ fun MuscleHeatmap(scores: Map<String, Int>, muscleNames: Map<String, String> = e
             FilterChip(view == BodyView.BACK, { view = BodyView.BACK }, { Text(stringResource(R.string.heatmap_body_back)) })
         }
         val description = stringResource(R.string.heatmap_accessibility_description)
-        Canvas(Modifier.fillMaxWidth().aspectRatio(0.5f).semantics { contentDescription = description }) {
+        Canvas(Modifier.fillMaxWidth().aspectRatio(0.5f).semantics { contentDescription = description }.pointerInput(view, regions) {
+            detectTapGestures { point ->
+                regions.asReversed().firstOrNull { PathGeometry.hitTest(it, point, size.width.toFloat(), size.height.toFloat()) }?.let {
+                    selected = it.canonicalMuscleId
+                    onRegionClick(it.canonicalMuscleId)
+                }
+            }
+        }) {
             val scale = minOf(size.width / MusclePathTable.VIEW_BOX_WIDTH, size.height / MusclePathTable.VIEW_BOX_HEIGHT)
             val dx = (size.width - MusclePathTable.VIEW_BOX_WIDTH * scale) / 2f
             val dy = (size.height - MusclePathTable.VIEW_BOX_HEIGHT * scale) / 2f
