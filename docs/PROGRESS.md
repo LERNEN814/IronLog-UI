@@ -11,7 +11,7 @@
 
 | 任务 | 状态 | 提交 | 备注 |
 |------|------|------|------|
-| HM-1 post-M6 heatmap | [x] | pending | Canvas + PathParser；保留 M6 完成记录；最终修复提交见 IMPLEMENTATION_LOG |
+| HM-1 post-M6 heatmap | [x] | 99b134d | Canvas + PathParser；API 35 emulator 360/411dp 前后视证据已采集 |
 
 | 任务 | 状态 | 提交 | 备注 |
 |------|------|------|------|
