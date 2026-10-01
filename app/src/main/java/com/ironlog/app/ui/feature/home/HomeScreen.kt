@@ -142,7 +142,6 @@ fun HomeScreen(
             HeatmapCard(
                 muscleNames = state.muscleNames,
                 heatmap = state.heatmap,
-                selectedMuscle = state.selectedMuscle,
                 onMuscleSelected = onMuscleSelected,
                 onBodyViewSelected = onBodyViewSelected,
             )
@@ -203,7 +202,6 @@ private fun StatCell(label: String, value: String) {
 private fun HeatmapCard(
     muscleNames: Map<String, String>,
     heatmap: HeatmapState,
-    selectedMuscle: String?,
     onMuscleSelected: (String?) -> Unit,
     onBodyViewSelected: (BodyView) -> Unit,
 ) {
@@ -229,14 +227,17 @@ private fun HeatmapCard(
             }
             if (heatmap is HeatmapState.Ready) {
                 MuscleHeatmap(
-                    model = heatmap.model.copy(selectedMuscleId = selectedMuscle),
+                    model = heatmap.model,
                     muscleNames = muscleNames,
                     onViewChange = onBodyViewSelected,
-                    onRegionClick = { muscleId -> onMuscleSelected(if (selectedMuscle == muscleId) null else muscleId) },
+                    onRegionClick = { muscleId ->
+                        onMuscleSelected(if (heatmap.model.selectedMuscleId == muscleId) null else muscleId)
+                    },
                 )
             }
-            val selected = if (heatmap is HeatmapState.Ready) selectedMuscle else null
-            if (selected != null && heatmap is HeatmapState.Ready) {
+            val readyHeatmap = heatmap as? HeatmapState.Ready
+            val selected = readyHeatmap?.model?.selectedMuscleId
+            if (selected != null) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -246,7 +247,7 @@ private fun HeatmapCard(
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
-                        text = stringResource(R.string.heatmap_stimulus, heatmap.model.scores[selected] ?: 0),
+                        text = stringResource(R.string.heatmap_stimulus, readyHeatmap.model.scores[selected] ?: 0),
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }

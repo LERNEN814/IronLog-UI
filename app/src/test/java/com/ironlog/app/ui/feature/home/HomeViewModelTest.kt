@@ -128,4 +128,31 @@ class HomeViewModelTest {
         val state = viewModel.uiState.first { it.weekStats.sessionCount == 4 }
         assertThat(state.weekStats.workSetCount).isEqualTo(33)
     }
+
+    @Test
+    fun selectingAndChangingViewUpdatesOnlyReadyRenderModel() = runTest(dispatcher) {
+        fatigueRepository.result = mapOf("chest" to 50, "upper_back" to 20)
+        val viewModel = createViewModel(FakeWorkoutRepository(), FixedClock(0L))
+        viewModel.uiState.first { it.heatmap is HeatmapState.Ready }
+
+        viewModel.onMuscleSelected("chest")
+        assertThat((viewModel.uiState.value.heatmap as HeatmapState.Ready).model.selectedMuscleId)
+            .isEqualTo("chest")
+
+        viewModel.onBodyViewSelected(BodyView.BACK)
+        val model = (viewModel.uiState.value.heatmap as HeatmapState.Ready).model
+        assertThat(model.view).isEqualTo(BodyView.BACK)
+        assertThat(model.selectedMuscleId).isNull()
+    }
+
+    @Test
+    fun invalidSelectionDoesNotEnterRenderModel() = runTest(dispatcher) {
+        fatigueRepository.result = mapOf("chest" to 50)
+        val viewModel = createViewModel(FakeWorkoutRepository(), FixedClock(0L))
+        viewModel.uiState.first { it.heatmap is HeatmapState.Ready }
+
+        viewModel.onMuscleSelected("lats")
+
+        assertThat((viewModel.uiState.value.heatmap as HeatmapState.Ready).model.selectedMuscleId).isNull()
+    }
 }

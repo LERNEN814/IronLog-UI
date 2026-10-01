@@ -14,11 +14,13 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.clipToBounds
 import com.ironlog.app.R
 import com.ironlog.app.ui.theme.IronLogTheme
 
@@ -33,10 +35,11 @@ fun MuscleHeatmap(model: HeatmapRenderModel, muscleNames: Map<String, String> = 
             FilterChip(view == BodyView.FRONT, { onViewChange(BodyView.FRONT) }, { Text(stringResource(R.string.heatmap_body_front)) })
             FilterChip(view == BodyView.BACK, { onViewChange(BodyView.BACK) }, { Text(stringResource(R.string.heatmap_body_back)) })
         }
-        val description = stringResource(R.string.heatmap_accessibility_description)
         Column(Modifier.fillMaxWidth().aspectRatio(0.5f)) {
-        Box(Modifier.fillMaxWidth().weight(1f)) {
-        Canvas(Modifier.fillMaxSize().semantics { contentDescription = description }.pointerInput(view, regions) {
+        BoxWithConstraints(Modifier.fillMaxWidth().weight(1f).clipToBounds()) {
+        val overlayWidth = maxWidth
+        val overlayHeight = overlayWidth / 0.5f
+        Canvas(Modifier.fillMaxSize().clearAndSetSemantics { }.pointerInput(view, regions) {
             detectTapGestures { point ->
                 regions.asReversed().firstOrNull { it.interactive && PathGeometry.hitTest(it, point, size.width.toFloat(), size.height.toFloat()) }?.let {
                     onRegionClick(it.canonicalMuscleId)
@@ -54,7 +57,20 @@ fun MuscleHeatmap(model: HeatmapRenderModel, muscleNames: Map<String, String> = 
             val label = muscleNames[region.canonicalMuscleId] ?: region.canonicalMuscleId
             val score = scores[region.canonicalMuscleId] ?: 0
             val regionDescription = stringResource(R.string.heatmap_region_description, label, score)
-            Box(Modifier.matchParentSize().semantics { contentDescription = regionDescription; role = Role.Button }.clickable { onRegionClick(region.canonicalMuscleId) })
+            val bounds = PathGeometry.safeTransform(region, overlayWidth.value * 10f, overlayHeight.value * 10f)?.getBounds()
+            if (bounds != null) {
+                Box(
+                    Modifier
+                        .offset((bounds.left / 10f).dp, (bounds.top / 10f).dp)
+                        .size(
+                            width = (bounds.width / 10f).coerceAtLeast(48f).dp,
+                            height = (bounds.height / 10f).coerceAtLeast(48f).dp,
+                        )
+                        .clipToBounds()
+                        .semantics { contentDescription = regionDescription; role = Role.Button }
+                        .clickable { onRegionClick(region.canonicalMuscleId) },
+                )
+            }
         }
         }
         }

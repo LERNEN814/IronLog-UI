@@ -32,7 +32,6 @@ data class HomeUiState(
     val recentSessions: List<SessionHeader> = emptyList(),
     val fatigueScores: Map<String, Int> = emptyMap(),
     val muscleNames: Map<String, String> = emptyMap(),
-    val selectedMuscle: String? = null,
     val heatmap: HeatmapState = HeatmapState.Loading,
 )
 
@@ -104,7 +103,15 @@ class HomeViewModel @Inject constructor(
                 it.copy(
                     fatigueScores = anatomical,
                     heatmap = if (anatomical.isEmpty() && cardio == 0) HeatmapState.Empty
-                    else HeatmapState.Ready(HeatmapRenderModel(BodyView.FRONT, anatomical, it.selectedMuscle?.takeIf { id -> id in HeatmapCanonical.ids }), cardio),
+                    else HeatmapState.Ready(
+                        HeatmapRenderModel(
+                            view = (it.heatmap as? HeatmapState.Ready)?.model?.view ?: BodyView.FRONT,
+                            scores = anatomical,
+                            selectedMuscleId = (it.heatmap as? HeatmapState.Ready)?.model?.selectedMuscleId
+                                ?.takeIf { id -> id in HeatmapCanonical.ids },
+                        ),
+                        cardio,
+                    ),
                 )
             }
         } catch (error: Exception) {
@@ -113,13 +120,26 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onMuscleSelected(muscleId: String?) {
-        _uiState.update { it.copy(selectedMuscle = muscleId?.takeIf { id -> id in HeatmapCanonical.ids }) }
+        _uiState.update { state ->
+            val selected = muscleId?.takeIf { id -> id in HeatmapCanonical.ids }
+            val heatmap = state.heatmap
+            if (heatmap is HeatmapState.Ready) {
+                state.copy(heatmap = heatmap.copy(model = heatmap.model.copy(selectedMuscleId = selected)))
+            } else {
+                state
+            }
+        }
     }
 
     fun onBodyViewSelected(view: BodyView) {
         _uiState.update { state ->
             val heatmap = state.heatmap
-            if (heatmap is HeatmapState.Ready) state.copy(heatmap = heatmap.copy(model = heatmap.model.copy(view = view))) else state
+            if (heatmap is HeatmapState.Ready) {
+                val selected = heatmap.model.selectedMuscleId?.takeIf { id ->
+                    MusclePathTable.forView(view).any { it.interactive && it.canonicalMuscleId == id }
+                }
+                state.copy(heatmap = heatmap.copy(model = heatmap.model.copy(view = view, selectedMuscleId = selected)))
+            } else state
         }
     }
 

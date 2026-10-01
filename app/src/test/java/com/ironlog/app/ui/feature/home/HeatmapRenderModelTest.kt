@@ -10,4 +10,10 @@ class HeatmapRenderModelTest {
         assertThat(model.scores["lats"]).isEqualTo(72)
         assertThat(model.selectedMuscleId).isEqualTo("lats")
     }
+
+    @Test fun viewSelectionClearsMuscleNotVisibleOnTargetView() {
+        val selected = "chest"
+        val back = MusclePathTable.forView(BodyView.BACK)
+        assertThat(back.any { it.interactive && it.canonicalMuscleId == selected }).isFalse()
+    }
 }
