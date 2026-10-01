@@ -15,9 +15,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.clickable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.clipToBounds
@@ -67,8 +67,14 @@ fun MuscleHeatmap(model: HeatmapRenderModel, muscleNames: Map<String, String> = 
                             height = (bounds.height / 10f).coerceAtLeast(48f).dp,
                         )
                         .clipToBounds()
-                        .semantics { contentDescription = regionDescription; role = Role.Button }
-                        .clickable { onRegionClick(region.canonicalMuscleId) },
+                        .semantics {
+                            contentDescription = regionDescription
+                            role = Role.Button
+                            onClick {
+                                onRegionClick(region.canonicalMuscleId)
+                                true
+                            }
+                        },
                 )
             }
         }

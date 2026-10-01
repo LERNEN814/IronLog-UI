@@ -93,7 +93,12 @@ fun HomeScreen(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(Dimens.ScreenPadding),
+        contentPadding = PaddingValues(
+            start = Dimens.ScreenPadding,
+            top = Dimens.ScreenPadding,
+            end = Dimens.ScreenPadding,
+            bottom = Dimens.TouchTarget + Dimens.ScreenPadding,
+        ),
         verticalArrangement = Arrangement.spacedBy(Dimens.SectionGap),
     ) {
         item {
