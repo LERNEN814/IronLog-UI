@@ -12,17 +12,21 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ironlog.app.R
 import com.ironlog.app.ui.theme.IronLogTheme
 
 @Composable
-fun MuscleHeatmap(scores: Map<String, Int>, muscleNames: Map<String, String> = emptyMap(), modifier: Modifier = Modifier, onRegionClick: (String) -> Unit = {}) {
-    var view by remember { mutableStateOf(BodyView.FRONT) }
-    var selected by remember { mutableStateOf<String?>(null) }
+fun MuscleHeatmap(model: HeatmapRenderModel, muscleNames: Map<String, String> = emptyMap(), modifier: Modifier = Modifier, onRegionClick: (String) -> Unit = {}) {
+    var view by remember(model.view) { mutableStateOf(model.view) }
+    val selected = model.selectedMuscleId
+    val scores = model.scores
     val regions = remember(view) { MusclePathTable.forView(view) }
     Column(modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -30,10 +34,10 @@ fun MuscleHeatmap(scores: Map<String, Int>, muscleNames: Map<String, String> = e
             FilterChip(view == BodyView.BACK, { view = BodyView.BACK }, { Text(stringResource(R.string.heatmap_body_back)) })
         }
         val description = stringResource(R.string.heatmap_accessibility_description)
-        Canvas(Modifier.fillMaxWidth().aspectRatio(0.5f).semantics { contentDescription = description }.pointerInput(view, regions) {
+        Column(Modifier.fillMaxWidth().aspectRatio(0.5f)) {
+        Canvas(Modifier.fillMaxWidth().weight(1f).semantics { contentDescription = description }.pointerInput(view, regions) {
             detectTapGestures { point ->
-                regions.asReversed().firstOrNull { PathGeometry.hitTest(it, point, size.width.toFloat(), size.height.toFloat()) }?.let {
-                    selected = it.canonicalMuscleId
+                regions.asReversed().firstOrNull { it.interactive && PathGeometry.hitTest(it, point, size.width.toFloat(), size.height.toFloat()) }?.let {
                     onRegionClick(it.canonicalMuscleId)
                 }
             }
@@ -47,6 +51,18 @@ fun MuscleHeatmap(scores: Map<String, Int>, muscleNames: Map<String, String> = e
                 drawPath(path, HeatmapColors.colorFor(scores[region.canonicalMuscleId] ?: 0))
                 drawPath(path, if (selected == region.canonicalMuscleId) Color.White else Color(0xFF5F6368), style = Stroke(if (selected == region.canonicalMuscleId) 3f else 1f, cap = StrokeCap.Round))
             }
+        }
+        }
+        regions.filter { it.interactive }.distinctBy { it.canonicalMuscleId }.forEach { region ->
+            val label = muscleNames[region.canonicalMuscleId] ?: region.canonicalMuscleId
+            val score = scores[region.canonicalMuscleId] ?: 0
+            val regionDescription = stringResource(R.string.heatmap_region_description, label, score)
+            androidx.compose.foundation.layout.Spacer(
+                Modifier.size(48.dp).semantics {
+                    contentDescription = regionDescription
+                    role = Role.Button
+                }.clickable { onRegionClick(region.canonicalMuscleId) },
+            )
         }
         selected?.let { Text(stringResource(R.string.heatmap_stimulus, scores[it] ?: 0), style = MaterialTheme.typography.bodyMedium) }
         HeatmapLegend()
@@ -62,4 +78,4 @@ fun MuscleHeatmap(scores: Map<String, Int>, muscleNames: Map<String, String> = e
 }
 
 @Preview(showBackground = true)
-@Composable private fun MuscleHeatmapPreview() { IronLogTheme { MuscleHeatmap(mapOf("chest" to 50, "quads" to 75), modifier = Modifier.padding(16.dp)) } }
+@Composable private fun MuscleHeatmapPreview() { IronLogTheme { MuscleHeatmap(HeatmapRenderModel(BodyView.FRONT, mapOf("chest" to 50, "quads" to 75)), modifier = Modifier.padding(16.dp)) } }

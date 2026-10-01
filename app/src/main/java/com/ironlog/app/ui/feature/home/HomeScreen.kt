@@ -138,7 +138,6 @@ fun HomeScreen(
         item { WeekStatsCard(state.weekStats) }
         item {
             HeatmapCard(
-                scores = state.fatigueScores,
                 muscleNames = state.muscleNames,
                 heatmap = state.heatmap,
                 selectedMuscle = state.selectedMuscle,
@@ -199,7 +198,6 @@ private fun StatCell(label: String, value: String) {
 
 @Composable
 private fun HeatmapCard(
-    scores: Map<String, Int>,
     muscleNames: Map<String, String>,
     heatmap: HeatmapState,
     selectedMuscle: String?,
@@ -225,15 +223,15 @@ private fun HeatmapCard(
                 is HeatmapState.Error -> Text(stringResource(R.string.heatmap_error))
                 is HeatmapState.Ready -> if (heatmap.cardioScore > 0) Text(stringResource(R.string.heatmap_cardio, heatmap.cardioScore))
             }
-            MuscleHeatmap(
-                scores = scores,
-                muscleNames = muscleNames,
-                onRegionClick = { muscleId ->
-                    onMuscleSelected(if (selectedMuscle == muscleId) null else muscleId)
-                },
-            )
-            val selected = selectedMuscle
-            if (selected != null) {
+            if (heatmap is HeatmapState.Ready) {
+                MuscleHeatmap(
+                    model = heatmap.model.copy(selectedMuscleId = selectedMuscle),
+                    muscleNames = muscleNames,
+                    onRegionClick = { muscleId -> onMuscleSelected(if (selectedMuscle == muscleId) null else muscleId) },
+                )
+            }
+            val selected = if (heatmap is HeatmapState.Ready) selectedMuscle else null
+            if (selected != null && heatmap is HeatmapState.Ready) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -243,7 +241,7 @@ private fun HeatmapCard(
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
-                        text = stringResource(R.string.heatmap_stimulus, scores[selected] ?: 0),
+                        text = stringResource(R.string.heatmap_stimulus, heatmap.model.scores[selected] ?: 0),
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }

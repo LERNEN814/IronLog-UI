@@ -27,10 +27,8 @@ internal object PathGeometry {
         val scale = minOf(width / MusclePathTable.VIEW_BOX_WIDTH, height / MusclePathTable.VIEW_BOX_HEIGHT)
         val dx = (width - MusclePathTable.VIEW_BOX_WIDTH * scale) / 2f
         val dy = (height - MusclePathTable.VIEW_BOX_HEIGHT * scale) / 2f
-        return Path().also { out ->
-            out.addPath(source)
-            out.translate(Offset(dx, dy))
-            out.transform(androidx.compose.ui.graphics.Matrix().apply { scale(scale, scale) })
+        return Path().also { out -> out.addPath(source) }.apply {
+            transform(androidx.compose.ui.graphics.Matrix().apply { translate(dx, dy); scale(scale, scale) })
         }
     }
 

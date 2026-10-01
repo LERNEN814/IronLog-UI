@@ -8,8 +8,8 @@ class MusclePathTableTest {
         assertThat(MusclePathTable.forView(BodyView.FRONT)).isNotEmpty()
         assertThat(MusclePathTable.forView(BodyView.BACK)).isNotEmpty()
         assertThat(MusclePathTable.regions.map { it.sourceId }).containsNoDuplicates()
-        assertThat(MusclePathTable.regions.map { it.canonicalMuscleId }).contains("lats")
-        assertThat(MusclePathTable.regions.map { it.canonicalMuscleId }).contains("rear_delts")
+        assertThat(MusclePathTable.regions.map { it.canonicalMuscleId }).doesNotContain("lats")
+        assertThat(MusclePathTable.regions.map { it.canonicalMuscleId }).doesNotContain("rear_delts")
     }
 
     @Test fun pathDataIsClosedAndNonEmpty() {

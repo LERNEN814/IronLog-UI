@@ -23,6 +23,7 @@ data class PathRegion(
     val pathData: String,
     val zIndex: Int,
     val neutral: Boolean = false,
+    val interactive: Boolean = true,
 )
 
 enum class RegionSide { LEFT, RIGHT, CENTER }
