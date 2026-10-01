@@ -1,6 +1,7 @@
 package com.ironlog.app.ui.feature.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,13 +12,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -42,6 +44,8 @@ import com.ironlog.app.ui.components.SessionCard
 import com.ironlog.app.ui.theme.Dimens
 import com.ironlog.app.ui.theme.IronLogTheme
 import com.ironlog.app.ui.theme.regionColor
+import com.ironlog.app.ui.theme.IronGlassSurface
+import com.ironlog.app.ui.theme.IronEffects
 import kotlinx.coroutines.delay
 
 @Composable
@@ -88,48 +92,64 @@ fun HomeScreen(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(Dimens.ScreenPadding),
-        verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
+        verticalArrangement = Arrangement.spacedBy(Dimens.SectionGap),
     ) {
         item {
-            Text(
-                text = stringResource(R.string.home_greeting),
-                style = MaterialTheme.typography.headlineMedium,
-            )
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(text = stringResource(R.string.home_greeting), style = MaterialTheme.typography.headlineMedium)
+                Text(
+                    text = stringResource(R.string.home_training_types),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
         item {
             Button(
                 onClick = onPrimaryAction,
                 modifier = Modifier.fillMaxWidth().height(72.dp),
-                shape = MaterialTheme.shapes.large,
+                shape = RoundedCornerShape(Dimens.CardCorner),
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
                     val label = if (state.primaryAction == HomePrimaryAction.RESUME) {
                         stringResource(R.string.home_continue_workout, DurationText.mmss(state.elapsedSeconds))
                     } else {
                         stringResource(R.string.home_start_workout)
                     }
-                    Text(text = label, style = MaterialTheme.typography.titleMedium)
                     Text(
-                        text = stringResource(R.string.home_training_types),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
+                        text = label,
+                        style = MaterialTheme.typography.titleLarge,
                     )
+                    Text(text = stringResource(R.string.home_action_hint), style = MaterialTheme.typography.labelMedium)
                 }
             }
+        }
+        item {
+            SectionHeader(
+                title = stringResource(R.string.home_week_title),
+                action = stringResource(R.string.home_view_history),
+                onAction = onOpenHistory,
+            )
         }
         item { WeekStatsCard(state.weekStats) }
         item {
             HeatmapCard(
                 scores = state.fatigueScores,
                 muscleNames = state.muscleNames,
+                heatmap = state.heatmap,
                 selectedMuscle = state.selectedMuscle,
                 onMuscleSelected = onMuscleSelected,
             )
         }
         item {
-            Text(
-                text = stringResource(R.string.home_recent_title),
-                style = MaterialTheme.typography.titleMedium,
+            SectionHeader(
+                title = stringResource(R.string.home_recent_title),
+                action = stringResource(R.string.home_view_history),
+                onAction = onOpenHistory,
             )
         }
         if (state.recentSessions.isEmpty()) {
@@ -149,7 +169,12 @@ fun HomeScreen(
 
 @Composable
 private fun WeekStatsCard(stats: WeekStats) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    IronGlassSurface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(Dimens.CardCorner),
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.52f),
+        shadowElevation = IronEffects.RaisedElevation,
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -176,10 +201,16 @@ private fun StatCell(label: String, value: String) {
 private fun HeatmapCard(
     scores: Map<String, Int>,
     muscleNames: Map<String, String>,
+    heatmap: HeatmapState,
     selectedMuscle: String?,
     onMuscleSelected: (String?) -> Unit,
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    IronGlassSurface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(Dimens.CardCorner),
+        color = MaterialTheme.colorScheme.surface,
+        shadowElevation = IronEffects.RaisedElevation,
+    ) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
             verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -188,8 +219,15 @@ private fun HeatmapCard(
                 text = stringResource(R.string.home_heatmap_title),
                 style = MaterialTheme.typography.titleMedium,
             )
+            when (heatmap) {
+                HeatmapState.Loading -> Text(stringResource(R.string.heatmap_loading))
+                HeatmapState.Empty -> Text(stringResource(R.string.heatmap_empty))
+                is HeatmapState.Error -> Text(stringResource(R.string.heatmap_error))
+                is HeatmapState.Ready -> if (heatmap.cardioScore > 0) Text(stringResource(R.string.heatmap_cardio, heatmap.cardioScore))
+            }
             MuscleHeatmap(
                 scores = scores,
+                muscleNames = muscleNames,
                 onRegionClick = { muscleId ->
                     onMuscleSelected(if (selectedMuscle == muscleId) null else muscleId)
                 },
@@ -211,6 +249,27 @@ private fun HeatmapCard(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun SectionHeader(title: String, action: String, onAction: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(text = title, style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = action,
+            modifier = Modifier
+                .heightIn(min = Dimens.TouchTarget)
+                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(50))
+                .clickable(onClick = onAction)
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary,
+        )
     }
 }
 

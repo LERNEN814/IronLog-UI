@@ -33,6 +33,7 @@ data class HomeUiState(
     val fatigueScores: Map<String, Int> = emptyMap(),
     val muscleNames: Map<String, String> = emptyMap(),
     val selectedMuscle: String? = null,
+    val heatmap: HeatmapState = HeatmapState.Loading,
 )
 
 sealed interface HomeEvent {
@@ -95,8 +96,20 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun loadFatigue() {
-        val scores = fatigueRepository.scores(clock.nowMillis())
-        _uiState.update { it.copy(fatigueScores = scores) }
+        try {
+            val scores = fatigueRepository.scores(clock.nowMillis())
+            val cardio = scores["cardio"] ?: 0
+            val anatomical = scores - "cardio"
+            _uiState.update {
+                it.copy(
+                    fatigueScores = anatomical,
+                    heatmap = if (anatomical.isEmpty() && cardio == 0) HeatmapState.Empty
+                    else HeatmapState.Ready(HeatmapRenderModel(BodyView.FRONT, anatomical, it.selectedMuscle), cardio),
+                )
+            }
+        } catch (error: Exception) {
+            _uiState.update { it.copy(fatigueScores = emptyMap(), heatmap = HeatmapState.Error(error.message)) }
+        }
     }
 
     fun onMuscleSelected(muscleId: String?) {

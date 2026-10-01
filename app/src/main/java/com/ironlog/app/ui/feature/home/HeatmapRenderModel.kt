@@ -8,6 +8,13 @@ data class HeatmapRenderModel(
     val selectedMuscleId: String? = null,
 )
 
+sealed interface HeatmapState {
+    data object Loading : HeatmapState
+    data object Empty : HeatmapState
+    data class Ready(val model: HeatmapRenderModel, val cardioScore: Int = 0) : HeatmapState
+    data class Error(val message: String? = null) : HeatmapState
+}
+
 data class PathRegion(
     val sourceId: String,
     val canonicalMuscleId: String,
