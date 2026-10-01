@@ -8,6 +8,10 @@ data class HeatmapRenderModel(
     val selectedMuscleId: String? = null,
 )
 
+object HeatmapCanonical {
+    val ids = setOf("chest", "upper_back", "lower_back", "front_delts", "biceps", "triceps", "forearms", "quads", "hamstrings", "glutes", "calves", "abs")
+}
+
 sealed interface HeatmapState {
     data object Loading : HeatmapState
     data object Empty : HeatmapState

@@ -19,4 +19,15 @@ class MusclePathTableTest {
             assertThat(region.pathData.length).isGreaterThan(12)
         }
     }
+
+    @Test fun invalidPathFallsBackWithoutThrowing() {
+        val invalid = PathRegion("bad", "chest", RegionSide.CENTER, BodyView.FRONT, "broken", 0)
+        assertThat(PathGeometry.parse(invalid)).isNull()
+        assertThat(PathGeometry.hitTest(invalid, androidx.compose.ui.geometry.Offset(10f, 10f), 360f, 720f)).isFalse()
+    }
+
+    @Test fun unresolvedRegionsAreAbsentFromInteractiveTable() {
+        assertThat(MusclePathTable.regions.filter { it.interactive }.map { it.canonicalMuscleId })
+            .containsNoneOf("lats", "rear_delts", "head")
+    }
 }

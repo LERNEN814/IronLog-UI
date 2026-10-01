@@ -23,46 +23,40 @@ import com.ironlog.app.R
 import com.ironlog.app.ui.theme.IronLogTheme
 
 @Composable
-fun MuscleHeatmap(model: HeatmapRenderModel, muscleNames: Map<String, String> = emptyMap(), modifier: Modifier = Modifier, onRegionClick: (String) -> Unit = {}) {
-    var view by remember(model.view) { mutableStateOf(model.view) }
+fun MuscleHeatmap(model: HeatmapRenderModel, muscleNames: Map<String, String> = emptyMap(), modifier: Modifier = Modifier, onRegionClick: (String) -> Unit = {}, onViewChange: (BodyView) -> Unit = {}) {
+    val view = model.view
     val selected = model.selectedMuscleId
     val scores = model.scores
     val regions = remember(view) { MusclePathTable.forView(view) }
     Column(modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FilterChip(view == BodyView.FRONT, { view = BodyView.FRONT }, { Text(stringResource(R.string.heatmap_body_front)) })
-            FilterChip(view == BodyView.BACK, { view = BodyView.BACK }, { Text(stringResource(R.string.heatmap_body_back)) })
+            FilterChip(view == BodyView.FRONT, { onViewChange(BodyView.FRONT) }, { Text(stringResource(R.string.heatmap_body_front)) })
+            FilterChip(view == BodyView.BACK, { onViewChange(BodyView.BACK) }, { Text(stringResource(R.string.heatmap_body_back)) })
         }
         val description = stringResource(R.string.heatmap_accessibility_description)
         Column(Modifier.fillMaxWidth().aspectRatio(0.5f)) {
-        Canvas(Modifier.fillMaxWidth().weight(1f).semantics { contentDescription = description }.pointerInput(view, regions) {
+        Box(Modifier.fillMaxWidth().weight(1f)) {
+        Canvas(Modifier.fillMaxSize().semantics { contentDescription = description }.pointerInput(view, regions) {
             detectTapGestures { point ->
                 regions.asReversed().firstOrNull { it.interactive && PathGeometry.hitTest(it, point, size.width.toFloat(), size.height.toFloat()) }?.let {
                     onRegionClick(it.canonicalMuscleId)
                 }
             }
         }) {
-            val scale = minOf(size.width / MusclePathTable.VIEW_BOX_WIDTH, size.height / MusclePathTable.VIEW_BOX_HEIGHT)
-            val dx = (size.width - MusclePathTable.VIEW_BOX_WIDTH * scale) / 2f
-            val dy = (size.height - MusclePathTable.VIEW_BOX_HEIGHT * scale) / 2f
             regions.forEach { region ->
-                val path = PathGeometry.parse(region)
-                path.transform(androidx.compose.ui.graphics.Matrix().apply { scale(scale, scale); translate(dx / scale, dy / scale) })
-                drawPath(path, HeatmapColors.colorFor(scores[region.canonicalMuscleId] ?: 0))
-                drawPath(path, if (selected == region.canonicalMuscleId) Color.White else Color(0xFF5F6368), style = Stroke(if (selected == region.canonicalMuscleId) 3f else 1f, cap = StrokeCap.Round))
+                PathGeometry.safeTransform(region, size.width, size.height)?.let { path ->
+                    drawPath(path, HeatmapColors.colorFor(scores[region.canonicalMuscleId] ?: 0))
+                    drawPath(path, if (selected == region.canonicalMuscleId) Color.White else Color(0xFF5F6368), style = Stroke(if (selected == region.canonicalMuscleId) 3f else 1f, cap = StrokeCap.Round))
+                }
             }
-        }
         }
         regions.filter { it.interactive }.distinctBy { it.canonicalMuscleId }.forEach { region ->
             val label = muscleNames[region.canonicalMuscleId] ?: region.canonicalMuscleId
             val score = scores[region.canonicalMuscleId] ?: 0
             val regionDescription = stringResource(R.string.heatmap_region_description, label, score)
-            androidx.compose.foundation.layout.Spacer(
-                Modifier.size(48.dp).semantics {
-                    contentDescription = regionDescription
-                    role = Role.Button
-                }.clickable { onRegionClick(region.canonicalMuscleId) },
-            )
+            Box(Modifier.matchParentSize().semantics { contentDescription = regionDescription; role = Role.Button }.clickable { onRegionClick(region.canonicalMuscleId) })
+        }
+        }
         }
         selected?.let { Text(stringResource(R.string.heatmap_stimulus, scores[it] ?: 0), style = MaterialTheme.typography.bodyMedium) }
         HeatmapLegend()

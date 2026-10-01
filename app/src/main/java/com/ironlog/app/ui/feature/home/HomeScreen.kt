@@ -79,6 +79,7 @@ fun HomeScreenRoute(
         onPrimaryAction = viewModel::onPrimaryAction,
         onOpenHistory = onOpenHistory,
         onMuscleSelected = viewModel::onMuscleSelected,
+        onBodyViewSelected = viewModel::onBodyViewSelected,
     )
 }
 
@@ -88,6 +89,7 @@ fun HomeScreen(
     onPrimaryAction: () -> Unit,
     onOpenHistory: () -> Unit,
     onMuscleSelected: (String?) -> Unit,
+    onBodyViewSelected: (BodyView) -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -142,6 +144,7 @@ fun HomeScreen(
                 heatmap = state.heatmap,
                 selectedMuscle = state.selectedMuscle,
                 onMuscleSelected = onMuscleSelected,
+                onBodyViewSelected = onBodyViewSelected,
             )
         }
         item {
@@ -202,6 +205,7 @@ private fun HeatmapCard(
     heatmap: HeatmapState,
     selectedMuscle: String?,
     onMuscleSelected: (String?) -> Unit,
+    onBodyViewSelected: (BodyView) -> Unit,
 ) {
     IronGlassSurface(
         modifier = Modifier.fillMaxWidth(),
@@ -227,6 +231,7 @@ private fun HeatmapCard(
                 MuscleHeatmap(
                     model = heatmap.model.copy(selectedMuscleId = selectedMuscle),
                     muscleNames = muscleNames,
+                    onViewChange = onBodyViewSelected,
                     onRegionClick = { muscleId -> onMuscleSelected(if (selectedMuscle == muscleId) null else muscleId) },
                 )
             }

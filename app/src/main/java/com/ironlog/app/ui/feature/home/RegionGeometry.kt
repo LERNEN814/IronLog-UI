@@ -21,7 +21,7 @@ object RegionGeometry {
 }
 
 internal object PathGeometry {
-    fun parse(region: PathRegion): Path = PathParser().parsePathString(region.pathData).toPath()
+    fun parse(region: PathRegion): Path? = runCatching { PathParser().parsePathString(region.pathData).toPath() }.getOrNull()
 
     fun transform(source: Path, width: Float, height: Float): Path {
         val scale = minOf(width / MusclePathTable.VIEW_BOX_WIDTH, height / MusclePathTable.VIEW_BOX_HEIGHT)
@@ -44,6 +44,8 @@ internal object PathGeometry {
         return region.contains(point.x.toInt(), point.y.toInt())
     }
 
+    fun safeTransform(region: PathRegion, width: Float, height: Float): Path? = parse(region)?.let { transform(it, width, height) }
+
     fun hitTest(region: PathRegion, point: Offset, width: Float, height: Float): Boolean =
-        contains(transform(parse(region), width, height), point)
+        safeTransform(region, width, height)?.let { contains(it, point) } == true
 }

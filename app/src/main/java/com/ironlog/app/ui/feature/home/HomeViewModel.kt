@@ -99,12 +99,12 @@ class HomeViewModel @Inject constructor(
         try {
             val scores = fatigueRepository.scores(clock.nowMillis())
             val cardio = scores["cardio"] ?: 0
-            val anatomical = scores - "cardio"
+            val anatomical = (scores - "cardio").filterKeys { it in HeatmapCanonical.ids }
             _uiState.update {
                 it.copy(
                     fatigueScores = anatomical,
                     heatmap = if (anatomical.isEmpty() && cardio == 0) HeatmapState.Empty
-                    else HeatmapState.Ready(HeatmapRenderModel(BodyView.FRONT, anatomical, it.selectedMuscle), cardio),
+                    else HeatmapState.Ready(HeatmapRenderModel(BodyView.FRONT, anatomical, it.selectedMuscle?.takeIf { id -> id in HeatmapCanonical.ids }), cardio),
                 )
             }
         } catch (error: Exception) {
@@ -113,7 +113,14 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onMuscleSelected(muscleId: String?) {
-        _uiState.update { it.copy(selectedMuscle = muscleId) }
+        _uiState.update { it.copy(selectedMuscle = muscleId?.takeIf { id -> id in HeatmapCanonical.ids }) }
+    }
+
+    fun onBodyViewSelected(view: BodyView) {
+        _uiState.update { state ->
+            val heatmap = state.heatmap
+            if (heatmap is HeatmapState.Ready) state.copy(heatmap = heatmap.copy(model = heatmap.model.copy(view = view))) else state
+        }
     }
 
     fun onPrimaryAction() {
