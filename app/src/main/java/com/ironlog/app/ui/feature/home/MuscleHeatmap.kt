@@ -36,7 +36,7 @@ fun MuscleHeatmap(model: HeatmapRenderModel, muscleNames: Map<String, String> = 
             FilterChip(view == BodyView.BACK, { onViewChange(BodyView.BACK) }, { Text(stringResource(R.string.heatmap_body_back)) })
         }
         Column(Modifier.fillMaxWidth().aspectRatio(0.5f)) {
-        BoxWithConstraints(Modifier.fillMaxWidth().weight(1f).clipToBounds()) {
+        BoxWithConstraints(Modifier.fillMaxWidth().weight(1f)) {
         val overlayWidth = maxWidth
         val overlayHeight = overlayWidth / 0.5f
         Canvas(Modifier.fillMaxSize().clearAndSetSemantics { }.pointerInput(view, regions) {
@@ -59,12 +59,22 @@ fun MuscleHeatmap(model: HeatmapRenderModel, muscleNames: Map<String, String> = 
             val regionDescription = stringResource(R.string.heatmap_region_description, label, score)
             val bounds = PathGeometry.safeTransform(region, overlayWidth.value * 10f, overlayHeight.value * 10f)?.getBounds()
             if (bounds != null) {
+                // Keep neighboring TalkBack targets distinct while preserving a generous touch area.
+                val targetWidth = (bounds.width / 10f).coerceIn(48f, 96f)
+                val targetHeight = (bounds.height / 10f).coerceIn(48f, 96f)
+                val targetLeft = ((bounds.center.x / 10f) - targetWidth / 2f)
+                    .coerceIn(0f, (overlayWidth.value - targetWidth).coerceAtLeast(0f))
+                val targetTop = ((bounds.center.y / 10f) - targetHeight / 2f)
+                    .coerceIn(0f, (overlayHeight.value - targetHeight).coerceAtLeast(0f))
                 Box(
                     Modifier
-                        .offset((bounds.left / 10f).dp, (bounds.top / 10f).dp)
+                        .offset(
+                            targetLeft.dp,
+                            targetTop.dp,
+                        )
                         .size(
-                            width = (bounds.width / 10f).coerceAtLeast(48f).dp,
-                            height = (bounds.height / 10f).coerceAtLeast(48f).dp,
+                            width = targetWidth.dp,
+                            height = targetHeight.dp,
                         )
                         .clipToBounds()
                         .semantics {
