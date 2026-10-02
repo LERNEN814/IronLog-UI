@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -60,6 +61,8 @@ import com.ironlog.app.domain.model.Exercise
 import com.ironlog.app.domain.model.ExerciseKind
 import com.ironlog.app.domain.model.MuscleGroup
 import com.ironlog.app.ui.theme.Dimens
+import com.ironlog.app.ui.theme.IronGlassSurface
+import com.ironlog.app.ui.theme.IronEffects
 import com.ironlog.app.ui.theme.IronLogTheme
 
 @Composable
@@ -189,15 +192,20 @@ private fun ExerciseRow(
     onClick: () -> Unit,
     onDetail: () -> Unit = {},
 ) {
-    Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
+    IronGlassSurface(
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        shape = RoundedCornerShape(Dimens.SetRowCorner),
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        shadowElevation = IronEffects.RaisedElevation,
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
                 modifier = Modifier
-                    .size(56.dp)
-                    .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(16.dp)),
+                    .size(52.dp)
+                    .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(14.dp)),
                 contentAlignment = Alignment.Center,
             ) {
                 ExerciseThumbnail(exercise.id)
@@ -208,7 +216,7 @@ private fun ExerciseRow(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = exercise.nameZh, style = MaterialTheme.typography.bodyLarge)
+                Text(text = exercise.nameZh, style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.width(8.dp))
                 Text(
                     text = exercise.nameEn,
@@ -216,7 +224,7 @@ private fun ExerciseRow(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Spacer(Modifier.weight(1f))
-                TextButton(onClick = onDetail) { Text(stringResource(R.string.exercise_details)) }
+                TextButton(onClick = onDetail, modifier = Modifier.heightIn(min = Dimens.TouchTarget)) { Text(stringResource(R.string.exercise_details)) }
                 if (isRecent) {
                     Tag(text = stringResource(R.string.exercise_recent))
                 }

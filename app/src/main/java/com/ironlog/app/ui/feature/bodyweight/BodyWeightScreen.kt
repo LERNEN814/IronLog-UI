@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -39,6 +40,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ironlog.app.R
 import com.ironlog.app.core.units.UnitConverter
 import com.ironlog.app.domain.model.WeightUnit
+import com.ironlog.app.ui.theme.Dimens
+import com.ironlog.app.ui.theme.IronEffects
+import com.ironlog.app.ui.theme.IronGlassSurface
 
 @Composable
 fun BodyWeightScreenRoute(onBack: () -> Unit, viewModel: BodyWeightViewModel = hiltViewModel()) {
@@ -50,11 +54,17 @@ fun BodyWeightScreenRoute(onBack: () -> Unit, viewModel: BodyWeightViewModel = h
 fun BodyWeightScreen(state: BodyWeightUiState, onSave: (Int) -> Unit, onDelete: (String) -> Unit, onBack: () -> Unit) {
     var input by remember { mutableStateOf("") }
     Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.body_weight_title)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.action_back)) } }) }) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(Modifier.fillMaxSize().padding(padding).padding(Dimens.ScreenPadding), verticalArrangement = Arrangement.spacedBy(Dimens.SectionGap)) {
             Text(stringResource(R.string.body_weight_today, state.today), style = MaterialTheme.typography.titleMedium)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            IronGlassSurface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(Dimens.CardCorner),
+                shadowElevation = IronEffects.RaisedElevation,
+            ) {
+            Row(Modifier.fillMaxWidth().padding(Dimens.ScreenPadding), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(input, { input = it }, Modifier.weight(1f), label = { Text(stringResource(R.string.body_weight_input)) }, singleLine = true)
                 Button(onClick = { UnitConverter.parseToGrams(input, state.unit)?.let(onSave); input = "" }) { Text(stringResource(R.string.action_save)) }
+            }
             }
             BodyWeightTrend(state.entries)
             LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {

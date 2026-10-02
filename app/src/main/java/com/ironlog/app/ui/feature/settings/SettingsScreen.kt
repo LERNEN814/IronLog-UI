@@ -46,6 +46,8 @@ import com.ironlog.app.domain.model.WeightUnit
 import com.ironlog.app.platform.timer.ExactAlarmPermission
 import com.ironlog.app.ui.theme.Dimens
 import com.ironlog.app.ui.theme.IronLogTheme
+import com.ironlog.app.ui.theme.IronGlassSurface
+import com.ironlog.app.ui.theme.IronEffects
 import com.ironlog.app.ui.theme.ThemeMode
 import com.ironlog.app.ui.theme.toThemeMode
 
@@ -100,8 +102,24 @@ fun SettingsScreen(
             .padding(Dimens.ScreenPadding),
         verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
     ) {
-        Text(text = stringResource(R.string.settings_title), style = MaterialTheme.typography.titleLarge)
-        TextButton(onClick = onOpenBodyWeight) { Text(stringResource(R.string.body_weight_title)) }
+        Text(text = stringResource(R.string.settings_title), style = MaterialTheme.typography.headlineMedium)
+        IronGlassSurface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(Dimens.CardCorner),
+            shadowElevation = IronEffects.RaisedElevation,
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.body_weight_title), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.settings_body_weight_hint), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                TextButton(onClick = onOpenBodyWeight) { Text(stringResource(R.string.settings_body_weight_open)) }
+            }
+        }
         BackupSection(backupState, onExport, onImport, onConfirmImport, onDismissImport)
 
         SettingsSection(title = stringResource(R.string.settings_unit)) {
@@ -178,7 +196,15 @@ private fun BackupSection(
             Button(onClick = { exportLauncher.launch("IronLog_backup.json") }, enabled = !state.busy) { Text(stringResource(R.string.settings_backup_export)) }
             Button(onClick = { importLauncher.launch(arrayOf("application/json")) }, enabled = !state.busy) { Text(stringResource(R.string.settings_backup_import)) }
         }
-        state.message?.let { Text(it, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+        state.message?.let { message ->
+            val messageText = when (message.kind) {
+                BackupMessageKind.EXPORT_SUCCESS -> stringResource(R.string.settings_backup_export_success, message.count)
+                BackupMessageKind.EXPORT_FAILURE -> stringResource(R.string.settings_backup_export_failure)
+                BackupMessageKind.IMPORT_SUCCESS -> stringResource(R.string.settings_backup_import_success)
+                BackupMessageKind.IMPORT_FAILURE -> stringResource(R.string.settings_backup_import_failure)
+            }
+            Text(messageText, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
     }
     state.importPending?.let {
         AlertDialog(
@@ -193,7 +219,10 @@ private fun BackupSection(
 
 @Composable
 private fun SettingsSection(title: String, content: @Composable () -> Unit) {
-    Card(shape = RoundedCornerShape(Dimens.CardCorner)) {
+    IronGlassSurface(
+        shape = RoundedCornerShape(Dimens.CardCorner),
+        shadowElevation = IronEffects.RaisedElevation,
+    ) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
             verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),

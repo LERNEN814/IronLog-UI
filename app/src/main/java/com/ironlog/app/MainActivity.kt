@@ -2,12 +2,24 @@ package com.ironlog.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -45,10 +57,27 @@ class MainActivity : ComponentActivity() {
                 ThemeMode.DARK -> true
             }
             IronLogTheme(darkTheme = darkTheme) {
-                IronLogNavHost(
-                    openSessionId = openSessionId.value,
-                    onSessionOpened = { openSessionId.value = null },
-                )
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                    Surface(color = MaterialTheme.colorScheme.background) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .systemBarsPadding()
+                                .padding(24.dp),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = getString(R.string.settings_android_version_notice),
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                    }
+                } else {
+                    IronLogNavHost(
+                        openSessionId = openSessionId.value,
+                        onSessionOpened = { openSessionId.value = null },
+                    )
+                }
             }
         }
     }

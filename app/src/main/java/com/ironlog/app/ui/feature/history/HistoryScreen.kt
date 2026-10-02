@@ -2,7 +2,6 @@
 
 package com.ironlog.app.ui.feature.history
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Insights
@@ -25,6 +24,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -54,6 +54,8 @@ import com.ironlog.app.domain.summary.SessionSummary
 import com.ironlog.app.ui.components.SessionCard
 import com.ironlog.app.ui.theme.Dimens
 import com.ironlog.app.ui.theme.IronLogTheme
+import com.ironlog.app.ui.theme.IronGlassSurface
+import com.ironlog.app.ui.theme.IronEffects
 
 @Composable
 fun HistoryScreenRoute(viewModel: HistoryViewModel = hiltViewModel()) {
@@ -68,7 +70,16 @@ fun HistoryScreen(
     onSessionClicked: (String) -> Unit,
 ) {
     var selectedTab by remember { mutableStateOf(0) }
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 8.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.history_detail_title),
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(horizontal = Dimens.ScreenPadding),
+        )
         SingleChoiceSegmentedButtonRow(
             modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
         ) {
@@ -90,7 +101,7 @@ fun HistoryScreen(
         if (selectedTab == 1) {
             HistoryStats(state.sessions)
         } else if (state.sessions.isEmpty()) {
-            Box(
+                Box(
                 modifier = Modifier.fillMaxSize().padding(Dimens.ScreenPadding),
                 contentAlignment = Alignment.Center,
             ) {
@@ -123,24 +134,31 @@ private fun HistoryStats(sessions: List<SessionHeader>) {
         verticalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
     ) {
         Text(stringResource(R.string.history_stats_title), style = MaterialTheme.typography.titleLarge)
-        Row(horizontalArrangement = Arrangement.spacedBy(Dimens.CardSpacing)) {
-            StatTile(modifier = Modifier.weight(1f), value = sessions.size.toString(), label = stringResource(R.string.home_week_sessions))
-            StatTile(modifier = Modifier.weight(1f), value = totalSets.toString(), label = stringResource(R.string.home_week_sets))
-            StatTile(modifier = Modifier.weight(1f), value = totalMinutes.toString(), label = stringResource(R.string.history_minutes))
+        IronGlassSurface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(Dimens.CardCorner),
+            shadowElevation = IronEffects.RaisedElevation,
+        ) {
+            Column {
+                HistoryStatRow(value = sessions.size.toString(), label = stringResource(R.string.home_week_sessions))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.24f))
+                HistoryStatRow(value = totalSets.toString(), label = stringResource(R.string.home_week_sets))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.24f))
+                HistoryStatRow(value = totalMinutes.toString(), label = stringResource(R.string.history_minutes))
+            }
         }
     }
 }
 
 @Composable
-private fun StatTile(modifier: Modifier = Modifier, value: String, label: String) {
-    Column(
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(Dimens.CardCorner))
-            .padding(vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+private fun HistoryStatRow(value: String, label: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(value, style = MaterialTheme.typography.headlineSmall)
-        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(label, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(Modifier.weight(1f))
+        Text(value, style = MaterialTheme.typography.titleLarge)
     }
 }
 

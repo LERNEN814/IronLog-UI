@@ -10,6 +10,9 @@ import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,6 +46,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -68,6 +72,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -95,7 +100,9 @@ import com.ironlog.app.domain.model.WorkoutSession
 import com.ironlog.app.domain.model.WorkoutSet
 import com.ironlog.app.domain.summary.DurationText
 import com.ironlog.app.ui.theme.Dimens
+import com.ironlog.app.ui.theme.IronEffects
 import com.ironlog.app.ui.theme.IronLogTheme
+import com.ironlog.app.ui.theme.rememberReduceMotion
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
@@ -318,9 +325,13 @@ fun SessionScreen(
 ) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val reduceMotion = rememberReduceMotion()
     val selectedIndex = state.entries.indexOfFirst { it.entry.id == state.selectedEntryId }
     LaunchedEffect(selectedIndex) {
-        if (selectedIndex >= 0) listState.animateScrollToItem(selectedIndex)
+        if (selectedIndex >= 0) {
+            if (reduceMotion) listState.scrollToItem(selectedIndex)
+            else listState.animateScrollToItem(selectedIndex)
+        }
     }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -372,18 +383,35 @@ fun SessionScreen(
                         .fillMaxWidth()
                         .padding(Dimens.ScreenPadding),
                     horizontalArrangement = Arrangement.spacedBy(Dimens.CardSpacing),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         text = stringResource(R.string.session_progress, state.entries.count { entry -> entry.sets.any { it.set.isCompleted } }, state.entries.size),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(horizontal = Dimens.ScreenPadding),
+                        modifier = Modifier.weight(0.8f),
                     )
-                    OutlinedButton(onClick = onAddExercise, modifier = Modifier.weight(1f)) {
-                        Text(stringResource(R.string.session_add_exercise))
+                    OutlinedButton(
+                        onClick = onAddExercise,
+                        modifier = Modifier.weight(1.2f),
+                        contentPadding = PaddingValues(horizontal = 8.dp),
+                    ) {
+                        Text(
+                            text = stringResource(R.string.session_add_exercise),
+                            maxLines = 1,
+                            softWrap = false,
+                        )
                     }
-                    Button(onClick = onFinishClicked, modifier = Modifier.weight(1f)) {
-                        Text(stringResource(R.string.session_finish))
+                    Button(
+                        onClick = onFinishClicked,
+                        modifier = Modifier.weight(1.2f),
+                        contentPadding = PaddingValues(horizontal = 8.dp),
+                    ) {
+                        Text(
+                            text = stringResource(R.string.session_finish),
+                            maxLines = 1,
+                            softWrap = false,
+                        )
                     }
                 }
             }
@@ -409,7 +437,10 @@ fun SessionScreen(
                     onEntrySelected = { entryId ->
                         val index = state.entries.indexOfFirst { it.entry.id == entryId }
                         if (index >= 0) {
-                            coroutineScope.launch { listState.animateScrollToItem(index) }
+                            coroutineScope.launch {
+                                if (reduceMotion) listState.scrollToItem(index)
+                                else listState.animateScrollToItem(index)
+                            }
                         }
                     },
                     modifier = Modifier.padding(start = 8.dp, top = 12.dp, bottom = 12.dp),
@@ -424,6 +455,7 @@ fun SessionScreen(
                         EntryCard(
                             entry = entry,
                             showRirField = state.showRirField,
+                            isCurrent = entry.entry.id == state.selectedEntryId,
                             shakeSetId = shakeSetId,
                             onAddSet = { onAddSet(entry.entry.id) },
                             onDeleteEntry = { onDeleteEntry(entry.entry.id) },
@@ -444,6 +476,7 @@ fun SessionScreen(
 @Composable
 private fun ExerciseRail(entries: List<EntryUiState>, selectedEntryId: String?, onEntrySelected: (String) -> Unit, modifier: Modifier = Modifier) {
     val railState = rememberScrollState()
+    val reduceMotion = rememberReduceMotion()
     Column(
         modifier = modifier.width(72.dp).verticalScroll(railState),
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -451,22 +484,34 @@ private fun ExerciseRail(entries: List<EntryUiState>, selectedEntryId: String?, 
     ) {
         entries.forEachIndexed { index, entry ->
             val completed = entry.sets.isNotEmpty() && entry.sets.all { it.set.isCompleted }
+            val selected = entry.entry.id == selectedEntryId
+            val targetColor = when {
+                selected -> MaterialTheme.colorScheme.primary
+                completed -> MaterialTheme.colorScheme.primaryContainer
+                else -> MaterialTheme.colorScheme.surfaceVariant
+            }
+            val tileColor by animateColorAsState(
+                targetValue = targetColor,
+                animationSpec = if (reduceMotion) snap() else spring(
+                    dampingRatio = 0.82f,
+                    stiffness = 420f,
+                ),
+                label = "exercise-rail-selection",
+            )
             Box(
                 modifier = Modifier
-                    .size(56.dp)
+                    .size(Dimens.Rail)
                     .clickable { onEntrySelected(entry.entry.id) }
                     .background(
-                        if (entry.entry.id == selectedEntryId) MaterialTheme.colorScheme.primary
-                        else if (completed) MaterialTheme.colorScheme.primaryContainer
-                        else MaterialTheme.colorScheme.surfaceVariant,
-                        RoundedCornerShape(16.dp),
+                        tileColor,
+                        RoundedCornerShape(IronEffects.PrimaryCorner),
                     ),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Filled.FitnessCenter,
                     contentDescription = entry.exercise?.nameZh ?: entry.entry.exerciseId,
-                    tint = if (entry.entry.id == selectedEntryId) MaterialTheme.colorScheme.onPrimary
+                    tint = if (selected) MaterialTheme.colorScheme.onPrimary
                     else if (completed) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -486,6 +531,7 @@ private fun ExerciseRail(entries: List<EntryUiState>, selectedEntryId: String?, 
 private fun EntryCard(
     entry: EntryUiState,
     showRirField: Boolean,
+    isCurrent: Boolean,
     shakeSetId: String?,
     onAddSet: () -> Unit,
     onDeleteEntry: () -> Unit,
@@ -497,7 +543,18 @@ private fun EntryCard(
     onDeleteSet: (String) -> Unit,
 ) {
     var menuOpen by remember { mutableStateOf(false) }
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(IronEffects.PrimaryCorner),
+        border = if (isCurrent) {
+            androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+        } else {
+            null
+        },
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = if (isCurrent) IronEffects.RaisedElevation else 0.dp,
+        ),
+    ) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(Dimens.ScreenPadding),
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -614,13 +671,24 @@ private fun SetRowItem(
     } else {
         MaterialTheme.colorScheme.surface
     }
+    val reduceMotion = rememberReduceMotion()
+    val animatedBackground by animateColorAsState(
+        targetValue = background,
+        animationSpec = if (reduceMotion) snap() else spring(
+            dampingRatio = 0.82f,
+            stiffness = 420f,
+        ),
+        label = "set-completion-feedback",
+    )
     SwipeToDismissBox(
         state = dismissState,
         enableDismissFromStartToEnd = false,
         backgroundContent = {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .height(Dimens.TouchTarget)
+                    .clip(RoundedCornerShape(Dimens.SetRowCorner))
                     .background(MaterialTheme.colorScheme.errorContainer)
                     .padding(horizontal = Dimens.ScreenPadding),
                 contentAlignment = Alignment.CenterEnd,
@@ -636,8 +704,9 @@ private fun SetRowItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .offset(x = shakeOffset(shaking))
-                .background(background, RoundedCornerShape(8.dp))
+                .offset(x = shakeOffset(shaking, reduceMotion))
+                .clip(RoundedCornerShape(Dimens.SetRowCorner))
+                .background(animatedBackground, RoundedCornerShape(Dimens.SetRowCorner))
                 .padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -814,11 +883,12 @@ private fun FieldCell(
 }
 
 @Composable
-private fun shakeOffset(active: Boolean): Dp {
+private fun shakeOffset(active: Boolean, reduceMotion: Boolean): Dp {
     val offset = remember { Animatable(0f) }
-    LaunchedEffect(active) {
+    LaunchedEffect(active, reduceMotion) {
         if (active) {
             offset.snapTo(0f)
+            if (reduceMotion) return@LaunchedEffect
             repeat(3) {
                 offset.animateTo(8f, tween(durationMillis = 40))
                 offset.animateTo(-8f, tween(durationMillis = 40))

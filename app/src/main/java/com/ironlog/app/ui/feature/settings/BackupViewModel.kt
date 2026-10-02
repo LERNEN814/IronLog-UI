@@ -12,14 +12,36 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-data class BackupUiState(val busy: Boolean = false, val message: String? = null, val importPending: Uri? = null)
+enum class BackupMessageKind {
+    EXPORT_SUCCESS,
+    EXPORT_FAILURE,
+    IMPORT_SUCCESS,
+    IMPORT_FAILURE,
+}
+
+data class BackupMessage(val kind: BackupMessageKind, val count: Int = 0)
+
+data class BackupUiState(val busy: Boolean = false, val message: BackupMessage? = null, val importPending: Uri? = null)
 
 @HiltViewModel
 class BackupViewModel @Inject constructor(private val repository: BackupRepository) : ViewModel() {
     private val _state = MutableStateFlow(BackupUiState())
     val state: StateFlow<BackupUiState> = _state.asStateFlow()
-    fun export(uri: Uri) = viewModelScope.launch { _state.update { it.copy(busy = true) }; repository.exportTo(uri).fold({ count -> _state.update { it.copy(busy = false, message = "Export complete: $count records") } }, { e -> _state.update { it.copy(busy = false, message = e.message ?: "Export failed") } }) }
+    fun export(uri: Uri) = viewModelScope.launch {
+        _state.update { it.copy(busy = true) }
+        repository.exportTo(uri).fold(
+            { count -> _state.update { it.copy(busy = false, message = BackupMessage(BackupMessageKind.EXPORT_SUCCESS, count)) } },
+            { _ -> _state.update { it.copy(busy = false, message = BackupMessage(BackupMessageKind.EXPORT_FAILURE)) } },
+        )
+    }
     fun requestImport(uri: Uri) { _state.update { it.copy(importPending = uri) } }
     fun dismissImport() { _state.update { it.copy(importPending = null) } }
-    fun confirmImport() = viewModelScope.launch { val uri = _state.value.importPending ?: return@launch; _state.update { it.copy(busy = true, importPending = null) }; repository.importFrom(uri).fold({ _state.update { it.copy(busy = false, message = "Import complete") } }, { e -> _state.update { it.copy(busy = false, message = e.message ?: "Import failed") } }) }
+    fun confirmImport() = viewModelScope.launch {
+        val uri = _state.value.importPending ?: return@launch
+        _state.update { it.copy(busy = true, importPending = null) }
+        repository.importFrom(uri).fold(
+            { _state.update { it.copy(busy = false, message = BackupMessage(BackupMessageKind.IMPORT_SUCCESS)) } },
+            { _ -> _state.update { it.copy(busy = false, message = BackupMessage(BackupMessageKind.IMPORT_FAILURE)) } },
+        )
+    }
 }

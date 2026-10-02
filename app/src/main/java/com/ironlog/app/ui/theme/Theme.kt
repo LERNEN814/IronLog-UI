@@ -21,6 +21,9 @@ private val LightColors = lightColorScheme(
     surfaceVariant = IronSurfaceVariant,
     onSurfaceVariant = IronOnSurfaceVariant,
     outline = IronOutline,
+    surfaceContainer = IronSurfaceVariant,
+    surfaceContainerLow = IronBackground,
+    surfaceContainerHigh = IronSurfaceVariant,
 )
 
 private val DarkColors = darkColorScheme(
@@ -37,6 +40,9 @@ private val DarkColors = darkColorScheme(
     surfaceVariant = IronSurfaceVariantDark,
     onSurfaceVariant = IronOnSurfaceVariantDark,
     outline = IronOutlineDark,
+    surfaceContainer = IronSurfaceDark,
+    surfaceContainerLow = IronBackgroundDark,
+    surfaceContainerHigh = IronSurfaceVariantDark,
 )
 
 enum class ThemeMode { SYSTEM, LIGHT, DARK }

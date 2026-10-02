@@ -1,8 +1,0 @@
-com.ironlog.app-pngs-0 C:\Users\Wang Nathan\Documents\ChatGPT\IronLog\app\build\generated\res\pngs\debug
-com.ironlog.app-updated_navigation_xml-1 C:\Users\Wang Nathan\Documents\ChatGPT\IronLog\app\build\generated\updated_navigation_xml\debug
-com.ironlog.app-packageDebugResources-2 C:\Users\Wang Nathan\Documents\ChatGPT\IronLog\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.ironlog.app-packageDebugResources-3 C:\Users\Wang Nathan\Documents\ChatGPT\IronLog\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.ironlog.app-debug-4 C:\Users\Wang Nathan\Documents\ChatGPT\IronLog\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.ironlog.app-debug-5 C:\Users\Wang Nathan\Documents\ChatGPT\IronLog\app\src\debug\res
-com.ironlog.app-main-6 C:\Users\Wang Nathan\Documents\ChatGPT\IronLog\app\src\main\res
-gradleHome-0 C:\Users\Wang Nathan\.gradle

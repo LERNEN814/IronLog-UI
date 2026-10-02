@@ -201,3 +201,11 @@
 - Robolectric 需要 `-Dmaven.repo.local=<repo>/.robolectric-m2`（用户名含空格），已在 `app/build.gradle.kts` 配好。
 - 首次构建 5–10 分钟；命令超时请设 ≥ 600 秒。
 - 静态红线检查：`bash scripts/verify.sh --quick`。
+
+### 2026-10-02 阶段 Release 打包
+
+- 使用当前 `ui-refresh-workspace` 工作区源码执行 `:app:assembleRelease`，构建成功；R8 与资源压缩已启用。
+- 产物：`artifacts/stage-release/IronLog-Phase1.1-release-signed.apk`，`com.ironlog.app`，`versionCode 1`，`versionName 0.1.0`，大小 2,057,134 bytes。
+- APK SHA-256：`5A13DFC34F2BF41AE39852AE0D5351D29331DBF44F7F039F320BA7B8B26CFEBA`。
+- `apksigner verify --verbose --print-certs` 通过（APK Signature Scheme v2，1 个 RSA-4096 signer）；证书 SHA-256：`18:e5:38:1a:b5:76:4d:b9:8a:7a:ae:24:87:e1:a4:19:ba:44:db:22:33:a9:83:6a:af:c4:14:46:52:fb:5c:7b`。
+- 该 key 是本地阶段分发 key，GitHub 发布应把 APK 作为 Release asset；`.stage-signing/`、密码和 `app/build/` 不得上传。

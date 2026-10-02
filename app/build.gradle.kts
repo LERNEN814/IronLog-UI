@@ -27,6 +27,15 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            val stageKeystore = rootProject.file(".stage-signing/ironlog-phase1.jks")
+            if (stageKeystore.exists()) {
+                signingConfig = signingConfigs.create("stage") {
+                    storeFile = stageKeystore
+                    storePassword = System.getenv("IRONLOG_STAGE_STORE_PASSWORD")
+                    keyAlias = System.getenv("IRONLOG_STAGE_KEY_ALIAS")
+                    keyPassword = System.getenv("IRONLOG_STAGE_KEY_PASSWORD")
+                }
+            }
         }
     }
     compileOptions {

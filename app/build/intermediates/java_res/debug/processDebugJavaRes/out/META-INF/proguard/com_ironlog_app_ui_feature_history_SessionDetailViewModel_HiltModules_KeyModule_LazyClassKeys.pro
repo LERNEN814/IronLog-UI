@@ -1,1 +1,0 @@
--keep,allowobfuscation,allowshrinking class com.ironlog.app.ui.feature.history.SessionDetailViewModel

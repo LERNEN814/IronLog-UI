@@ -29,6 +29,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -119,7 +124,7 @@ fun CalendarScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = Dimens.ScreenPadding),
+            .padding(horizontal = Dimens.CalendarHorizontalPadding),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onPreviousMonth) {
@@ -213,6 +218,13 @@ private fun DayCell(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val dayDescription = day?.let {
+        stringResource(
+            R.string.calendar_day_description,
+            it.date.monthValue,
+            it.date.dayOfMonth,
+        )
+    }
     val background = when {
         selected -> MaterialTheme.colorScheme.primaryContainer
         day?.isToday == true -> MaterialTheme.colorScheme.surfaceVariant
@@ -224,7 +236,14 @@ private fun DayCell(
             .padding(2.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(background)
-            .clickable(enabled = day != null, onClick = onClick),
+            .clickable(enabled = day != null, onClick = onClick)
+            .semantics {
+                if (day != null) {
+                    contentDescription = dayDescription.orEmpty()
+                    role = Role.Button
+                    this.selected = selected
+                }
+            },
         contentAlignment = Alignment.Center,
     ) {
         if (day != null) {

@@ -23,13 +23,13 @@ val IronRedDark = Color(0xFFD0BCFF)
 val IronOnRedDark = Color(0xFF3B1C7A)
 val IronRedContainerDark = Color(0xFF5B3FAE)
 val IronOnRedContainerDark = Color(0xFFE8DEFF)
-val IronSurfaceDark = Color(0xFF15131A)
-val IronSurfaceVariantDark = Color(0xFF4A4352)
-val IronOnSurfaceDark = Color(0xFFE8E0EA)
-val IronOnSurfaceVariantDark = Color(0xFFCCC2D1)
-val IronOutlineDark = Color(0xFF958C9D)
-val IronBackgroundDark = Color(0xFF15131A)
-val IronOnBackgroundDark = Color(0xFFE8E0EA)
+val IronSurfaceDark = Color(0xFF17181E)
+val IronSurfaceVariantDark = Color(0xFF24262E)
+val IronOnSurfaceDark = Color(0xFFF7F7FA)
+val IronOnSurfaceVariantDark = Color(0xFFB8BAC7)
+val IronOutlineDark = Color(0xFF666875)
+val IronBackgroundDark = Color(0xFF0D0E12)
+val IronOnBackgroundDark = Color(0xFFF7F7FA)
 
 /** PRD R-4.2 body region colors, sourced from the domain table. */
 fun regionColor(bodyRegion: Int): Color = Color(BodyRegionColors.colorFor(bodyRegion))
@@ -37,8 +37,13 @@ fun regionColor(bodyRegion: Int): Color = Color(BodyRegionColors.colorFor(bodyRe
 /** Touch target / keypad metrics (PRD N-4). */
 object Dimens {
     val TouchTarget: Dp = 48.dp
+    val CalendarHorizontalPadding: Dp = 12.dp
     val KeypadKeyHeight: Dp = 56.dp
+    val Rail: Dp = 64.dp
     val ScreenPadding: Dp = 16.dp
     val CardSpacing: Dp = 12.dp
     val CardCorner: Dp = 16.dp
+    val SetRowCorner: Dp = 12.dp
+    val SectionGap: Dp = 20.dp
+    val PrimaryActionHeight: Dp = 52.dp
 }

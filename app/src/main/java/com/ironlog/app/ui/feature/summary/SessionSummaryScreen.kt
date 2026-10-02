@@ -2,7 +2,7 @@
 
 package com.ironlog.app.ui.feature.summary
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ironlog.app.R
 import com.ironlog.app.ui.theme.IronLogTheme
+import com.ironlog.app.ui.theme.IronEffects
+import com.ironlog.app.ui.theme.IronGlassSurface
+import com.ironlog.app.ui.theme.Dimens
 import androidx.compose.ui.unit.dp
 
 /** The M2 flow shows the summary in a sheet; this destination is for later deep links. */
@@ -41,50 +44,27 @@ fun SessionSummaryScreen(onBack: () -> Unit) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
                     }
                 },
-                actions = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.detail_share))
-                    }
-                },
             )
         },
     ) { padding ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize().padding(padding).padding(Dimens.ScreenPadding),
+            verticalArrangement = Arrangement.spacedBy(Dimens.SectionGap),
         ) {
             Text(stringResource(R.string.summary_title), style = MaterialTheme.typography.headlineMedium)
-            Text(stringResource(R.string.home_training_types), color = MaterialTheme.colorScheme.onSurfaceVariant)
-            SummaryMetricRow()
-            Column(
-                modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(20.dp)).padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+            IronGlassSurface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(IronEffects.PrimaryCorner),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shadowElevation = IronEffects.RaisedElevation,
             ) {
-                Text(stringResource(R.string.summary_rating), style = MaterialTheme.typography.titleMedium)
-                Text("8 / 10", style = MaterialTheme.typography.displaySmall, color = MaterialTheme.colorScheme.primary)
-                Text(stringResource(R.string.summary_note), color = MaterialTheme.colorScheme.onSurfaceVariant)
+              Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(stringResource(R.string.summary_no_data), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.summary_open_from_session), color = MaterialTheme.colorScheme.onSurfaceVariant)
+              }
             }
+            OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.action_back)) }
         }
-    }
-}
-
-@Composable
-private fun SummaryMetricRow() {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        SummaryMetric(Modifier.weight(1f), stringResource(R.string.summary_duration), "56:42")
-        SummaryMetric(Modifier.weight(1f), stringResource(R.string.summary_exercises), "5")
-        SummaryMetric(Modifier.weight(1f), stringResource(R.string.summary_work_sets), "18")
-    }
-}
-
-@Composable
-private fun SummaryMetric(modifier: Modifier, label: String, value: String) {
-    Column(
-        modifier = modifier.background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp)).padding(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(value, style = MaterialTheme.typography.titleLarge)
-        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
