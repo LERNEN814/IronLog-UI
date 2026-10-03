@@ -1,0 +1,635 @@
+{
+  "designSize": {
+    "width": 1000.0,
+    "height": 1080.0
+  },
+  "view": "front",
+  "activeViews": [
+    "front",
+    "back"
+  ],
+  "regionCount": 26,
+  "regionIds": [
+    "front_deltoid_left",
+    "front_deltoid_right",
+    "front_pectoral_left",
+    "front_pectoral_right",
+    "front_biceps_left",
+    "front_biceps_right",
+    "front_oblique_left",
+    "front_oblique_right",
+    "front_abs",
+    "front_quadriceps_left",
+    "front_quadriceps_right",
+    "front_calves_left",
+    "front_calves_right",
+    "back_trapezius",
+    "back_rear_deltoid_left",
+    "back_rear_deltoid_right",
+    "back_lat_left",
+    "back_lat_right",
+    "back_triceps_left",
+    "back_triceps_right",
+    "back_glute_left",
+    "back_glute_right",
+    "back_hamstring_left",
+    "back_hamstring_right",
+    "back_calves_left",
+    "back_calves_right"
+  ],
+  "regions": [
+    {
+      "id": "front_deltoid_left",
+      "view": "front",
+      "groupId": "deltoids",
+      "focus": [
+        112.0,
+        270.0
+      ],
+      "anchor": [
+        112.0,
+        270.0
+      ],
+      "elbow": [
+        70.0,
+        190.0
+      ],
+      "textOrigin": [
+        35.0,
+        130.0
+      ],
+      "label": "三角肌"
+    },
+    {
+      "id": "front_deltoid_right",
+      "view": "front",
+      "groupId": "deltoids",
+      "focus": [
+        359.0,
+        270.0
+      ],
+      "anchor": [
+        359.0,
+        270.0
+      ],
+      "elbow": [
+        430.0,
+        190.0
+      ],
+      "textOrigin": [
+        435.0,
+        130.0
+      ],
+      "label": "三角肌"
+    },
+    {
+      "id": "front_pectoral_left",
+      "view": "front",
+      "groupId": "pectorals",
+      "focus": [
+        205.0,
+        258.0
+      ],
+      "anchor": [
+        205.0,
+        258.0
+      ],
+      "elbow": [
+        150.0,
+        170.0
+      ],
+      "textOrigin": [
+        35.0,
+        185.0
+      ],
+      "label": "胸大肌"
+    },
+    {
+      "id": "front_pectoral_right",
+      "view": "front",
+      "groupId": "pectorals",
+      "focus": [
+        295.0,
+        258.0
+      ],
+      "anchor": [
+        295.0,
+        258.0
+      ],
+      "elbow": [
+        360.0,
+        170.0
+      ],
+      "textOrigin": [
+        435.0,
+        185.0
+      ],
+      "label": "胸大肌"
+    },
+    {
+      "id": "front_biceps_left",
+      "view": "front",
+      "groupId": "biceps",
+      "focus": [
+        117.0,
+        380.0
+      ],
+      "anchor": [
+        117.0,
+        380.0
+      ],
+      "elbow": [
+        55.0,
+        390.0
+      ],
+      "textOrigin": [
+        25.0,
+        410.0
+      ],
+      "label": "肱二头肌"
+    },
+    {
+      "id": "front_biceps_right",
+      "view": "front",
+      "groupId": "biceps",
+      "focus": [
+        355.0,
+        380.0
+      ],
+      "anchor": [
+        355.0,
+        380.0
+      ],
+      "elbow": [
+        445.0,
+        390.0
+      ],
+      "textOrigin": [
+        435.0,
+        410.0
+      ],
+      "label": "肱二头肌"
+    },
+    {
+      "id": "front_oblique_left",
+      "view": "front",
+      "groupId": "obliques",
+      "focus": [
+        174.0,
+        365.0
+      ],
+      "anchor": [
+        174.0,
+        365.0
+      ],
+      "elbow": [
+        120.0,
+        460.0
+      ],
+      "textOrigin": [
+        35.0,
+        475.0
+      ],
+      "label": "腹外斜肌"
+    },
+    {
+      "id": "front_oblique_right",
+      "view": "front",
+      "groupId": "obliques",
+      "focus": [
+        326.0,
+        365.0
+      ],
+      "anchor": [
+        326.0,
+        365.0
+      ],
+      "elbow": [
+        390.0,
+        460.0
+      ],
+      "textOrigin": [
+        435.0,
+        475.0
+      ],
+      "label": "腹外斜肌"
+    },
+    {
+      "id": "front_abs",
+      "view": "front",
+      "groupId": "abs",
+      "focus": [
+        220.0,
+        400.0
+      ],
+      "anchor": [
+        220.0,
+        400.0
+      ],
+      "elbow": [
+        300.0,
+        470.0
+      ],
+      "textOrigin": [
+        330.0,
+        485.0
+      ],
+      "label": "腹肌"
+    },
+    {
+      "id": "front_quadriceps_left",
+      "view": "front",
+      "groupId": "quadriceps",
+      "focus": [
+        170.0,
+        590.0
+      ],
+      "anchor": [
+        170.0,
+        590.0
+      ],
+      "elbow": [
+        95.0,
+        700.0
+      ],
+      "textOrigin": [
+        25.0,
+        725.0
+      ],
+      "label": "股四头肌"
+    },
+    {
+      "id": "front_quadriceps_right",
+      "view": "front",
+      "groupId": "quadriceps",
+      "focus": [
+        330.0,
+        590.0
+      ],
+      "anchor": [
+        330.0,
+        590.0
+      ],
+      "elbow": [
+        405.0,
+        700.0
+      ],
+      "textOrigin": [
+        420.0,
+        725.0
+      ],
+      "label": "股四头肌"
+    },
+    {
+      "id": "front_calves_left",
+      "view": "front",
+      "groupId": "calves",
+      "focus": [
+        160.0,
+        820.0
+      ],
+      "anchor": [
+        160.0,
+        820.0
+      ],
+      "elbow": [
+        90.0,
+        875.0
+      ],
+      "textOrigin": [
+        25.0,
+        900.0
+      ],
+      "label": "小腿"
+    },
+    {
+      "id": "front_calves_right",
+      "view": "front",
+      "groupId": "calves",
+      "focus": [
+        340.0,
+        820.0
+      ],
+      "anchor": [
+        340.0,
+        820.0
+      ],
+      "elbow": [
+        410.0,
+        875.0
+      ],
+      "textOrigin": [
+        420.0,
+        900.0
+      ],
+      "label": "小腿"
+    },
+    {
+      "id": "back_trapezius",
+      "view": "back",
+      "groupId": "trapezius",
+      "focus": [
+        720.0,
+        255.0
+      ],
+      "anchor": [
+        720.0,
+        255.0
+      ],
+      "elbow": [
+        800.0,
+        175.0
+      ],
+      "textOrigin": [
+        830.0,
+        150.0
+      ],
+      "label": "斜方肌"
+    },
+    {
+      "id": "back_rear_deltoid_left",
+      "view": "back",
+      "groupId": "deltoids",
+      "focus": [
+        625.0,
+        285.0
+      ],
+      "anchor": [
+        625.0,
+        285.0
+      ],
+      "elbow": [
+        570.0,
+        220.0
+      ],
+      "textOrigin": [
+        515.0,
+        200.0
+      ],
+      "label": "后三角肌"
+    },
+    {
+      "id": "back_rear_deltoid_right",
+      "view": "back",
+      "groupId": "deltoids",
+      "focus": [
+        875.0,
+        285.0
+      ],
+      "anchor": [
+        875.0,
+        285.0
+      ],
+      "elbow": [
+        930.0,
+        220.0
+      ],
+      "textOrigin": [
+        940.0,
+        200.0
+      ],
+      "label": "后三角肌"
+    },
+    {
+      "id": "back_lat_left",
+      "view": "back",
+      "groupId": "lats",
+      "focus": [
+        665.0,
+        360.0
+      ],
+      "anchor": [
+        665.0,
+        360.0
+      ],
+      "elbow": [
+        590.0,
+        335.0
+      ],
+      "textOrigin": [
+        515.0,
+        330.0
+      ],
+      "label": "背阔肌"
+    },
+    {
+      "id": "back_lat_right",
+      "view": "back",
+      "groupId": "lats",
+      "focus": [
+        775.0,
+        360.0
+      ],
+      "anchor": [
+        775.0,
+        360.0
+      ],
+      "elbow": [
+        850.0,
+        335.0
+      ],
+      "textOrigin": [
+        860.0,
+        330.0
+      ],
+      "label": "背阔肌"
+    },
+    {
+      "id": "back_triceps_left",
+      "view": "back",
+      "groupId": "triceps",
+      "focus": [
+        625.0,
+        405.0
+      ],
+      "anchor": [
+        625.0,
+        405.0
+      ],
+      "elbow": [
+        570.0,
+        445.0
+      ],
+      "textOrigin": [
+        505.0,
+        465.0
+      ],
+      "label": "肱三头肌"
+    },
+    {
+      "id": "back_triceps_right",
+      "view": "back",
+      "groupId": "triceps",
+      "focus": [
+        855.0,
+        405.0
+      ],
+      "anchor": [
+        855.0,
+        405.0
+      ],
+      "elbow": [
+        910.0,
+        445.0
+      ],
+      "textOrigin": [
+        920.0,
+        465.0
+      ],
+      "label": "肱三头肌"
+    },
+    {
+      "id": "back_glute_left",
+      "view": "back",
+      "groupId": "glutes",
+      "focus": [
+        690.0,
+        520.0
+      ],
+      "anchor": [
+        690.0,
+        520.0
+      ],
+      "elbow": [
+        610.0,
+        590.0
+      ],
+      "textOrigin": [
+        505.0,
+        610.0
+      ],
+      "label": "臀肌"
+    },
+    {
+      "id": "back_glute_right",
+      "view": "back",
+      "groupId": "glutes",
+      "focus": [
+        810.0,
+        520.0
+      ],
+      "anchor": [
+        810.0,
+        520.0
+      ],
+      "elbow": [
+        870.0,
+        590.0
+      ],
+      "textOrigin": [
+        880.0,
+        610.0
+      ],
+      "label": "臀肌"
+    },
+    {
+      "id": "back_hamstring_left",
+      "view": "back",
+      "groupId": "hamstrings",
+      "focus": [
+        690.0,
+        650.0
+      ],
+      "anchor": [
+        690.0,
+        650.0
+      ],
+      "elbow": [
+        610.0,
+        700.0
+      ],
+      "textOrigin": [
+        505.0,
+        720.0
+      ],
+      "label": "腘绳肌"
+    },
+    {
+      "id": "back_hamstring_right",
+      "view": "back",
+      "groupId": "hamstrings",
+      "focus": [
+        810.0,
+        650.0
+      ],
+      "anchor": [
+        810.0,
+        650.0
+      ],
+      "elbow": [
+        870.0,
+        700.0
+      ],
+      "textOrigin": [
+        880.0,
+        720.0
+      ],
+      "label": "腘绳肌"
+    },
+    {
+      "id": "back_calves_left",
+      "view": "back",
+      "groupId": "calves",
+      "focus": [
+        685.0,
+        830.0
+      ],
+      "anchor": [
+        685.0,
+        830.0
+      ],
+      "elbow": [
+        610.0,
+        890.0
+      ],
+      "textOrigin": [
+        505.0,
+        915.0
+      ],
+      "label": "小腿"
+    },
+    {
+      "id": "back_calves_right",
+      "view": "back",
+      "groupId": "calves",
+      "focus": [
+        815.0,
+        830.0
+      ],
+      "anchor": [
+        815.0,
+        830.0
+      ],
+      "elbow": [
+        870.0,
+        890.0
+      ],
+      "textOrigin": [
+        880.0,
+        915.0
+      ],
+      "label": "小腿"
+    }
+  ],
+  "evidenceType": "deterministic_layout_and_path_metadata",
+  "rasterCapture": "disabled_on_windows_test_backend",
+  "labelLayer": {
+    "coordinates": "viewport",
+    "fontSize": "clamp(20 * min(sx, sy), 11, 18)",
+    "leaderAndAnchorCoordinates": "viewport"
+  },
+  "sizes": [
+    {
+      "viewport": "360x780",
+      "renderedWidth": 336.0,
+      "renderedHeight": 362.88,
+      "aspectRatio": 0.9259259259259259
+    },
+    {
+      "viewport": "768x1024",
+      "renderedWidth": 744.0,
+      "renderedHeight": 803.52,
+      "aspectRatio": 0.9259259259259259
+    }
+  ]
+}

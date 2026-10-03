@@ -1,0 +1,16 @@
+# Android capability dependencies. Add these to pubspec.yaml when the matching
+# feature is implemented. They are intentionally separate from the runnable
+# heatmap baseline because some plugin versions execute native hooks during
+# desktop tests.
+dependencies:
+  # shared_preferences is implemented in pubspec.yaml and core/settings.
+  hive_ce_flutter: ^2.4.0 # path_provider-backed Hive initialization
+  path_provider: ^2.1.6 # local export/backup paths
+  share_plus: ^13.3.1 # share JSON/CSV backups
+  permission_handler: ^13.0.2 # notification/storage permissions when needed
+  flutter_local_notifications: ^22.3.1 # training reminders
+  flutter_svg: ^2.3.0 # production vector heatmap assets
+  go_router: ^18.0.2 # add after multi-page navigation stabilizes
+  dio: ^5.9.0 # optional AI integration, disabled by default
+  cached_network_image: ^3.4.1 # optional remote exercise images
+  sensors_plus: ^6.1.1 # optional sensor features, not a core dependency

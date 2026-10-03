@@ -1,0 +1,102 @@
+{
+  "reference": {
+    "size": [
+      794,
+      855
+    ],
+    "sha256": "2560fd42d4f97b347fa8dc957b174358993ad4cb4445afb83eb275abeb4cadd2"
+  },
+  "method": "Proportional crop based on API35 panel bounds from UIAutomator; resized with Lanczos; MAE/RMSE are diagnostic only, no pass threshold because reference and live panel differ in viewport/state.",
+  "rows": [
+    {
+      "screenshot": "android_api35_heatmap_svg_latest.png",
+      "source_size": [
+        1080,
+        2340
+      ],
+      "crop_box_px": "documented proportional panel crop",
+      "aligned_size": [
+        794,
+        855
+      ],
+      "mae": 39.975,
+      "rmse": 67.133,
+      "sha256": "0e0ac41088aed343a5363461f61b29838315a05c34201a912960b01572af5102"
+    },
+    {
+      "screenshot": "android_api35_front_latest.png",
+      "source_size": [
+        1080,
+        2340
+      ],
+      "crop_box_px": "documented proportional panel crop",
+      "aligned_size": [
+        794,
+        855
+      ],
+      "mae": 39.604,
+      "rmse": 66.513,
+      "sha256": "5bfb5096ca3b361d11b8f54b81b180ebe945fa3788f2930adec887e7285f3e99"
+    },
+    {
+      "screenshot": "android_api35_back_latest.png",
+      "source_size": [
+        1080,
+        2340
+      ],
+      "crop_box_px": "documented proportional panel crop",
+      "aligned_size": [
+        794,
+        855
+      ],
+      "mae": 40.433,
+      "rmse": 67.43,
+      "sha256": "4e071a7f441f8881e82e1b2a3a7999fce922f9fd4e8cde925ac621a25a205aa7"
+    },
+    {
+      "screenshot": "android_api35_wide_768.png",
+      "source_size": [
+        768,
+        1664
+      ],
+      "crop_box_px": "documented proportional panel crop",
+      "aligned_size": [
+        794,
+        855
+      ],
+      "mae": 40.364,
+      "rmse": 68.415,
+      "sha256": "04e5912d659c6f1e17f126cb2f7187ab8ef426d18b2099431a3bd62097d2d2c5"
+    },
+    {
+      "screenshot": "android_api30_wide_768.png",
+      "source_size": [
+        768,
+        1664
+      ],
+      "crop_box_px": "documented proportional panel crop",
+      "aligned_size": [
+        794,
+        855
+      ],
+      "mae": 42.108,
+      "rmse": 70.318,
+      "sha256": "5a054ebba15da92e485204f1315c40bd780445782a3c3fa3bbb26cbc7f824b4b"
+    },
+    {
+      "screenshot": "heatmap_narrow_360x780.png",
+      "source_size": [
+        336,
+        363
+      ],
+      "crop_box_px": "documented proportional panel crop",
+      "aligned_size": [
+        794,
+        855
+      ],
+      "mae": 37.23,
+      "rmse": 63.114,
+      "sha256": "d4e9f3b2b544bab13f8f390be42dcb046b1cc83d7ad0817a1103ca5390320343"
+    }
+  ]
+}

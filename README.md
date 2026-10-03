@@ -1,5 +1,13 @@
 # IronLog
 
+## Flutter v0.1.0 更新
+
+本仓库保留原有 Kotlin/Compose Phase 1 实现，同时新增 `flutter_app/` 目录作为 IronLog 的 Flutter Android 更新版本。该版本采用 Flutter + Riverpod + Hive CE + Freezed/json_serializable，加入本地优先训练记录、模板、身体数据、趋势、JSON/CSV 备份和基于真实 SVG 肌群路径的训练热力图。
+
+Flutter 工程入口：[`flutter_app/`](flutter_app/)。在该目录执行 `flutter pub get`、`flutter analyze`、`flutter test`，Android 构建请在不含 shell 特殊字符的路径中执行。品牌资源和 Android 包标识已经更新为 `IronLog` / `com.ironlog.app`，版本为 `0.1.0+1`。
+
+Flutter 测试 APK 和验证说明见本次 GitHub Release 的资产与 `flutter_app/README.md`。该 APK 用于个人手机测试；正式商店发布前仍需使用独立 production keystore 完成 release 签名。
+
 IronLog 是一款仅面向 Android 的离线优先力量训练记录 App。它面向已经有稳定训练习惯、希望在组间快速记录并在训练后复盘的人，重点解决“记录不能打断训练”和“数据不能丢失”两个问题。
 
 Phase 1 的目标是提供一个不依赖账号和网络的训练记录闭环：用户可以在训练中单手录入数据，每次交互立即保存，进程被系统回收后继续训练，并随时导出自己的数据。
