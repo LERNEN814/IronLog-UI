@@ -43,6 +43,8 @@ flutter run -d <android-device-id>
 
 手机测试 APK 安装前，请先确认设备没有需要保留的旧版 `com.ironlog.app` 数据。当前 Flutter 版使用自己的 Hive/SharedPreferences 数据格式，与仓库根目录原 Kotlin/Room 版本不会自动迁移；需要保留旧数据时先从旧版导出备份。安装调试 APK 的 PowerShell 示例：
 
+GitHub 测试 APK：[IronLog-Flutter-v0.1.0-debug.apk](https://github.com/LERNEN814/IronLog-UI/releases/download/v0.1.0-flutter/IronLog-Flutter-v0.1.0-debug.apk)。
+
 ```powershell
 adb devices
 adb install -r .\app-debug.apk

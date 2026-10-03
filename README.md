@@ -6,7 +6,7 @@
 
 Flutter 工程入口：[`flutter_app/`](flutter_app/)。在该目录执行 `flutter pub get`、`flutter analyze`、`flutter test`，Android 构建请在不含 shell 特殊字符的路径中执行。品牌资源和 Android 包标识已经更新为 `IronLog` / `com.ironlog.app`，版本为 `0.1.0+1`。
 
-Flutter 测试 APK 和验证说明见本次 GitHub Release 的资产与 `flutter_app/README.md`。该 APK 用于个人手机测试；正式商店发布前仍需使用独立 production keystore 完成 release 签名。
+Flutter 测试 APK：[下载 IronLog-Flutter-v0.1.0-debug.apk](https://github.com/LERNEN814/IronLog-UI/releases/download/v0.1.0-flutter/IronLog-Flutter-v0.1.0-debug.apk)；补充 Release：[v0.1.0-flutter](https://github.com/LERNEN814/IronLog-UI/releases/tag/v0.1.0-flutter)。测试步骤见 [`flutter_app/docs/phone_test_guide.md`](flutter_app/docs/phone_test_guide.md)。该 APK 用于个人手机测试；正式商店发布前仍需使用独立 production keystore 完成 release 签名。
 
 IronLog 是一款仅面向 Android 的离线优先力量训练记录 App。它面向已经有稳定训练习惯、希望在组间快速记录并在训练后复盘的人，重点解决“记录不能打断训练”和“数据不能丢失”两个问题。
 
