@@ -106,6 +106,7 @@
 
 - 2026-10-04 02:05 最终收敛 gate：修正文档中遗留的 PNG/简化人体描述，统一说明真实前/后 SVG 是生产人体主体，项目 cubic Path 仅负责命中、语义、选中和标签锚点；更新当前 API35 分层截图索引。`dart format --set-exit-if-changed lib test` 通过（47 files unchanged），`flutter analyze` 通过（No issues found），`flutter test --concurrency=1` 通过（43 tests passed），`dart run build_runner build` 通过（0 outputs changed）。当前没有新的真机、分享目标或同构参考面板证据；阶段 5 保持“部分完成（代码 gate 通过，设备/同构视觉限制未验证）”，P0/P1 为零，停止重复设备循环。
 - 2026-10-04 02:12 隔离构建收尾：将当前源代码复制到 `E:\Project\temp-builds\fitness_record_app_verify_20261004_final`，`flutter pub get` 和 `flutter build apk --debug` 均通过；APK 为 `E:\Project\temp-builds\fitness_record_app_verify_20261004_final\build\app\outputs\flutter-apk\app-debug.apk`，大小 158912509 bytes。静态资源审计确认 `body_front.svg`/`body_back.svg` 分别含 126/80 个 path，生产 heatmap 未加载参考 PNG、未启用旧整形视觉层。该证据对应当前源代码；剩余真机、横屏、分享目标和同构视觉阈值仍为 environment-limited。
+- 2026-10-04 IronLog 品牌与手机测试交付：应用名改为 `IronLog`，Android applicationId 改为 `com.ironlog.app`，版本设为 `0.1.0+1`；第一张用户图片生成 launcher icon，各密度图标已写入 Android 资源，第二张图片生成原生启动页。`flutter analyze` 通过，`flutter test --concurrency=1` 通过（43 tests），API35 模拟器安装/启动和 UIAutomator 语义检查通过。手机测试 APK：`E:\Project\temp-builds\ironlog_flutter_v0.1.0_debug\build\app\outputs\flutter-apk\app-debug.apk`，SHA-256 `E85B1436A889041D227604D7FA9AAE3D55171B79DB7A45441D103678D6A453C3`。源码已上传到 `LERNEN814/IronLog-UI` 的 `ui-refresh-workspace` 分支，补充预发布版本为 `v0.1.0-flutter`；该 APK 是 debug 测试包，不是 Google Play production signing。
 
 ### 阻塞记录
 
@@ -137,7 +138,7 @@
 - 2026-10-03 08:40 恢复续做：尝试再次自动化选择无训练范围时日期选择器仍停留在未完成状态，未将 `android_api35_date_range_empty.*` 误记为成功空状态证据；设备级空提示继续标为未验证。
 - 2026-10-03 08:55 宽屏验证：API 35/API 30 临时设置 768x1664，安装并启动真实 APK，截图和 UIAutomator 均确认概览、SVG 热力图、日期按钮、肌群语义和底部导航稳定；随后执行 `wm size reset`，两台设备恢复 1080x2340。
 - 2026-10-03 09:10 文档核对：更新 `docs/evidence/heatmap_visual_difference.md`，补入 API 30 和 API 35 768x1664 实际截图索引，并保留横屏/真机/像素阈值为未验证项。
-- 2026-10-03 09:25 空状态修复：热力图空分数提示条件改为 `scores.isEmpty`，即使没有任何历史训练也会提供可访问的空状态；`dart format`、`flutter analyze`、`flutter test --concurrency=1`、`dart run build_runner build` 均通过。无特殊字符副本 APK 仍存在。
+- 2026-10-03 09:25 空状态修复：热力图空分数提示条件改为 `scores.isEmpty`，即使没有任何历史训练也会提供可访问的空状态；`dart format`、`flutter analyze`、`flutter test --concurrency=1`、`dart run build_runner build` 均通过。无特殊字符副本 APK 仍存在。 
 - 2026-10-03 08:12 构建复核：无特殊字符隔离副本单独执行 flutter build apk --debug 通过，APK 重新生成。设备级模板拖拽因当前只有一个模板未执行，保持未验证。
 - 2026-10-03 09:40 复核：日期范围 provider、聚合、空状态、无障碍、测试和证据文件均存在；设备级清除/空提示仍未形成有效提交截图，不宣称完成。
 - 2026-10-03 10:05 日期范围清除验证：API 35 选择范围后点击清除，UIAutomator/XML 确认按钮恢复为最近 28 天，截图为 android_api35_date_range_cleared.png；由于默认范围仍包含训练记录，设备级空提示保持未验证。
