@@ -1,4 +1,4 @@
-# IronLog Flutter v0.1.0 手机测试指南
+# IronLog Flutter v1.0.0 手机测试指南
 
 ## 安装
 

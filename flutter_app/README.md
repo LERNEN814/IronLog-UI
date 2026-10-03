@@ -1,6 +1,6 @@
 # IronLog Flutter App
 
-这是 IronLog 的 Android 优先、离线优先 Flutter 实现（版本 `0.1.0`）。它以用户提供的前后视肌肉图为视觉目标，使用逐肌群 Path、SVG 基础解剖层和本地训练数据驱动热度，并提供训练记录、持久化、导出、通知和趋势流程。
+这是 IronLog 的 Android 优先、离线优先 Flutter 实现（版本 `1.0.0`）。它以用户提供的前后视肌肉图为视觉目标，使用逐肌群 Path、SVG 基础解剖层和本地训练数据驱动热度，并提供训练记录、持久化、导出、通知和趋势流程。
 
 ## 先运行
 
@@ -37,13 +37,13 @@ flutter run -d <android-device-id>
 
 - 应用名称：`IronLog`。
 - Android applicationId：`com.ironlog.app`。
-- Flutter 版本：`0.1.0+1`。
+- Flutter 版本：`1.0.0+100`（Android `versionName=1.0.0`、`versionCode=100`）。
 - Android launcher icon 使用 `assets/branding/ironlog_icon_source.jpg` 生成的各密度 PNG。
 - 原生启动页使用 `assets/branding/ironlog_splash_source.jpg` 生成的启动图资源。
 
 手机测试 APK 安装前，请先确认设备没有需要保留的旧版 `com.ironlog.app` 数据。当前 Flutter 版使用自己的 Hive/SharedPreferences 数据格式，与仓库根目录原 Kotlin/Room 版本不会自动迁移；需要保留旧数据时先从旧版导出备份。安装调试 APK 的 PowerShell 示例：
 
-GitHub 测试 APK：[IronLog-Flutter-v0.1.0-debug.apk](https://github.com/LERNEN814/IronLog-UI/releases/download/v0.1.0-flutter/IronLog-Flutter-v0.1.0-debug.apk)。
+GitHub 测试 APK：[IronLog-v1.0.0-debug.apk](https://github.com/LERNEN814/IronLog-UI/releases/download/v1.0.0/IronLog-v1.0.0-debug.apk)。该 Release 是 Flutter 版 v1.0.0；原 Kotlin/Compose `v0.1.0` 和 Flutter `v0.1.0-flutter` 预发布版本继续保留。
 
 ```powershell
 adb devices

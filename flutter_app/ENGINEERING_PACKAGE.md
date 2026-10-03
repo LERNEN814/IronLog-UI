@@ -4,7 +4,7 @@
 
 ## 这次交付了什么
 
-- 已初始化 Android-only Flutter 工程，项目名为 `IronLog`，版本为 `0.1.0`。
+- 已初始化 Android-only Flutter 工程，项目名为 `IronLog`，当前发布版本为 `1.0.0+100`（Android `versionName=1.0.0`、`versionCode=100`）。
 - 已复制用户提供的参考图到 `assets/reference/muscle_heatmap_reference.png`，用于视觉对照和当前基线预览。
 - 已实现一个独立的 `MuscleHeatmap`：固定比例、前后视并排画布、逐肌群 cubic Path、热度渐变、局部光晕、斜向纹理、点击命中、选中描边、标签引线和缩放。
 - 已用 Riverpod 放置示例热力分数、选中肌群和前后视状态，方便下一阶段接入真实训练记录。
